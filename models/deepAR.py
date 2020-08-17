@@ -170,7 +170,7 @@ class Net(nn.Module):
 
             # Save weights
             if is_best:
-                self.logger.info('- Found new best ND')
+                self.logger.info('- Found new best state')
                 best_test_ND = ND_summary[epoch]
                 best_json_path = os.path.join(
                     self.params.model_dir, 'metrics_test_best_weights.json')

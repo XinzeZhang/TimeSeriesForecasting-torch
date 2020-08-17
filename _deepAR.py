@@ -70,7 +70,7 @@ if __name__ == "__main__":
     # test
     params.num_epochs = 30
 
-    params.model_name = '{}_h{}_model'.format(params.dataset,params.H)
+    params.model_name = '{}_h{}_deepAR'.format(params.dataset,params.H)
     dataset = create_dataset(ts, look_back=params.steps + params.H - 1)
 
     scaler = MinMaxScaler(feature_range=(-1, 1))

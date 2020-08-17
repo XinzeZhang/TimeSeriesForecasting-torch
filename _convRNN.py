@@ -25,6 +25,8 @@ parser.add_argument('-dataset', type=str, default='Brent')
 parser.add_argument('-H', type=int, default=6, metavar='N',
                     help='steps for prediction (default: 1)')
 parser.add_argument('-steps', type=int, default=24)
+parser.add_argument('-num_epochs', type=int, default=1000, metavar='N',
+                    help='epochs for training (default: 1000)')
 parser.add_argument('-sample-dense', action='store_true',default=True, help='Whether to continually sample the time series during preprocessing')
 
 # parser.add_argument('--model-name', default='brent_model', help='Directory to save model state')
@@ -34,7 +36,7 @@ parser.add_argument('--sampling', action='store_true', help='Whether to sample d
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    json_path = os.path.join('models', 'deepAR.params.json')
+    json_path = os.path.join('models', 'convRNN.params.json')
     assert os.path.isfile(json_path), f'No json configuration file found at {json_path}'
     params = Params(json_path)
 
@@ -50,10 +52,11 @@ if __name__ == "__main__":
     
     params.steps=168
     params.H=24
+    params.cov_dim = 0
     # test
-    params.num_epochs = 30
+    params.num_epochs = 1000
 
-    params.model_name = '{}_h{}_model'.format(params.dataset,params.H)
+    params.model_name = '{}_h{}_convRNN'.format(params.dataset,params.H)
     dataset = create_dataset(ts, look_back=params.steps + params.H - 1)
 
     scaler = MinMaxScaler(feature_range=(-1, 1))
@@ -66,8 +69,8 @@ if __name__ == "__main__":
     x_test = X[segmentation:, :, np.newaxis]
     y_test = Y[segmentation:,:]
 
-    train_set, _ = scaled_Dataset(x_data=x_train,label_data=y_train)
-    test_set, _ = scaled_Dataset(x_data=x_test,label_data=y_test)
+    train_set= scaled_Dataset(x_data=x_train,label_data=y_train)
+    test_set = scaled_Dataset(x_data=x_test,label_data=y_test)
 
     params.predict_batch=int(test_set.samples // 2)
 
@@ -79,6 +82,7 @@ if __name__ == "__main__":
         os.makedirs(params.plot_dir)
     except FileExistsError:
         pass
+
     set_logger(os.path.join(model_dir, 'train.log'),logger)
 
     # use GPU if available
@@ -105,3 +109,8 @@ if __name__ == "__main__":
     logger.info(f'Model: \n{str(model)}')
 
     model.xfit(train_loader,test_loader,restore_file=os.path.join(params.model_dir,'best.pth.tar'))
+
+    print(x_test.shape)
+    pred = model.predict(x_test)
+    vrmse = np.sqrt(mean_squared_error(y_test,pred))
+    print(params.dataset + '\t H: ' + str(params.H) + '\t RMSE: ' + str(vrmse) + '\t')

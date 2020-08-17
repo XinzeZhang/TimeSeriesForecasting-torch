@@ -193,7 +193,6 @@ def set_logger(log_path, logger):
     Args:
         log_path: (string) where to log
     '''
-    logger = logging.getLogger('DeepAR')
     logger.setLevel(logging.INFO)
 
     fmt = logging.Formatter('[%(asctime)s] %(name)s: %(message)s', '%H:%M:%S')

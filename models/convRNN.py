@@ -1,5 +1,4 @@
-import logging
-from data_process.util import savebest_checkpoint, load_checkpoint
+from data_process.util import savebest_checkpoint, load_checkpoint,plot_all_epoch
 from sklearn.metrics import mean_squared_error
 import numpy as np
 from tqdm import trange
@@ -10,7 +9,6 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), os.path.pardir))
 
 
-logger = logging.getLogger('ConvRNN.Net')
 
 
 class ConvRNN(nn.Module):
@@ -61,7 +59,7 @@ class ConvRNN(nn.Module):
         self.optimizer = torch.optim.Adam(self.parameters(), lr=params.learning_rate)
         self.epoch_scheduler = torch.optim.lr_scheduler.StepLR(
             self.optimizer, params.step_lr, gamma=0.9)
-        self.loss = nn.MSELoss()
+        self.loss_fn = nn.MSELoss()
 
 
     def forward(self, x):
@@ -103,46 +101,65 @@ class ConvRNN(nn.Module):
             load_checkpoint(restore_file, self, self.optimizer)
 
         min_vmse = 9999
-        for epoch in trange(self.params.epochs):
+        train_len = len(train_loader)
+        loss_summary = np.zeros((train_len * self.params.num_epochs))
+
+        for epoch in trange(self.params.num_epochs):
+            self.logger.info(
+                'Epoch {}/{}'.format(epoch + 1, self.params.num_epochs))
             mse_train = 0
-            for batch_x, batch_y in train_loader:
-                batch_x = batch_x.to(self.params.device)
-                batch_y = batch_y.to(self.params.device)
-                opt.zero_grad()
+            loss_epoch = np.zeros(train_len)
+            for i, (batch_x, batch_y) in enumerate(train_loader):
+                batch_x = batch_x.to(torch.float32).to(self.params.device)
+                batch_y = batch_y.to(torch.float32).to(self.params.device)
+                self.optimizer.zero_grad()
                 y_pred = self(batch_x)
                 y_pred = y_pred.squeeze(1)
-                l = self.loss(y_pred, batch_y)
-                l.backward()
-                mse_train += l.item()*batch_x.shape[0]
+                loss = self.loss_fn(y_pred, batch_y)
+                loss.backward()
+                mse_train += loss.item()
+                loss_epoch[i] = loss.item()
                 self.optimizer.step()
+            mse_train = mse_train / train_len
+            loss_summary[epoch * train_len:(epoch + 1) * train_len] = loss_epoch
+
             self.epoch_scheduler.step()
+            
             with torch.no_grad():
                 mse_val = 0
                 preds = []
                 true = []
                 for batch_x, batch_y in val_loader:
-                    batch_x = batch_x.to(self.params.device)
-                    batch_y = batch_y.to(self.params.device)
+                    batch_x = batch_x.to(torch.float32).to(self.params.device)
+                    batch_y = batch_y.to(torch.float32).to(self.params.device)
                     output = self(batch_x)
                     output = output.squeeze(1)
                     preds.append(output.detach().cpu().numpy())
                     true.append(batch_y.detach().cpu().numpy())
-                    mse_val += self.loss(output,
-                                         batch_y).item()*batch_x.shape[0]
+                    mse_val += self.loss_fn(output,
+                                         batch_y).item()
+                mse_val = mse_val / len(val_loader)
             preds = np.concatenate(preds)
             true = np.concatenate(true)
 
-            if(epoch % 10 == 0):
-                vmse = mean_squared_error(true, preds)
-                logging.info('Current vmse: {}'.format(vmse))
-                if vmse < min_vmse:
-                    min_vmse = vmse
-                    savebest_checkpoint({
-                        'epoch': epoch,
-                        'state_dict': self.state_dict(),
-                        'optim_dict': self.optimizer.state_dict()}, checkpoint=self.params.model_dir)
-                    logging.info('Best vmse: {}'.format(min_vmse))
+            self.logger.info('Current training loss: {:.4f} \t validating loss: {:.4f}'.format(mse_train,mse_val))
+            
+            vmse = mean_squared_error(true, preds)
+            self.logger.info('Current vmse: {:.4f}'.format(vmse))
+            if vmse < min_vmse:
+                min_vmse = vmse
+                self.logger.info('Found new best state')
+                savebest_checkpoint({
+                    'epoch': epoch,
+                    'state_dict': self.state_dict(),
+                    'optim_dict': self.optimizer.state_dict()}, checkpoint=self.params.model_dir)
+                self.logger.info(
+                    'Checkpoint saved to {}'.format(self.params.model_dir))                        
+                self.logger.info('Best vmse: {:.4f}'.format(min_vmse))
 
+        plot_all_epoch(loss_summary[:(
+            epoch + 1) * train_len], self.params.dataset + '_loss', self.params.plot_dir)
+            
     def predict(self, x,  using_best=True):
         '''
         x: (numpy.narray) shape: [sample, full-len, dim]
@@ -154,7 +171,7 @@ class ConvRNN(nn.Module):
             logger.info('Restoring best parameters from {}'.format(best_pth))
             load_checkpoint(best_pth, self, self.optimizer)
 
-        x = torch.tensor(x).to(self.params.device)
+        x = torch.tensor(x).to(torch.float32).to(self.params.device)
         output = self(x)
         output = output.squeeze(1)
         pred = output.detach().cpu().numpy()
