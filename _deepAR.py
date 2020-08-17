@@ -7,7 +7,8 @@ import numpy as np
 
 # added for preprocessing
 import argparse
-from data_process.util import create_dataset,unpadding,scale_raw, prep_data, Params, set_logger
+from data_process.util import create_dataset,unpadding,scale_raw, Params, set_logger
+from data_process.util import deepAR_dataset
 
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error
@@ -21,14 +22,14 @@ from torch.utils.data import DataLoader
 # from torch.utils.data import DataLoader, Dataset, Sampler
 from torch.utils.data.sampler import RandomSampler
 
-import model.deepAR as net
+import models.deepAR as net
 
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 
-logger = logging.getLogger('DeepAR.Train')
+logger = logging.getLogger('DeepAR')
 
 parser = argparse.ArgumentParser(
     description='PyTorch DeeepAR Time Series Forecasting')
@@ -36,17 +37,15 @@ parser.add_argument('-step', type=int, default=6, metavar='N',
                     help='steps for prediction (default: 1)')
 parser.add_argument('-dataset', type=str, default='Brent')
 parser.add_argument('-dim', type=int, default=24)
-parser.add_argument('-sample-dense', action='store_true',default=True, help='Whether to sample during evaluation')
+parser.add_argument('-sample-dense', action='store_true',default=True, help='Whether to continually sample the time series during preprocessing')
 
-parser.add_argument('--model-name', default='brent_model', help='Directory containing params.json')
+parser.add_argument('--model-name', default='brent_model', help='Directory to save model state')
 parser.add_argument('--relative-metrics', action='store_true', help='Whether to normalize the metrics by label scales')
 parser.add_argument('--sampling', action='store_true', help='Whether to sample during evaluation')
 parser.add_argument('--save-best', action='store_true', help='Whether to save best ND to param_search.txt')
 parser.add_argument('--restore-file', default=None,
                     help='Optional, name of the file in --model_dir containing weights to reload before \
                     training')  # 'best' or 'epoch_#'
-
-
 
 if __name__ == "__main__":
     args = parser.parse_args()
@@ -74,34 +73,16 @@ if __name__ == "__main__":
 
     train_data = dataset[:segmentation,:]
     test_data = dataset[segmentation:,:]
-
-    # train_input = X[:segmentation, :]
-    # train_target = Y[:segmentation]
-    # test_input = X[segmentation:, :]
-    # test_target = Y[segmentation:]
-    # train_target = train_target.reshape(-1, h)
-    # test_target = test_target.reshape(-1, h)
     
-    train_set,_ = prep_data(train_data,train=True,h=h,dim=dim,sample_dense=args.sample_dense)
-    test_set, predict_input = prep_data(test_data,train=False,h=h,dim=dim,sample_dense=args.sample_dense) # Remaining modification
-
-    print('')
-
-    # train_rmse_batch = np.empty(10)
-    # test_rmse_batch = np.empty(10)
-    # train_pred_Batchs = np.empty((train_input.shape[0],h,10))
-    # test_pred_Batchs = np.empty((test_input.shape[0],h,10))
-
-    # train_rmse_loss_batch = np.empty((100,10)) 
-    # test_rmse_loss_batch = np.empty((100,10))
+    train_set,_ = deepAR_dataset(train_data,train=True,h=h,dim=dim,sample_dense=args.sample_dense)
+    test_set, predict_input = deepAR_dataset(test_data,train=False,h=h,dim=dim,sample_dense=args.sample_dense) # Remaining modification
 
     model_dir = os.path.join('experiments', args.model_name)
-    json_path = os.path.join('experiments', 'model.params.json')
+    json_path = os.path.join('models', 'deepAR.params.json')
     assert os.path.isfile(json_path), f'No json configuration file found at {json_path}'
     params = Params(json_path)
 
     params.merge(args)
-
     params.train_window = dim+h
     params.test_window = params.train_window
     params.predict_start = dim
@@ -114,11 +95,8 @@ if __name__ == "__main__":
     # test
     params.num_epochs = 1
 
-    # params.relative_metrics = args.relative_metrics
-    # params.sampling =  args.sampling
     params.model_dir = model_dir
     params.plot_dir = os.path.join(model_dir, 'figures')
-
 
     # create missing directories
     try:
@@ -133,14 +111,14 @@ if __name__ == "__main__":
         params.device = torch.device('cuda')
         # torch.cuda.manual_seed(240)
         logger.info('Using Cuda...')
-        model = net.Net(params).cuda()
+        model = net.Net(params, logger).cuda()
     else:
         params.device = torch.device('cpu')
         # torch.manual_seed(230)
         logger.info('Not using cuda...')
-        model = net.Net(params)    
+        model = net.Net(params,logger)    
 
-    set_logger(os.path.join(model_dir, 'train.log'))
+    set_logger(os.path.join(model_dir, 'train.log'),logger)
     logger.info('Loading the datasets...')
     train_loader = DataLoader(train_set, batch_size=params.batch_size, sampler=RandomSampler(train_set), num_workers=4)
     test_loader = DataLoader(test_set, batch_size=params.predict_batch, sampler=RandomSampler(test_set), num_workers=4)

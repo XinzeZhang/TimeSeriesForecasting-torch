@@ -17,24 +17,25 @@ import torch.optim as optim
 from torch.autograd import Variable
 import logging
 
-from data_process.util import set_logger
-from data_process.util import save_checkpoint, load_checkpoint, save_dict_to_json
+# from data_process.util import set_.logger
+from data_process.util import savebest_checkpoint, load_checkpoint, save_dict_to_json
 from data_process.util import plot_all_epoch, plot_eight_windows
 from data_process.util import init_metrics,get_metrics,update_metrics,final_metrics
 from data_process.util import deep_ar_loss_fn as loss_fn
 
 
 from tqdm import tqdm
-logger = logging.getLogger('DeepAR.Net')
+# logger = logging.getLogger('DeepAR.Net')
 
 class Net(nn.Module):
-    def __init__(self, params):
+    def __init__(self, params, logger):
         '''
         We define a recurrent network that predicts the future values of a time-dependent variable based on
         past inputs and covariates.
         '''
         super(Net, self).__init__()
         self.params = params
+        self.logger = logger
 
         self.lstm = nn.LSTM(input_size=1+params.cov_dim,
                             hidden_size=params.lstm_hidden_dim,
@@ -128,23 +129,23 @@ class Net(nn.Module):
                 # todo
                 test_metrics = self.evaluate(test_loader, epoch, sample=self.params.sampling)
                 self.train()
-                logger.info(f'train_loss: {loss}')
+                self.logger.info(f'train_loss: {loss}')
             if i == 0:
-                logger.info(f'train_loss: {loss}')
+                self.logger.info(f'train_loss: {loss}')
         return loss_epoch
 
     def xfit(self, train_loader, test_loader, restore_file=None):
         if restore_file is not None:
             restore_path = os.path.join(self.params.model_dir, restore_file + '.pth.tar')
-            logger.info('Restoring parameters from {}'.format(restore_path))
+            self.logger.info('Restoring parameters from {}'.format(restore_path))
             load_checkpoint(restore_path, self, self.optimizer)
-        logger.info('begin training and evaluation')
+        self.logger.info('begin training and evaluation')
         best_test_ND = float('inf')
         train_len = len(train_loader)
         ND_summary = np.zeros(self.params.num_epochs)
         loss_summary = np.zeros((train_len * self.params.num_epochs))
         for epoch in range(self.params.num_epochs):
-            logger.info('Epoch {}/{}'.format(epoch + 1, self.params.num_epochs))
+            self.logger.info('Epoch {}/{}'.format(epoch + 1, self.params.num_epochs))
             # test_len = len(test_loader)
             # print(test_len)
             # loss_summary[epoch * train_len:(epoch + 1) * train_len] = train(model, optimizer, loss_fn, train_loader,  test_loader, self.params, epoch)
@@ -155,20 +156,19 @@ class Net(nn.Module):
             is_best = ND_summary[epoch] <= best_test_ND
 
             # Save weights
-            save_checkpoint({'epoch': epoch + 1,
+            if is_best:
+                savebest_checkpoint({
                                 'state_dict': self.state_dict(),
-                                'optim_dict': self.optimizer.state_dict()},
-                                epoch=epoch,
-                                is_best=is_best,
-                                checkpoint=self.params.model_dir)
+                                'optim_dict': self.optimizer.state_dict()},checkpoint=self.params.model_dir)
+                self.logger.info('Checkpoint saved to {}'.format(self.params.model_dir))
 
             if is_best:
-                logger.info('- Found new best ND')
+                self.logger.info('- Found new best ND')
                 best_test_ND = ND_summary[epoch]
                 best_json_path = os.path.join(self.params.model_dir, 'metrics_test_best_weights.json')
                 save_dict_to_json(test_metrics, best_json_path)
 
-            logger.info('Current Best ND is: %.5f' % best_test_ND)
+            self.logger.info('Current Best ND is: %.5f' % best_test_ND)
 
             plot_all_epoch(ND_summary[:epoch + 1], self.params.dataset + '_ND', self.params.plot_dir)
             plot_all_epoch(loss_summary[:(epoch + 1) * train_len], self.params.dataset + '_loss', self.params.plot_dir)
@@ -250,7 +250,7 @@ class Net(nn.Module):
 
             summary_metric = final_metrics(raw_metrics, sampling=sample)
             metrics_string = '; '.join('{}: {:05.3f}'.format(k, v) for k, v in summary_metric.items())
-            logger.info('- Full test metrics: ' + metrics_string)
+            self.logger.info('- Full test metrics: ' + metrics_string)
         return summary_metric
 
     def point_predict(self,x, using_best = True):
@@ -262,7 +262,7 @@ class Net(nn.Module):
         # test_batch: shape: [full-len, sample, dim]
         best_pth = os.path.join(self.params.model_dir, 'best.pth.tar')
         if os.path.exists(best_pth) and using_best:
-            logger.info('Restoring best parameters from {}'.format(best_pth))
+            self.logger.info('Restoring best parameters from {}'.format(best_pth))
             load_checkpoint(best_pth,self,self.optimizer)
         x = torch.tensor(x)
         test_batch = x.permute(1, 0, 2).to(torch.float32).to(self.params.device)
