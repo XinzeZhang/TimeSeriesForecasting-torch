@@ -41,6 +41,7 @@ parser.add_argument('-num_epochs', type=int, default=20, metavar='N',
                     help='epochs for training (default: 20)')
 
 parser.add_argument('-sample-dense', action='store_true',default=True, help='Whether to continually sample the time series during preprocessing')
+parser.add_argument('-restore', action='store_true', help='Whether to restore the model state from the best.pth.tar')
 
 # parser.add_argument('--model-name', default='brent_model', help='Directory to save model state')
 parser.add_argument('--relative-metrics', action='store_true', help='Whether to normalize the metrics by label scales')

@@ -124,7 +124,8 @@ def deepAR_dataset(data, train=True, h=None, steps=None, sample_dense=True):
     x_input = np.zeros((total_windows, window_size, 1), dtype='float32')
     label = np.zeros((total_windows, window_size), dtype='float32')
 
-    for i in range(windows_per_series[series]):
+    count =0
+    for i in range(windows_per_series[0]):
         # get the sample with minimal time period, in this case. which is 24 points (24h, 1 day)
         stride = 1
         if not sample_dense:
@@ -141,9 +142,10 @@ def deepAR_dataset(data, train=True, h=None, steps=None, sample_dense=True):
         '''
         # using the observed value in the t-1 step to forecast the t step, thus the first observed value in the input should be t0 step and is 0, as well as the first value in the labels should be t1 step.
 
-        x_input[count, 1:, 0] = raw_data[window_start:window_end-1, series]
-        label[count, :] = raw_data[window_start:window_end, series]
+        x_input[count, 1:, 0] = raw_data[window_start:window_end-1, 0]
+        label[count, :] = raw_data[window_start:window_end, 0]
         # get the nonzero number of the input observed values
+        count += 1
 
     packed_dataset = scaled_Dataset(x_data=x_input, label_data=label)
     return packed_dataset, x_input
@@ -297,6 +299,14 @@ def plot_all_epoch(variable, save_name, location='./figures/'):
     f.savefig(os.path.join(location, save_name + '_summary.png'))
     plt.close()
 
+def plot_xfit(tloss,vloss, save_name, location='./figures/'):
+    num_samples = tloss.shape[0]
+    x = np.arange(start=1, stop=num_samples + 1)
+    f = plt.figure()
+    plt.plot(x, tloss[:num_samples], label='Training')
+    plt.plot(x, vloss[:num_samples], label='Validation')
+    f.savefig(os.path.join(location, save_name + '_xfit.png'))
+    plt.close()
 
 def init_metrics(sample=True):
     metrics = {

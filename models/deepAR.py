@@ -145,7 +145,7 @@ class Net(nn.Module):
         return loss_epoch
 
     def xfit(self, train_loader, test_loader, restore_file=None):
-        if restore_file is not None and os.path.exists(restore_file):
+        if restore_file is not None and os.path.exists(restore_file) and self.params.restore:
             self.logger.info(
                 'Restoring parameters from {}'.format(restore_file))
             load_checkpoint(restore_file, self, self.optimizer)

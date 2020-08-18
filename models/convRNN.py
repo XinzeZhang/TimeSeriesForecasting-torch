@@ -1,4 +1,4 @@
-from data_process.util import savebest_checkpoint, load_checkpoint,plot_all_epoch
+from data_process.util import savebest_checkpoint, load_checkpoint,plot_all_epoch,plot_xfit
 from sklearn.metrics import mean_squared_error
 import numpy as np
 from tqdm import trange
@@ -95,7 +95,7 @@ class ConvRNN(nn.Module):
 
     def xfit(self, train_loader, val_loader, restore_file=None):
         # update self.params
-        if restore_file is not None and os.path.exists(restore_file):
+        if restore_file is not None and os.path.exists(restore_file) and self.params.restore:
             self.logger.info(
                 'Restoring parameters from {}'.format(restore_file))
             load_checkpoint(restore_file, self, self.optimizer)
@@ -103,6 +103,8 @@ class ConvRNN(nn.Module):
         min_vmse = 9999
         train_len = len(train_loader)
         loss_summary = np.zeros((train_len * self.params.num_epochs))
+        loss_avg = np.zeros((self.params.num_epochs))
+        vloss_avg = np.zeros_like(loss_avg)
 
         for epoch in trange(self.params.num_epochs):
             self.logger.info(
@@ -122,6 +124,7 @@ class ConvRNN(nn.Module):
                 self.optimizer.step()
             mse_train = mse_train / train_len
             loss_summary[epoch * train_len:(epoch + 1) * train_len] = loss_epoch
+            loss_avg[epoch] = mse_train
 
             self.epoch_scheduler.step()
             
@@ -139,6 +142,8 @@ class ConvRNN(nn.Module):
                     mse_val += self.loss_fn(output,
                                          batch_y).item()
                 mse_val = mse_val / len(val_loader)
+            vloss_avg[epoch] = mse_val
+
             preds = np.concatenate(preds)
             true = np.concatenate(true)
 
@@ -159,8 +164,9 @@ class ConvRNN(nn.Module):
 
         plot_all_epoch(loss_summary[:(
             epoch + 1) * train_len], self.params.dataset + '_loss', self.params.plot_dir)
+        plot_xfit(loss_avg,vloss_avg,self.params.dataset + '_loss', self.params.plot_dir)
             
-    def predict(self, x,  using_best=True):
+    def predict(self, x, using_best=True):
         '''
         x: (numpy.narray) shape: [sample, full-len, dim]
         return: (numpy.narray) shape: [sample, prediction-len]
@@ -168,7 +174,7 @@ class ConvRNN(nn.Module):
         # test_batch: shape: [full-len, sample, dim]
         best_pth = os.path.join(self.params.model_dir, 'best.pth.tar')
         if os.path.exists(best_pth) and using_best:
-            logger.info('Restoring best parameters from {}'.format(best_pth))
+            self.logger.info('Restoring best parameters from {}'.format(best_pth))
             load_checkpoint(best_pth, self, self.optimizer)
 
         x = torch.tensor(x).to(torch.float32).to(self.params.device)
