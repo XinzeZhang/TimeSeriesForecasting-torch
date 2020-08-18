@@ -35,6 +35,12 @@ parser.add_argument('-restore', action='store_true', help='Whether to restore th
 parser.add_argument('--sampling', action='store_true', help='Whether to sample during evaluation')
 # parser.add_argument('--save-best', action='store_true', help='Whether to save best ND to param_search.txt')
 
+def pack_dataset(ts, steps, H):
+    _ = create_dataset(ts ,look_back= steps + H - 1)
+    X, Y = _[:, :(0 - H)], _[:, (0-H):]
+    X = X[:,:, np.newaxis]
+    return X, Y
+
 if __name__ == "__main__":
     args = parser.parse_args()
     json_path = os.path.join('models', 'convRNN.params.json')
@@ -43,13 +49,10 @@ if __name__ == "__main__":
 
     params.merge(args)
 
-    params.dataset = 'MT_001'
+    params.dataset = 'london_2013_summary'
     ts = np.load('./data/paper/{}.npy'.format(params.dataset))
     ts = ts.reshape(-1)
     # set_length = len(ts)
-    segmentation = int(len(ts)*5/6)
-    # ts = ts.reshape(-1,1)
-    # scaler, ts_scaled = scale_raw(ts)
     
     params.steps=168
     params.H=24
@@ -62,18 +65,22 @@ if __name__ == "__main__":
 
     scaler = MinMaxScaler(feature_range=(-1, 1))
     dataset = scaler.fit_transform(dataset)
-    X, Y = dataset[:, :(0 - params.H)], dataset[:, (0-params.H):]
 
-    x_train = X[:segmentation, :, np.newaxis]
-    y_train = Y[:segmentation,:]
+    ts = unpadding(dataset)
 
-    x_test = X[segmentation:, :, np.newaxis]
-    y_test = Y[segmentation:,:]
+    ts_train = ts[:-9*24].copy()
+    ts_val = ts[-9*24-168:-7*24].copy()
+    ts_test= ts[-7*24-168:].copy()
+
+    x_train, y_train = pack_dataset(ts_train, steps= params.steps, H = params.H)
+    x_val, y_val = pack_dataset(ts_val, steps= params.steps, H = params.H)
+    x_test, y_test = pack_dataset(ts_test, steps= params.steps, H = params.H)
 
     train_set= scaled_Dataset(x_data=x_train,label_data=y_train)
+    val_set = scaled_Dataset(x_data=x_val,label_data=y_val)
     test_set = scaled_Dataset(x_data=x_test,label_data=y_test)
 
-    params.predict_batch=int(test_set.samples // 2)
+    params.predict_batch=int(val_set.samples // 2)
 
     model_dir = os.path.join('experiments', params.model_name)
     params.model_dir = model_dir
@@ -104,12 +111,12 @@ if __name__ == "__main__":
 
     params.batch_size = len(train_set) // 20
     train_loader = DataLoader(train_set, batch_size=params.batch_size, sampler=RandomSampler(train_set), num_workers=4)
-    test_loader = DataLoader(test_set, batch_size=params.predict_batch, sampler=RandomSampler(test_set), num_workers=4)
+    val_loader = DataLoader(val_set, batch_size=params.predict_batch, sampler=RandomSampler(test_set), num_workers=4)
     logger.info('Loading complete.')
 
     logger.info(f'Model: \n{str(model)}')
 
-    model.xfit(train_loader,test_loader,restore_file=os.path.join(params.model_dir,'best.pth.tar'))
+    model.xfit(train_loader,val_loader,restore_file=os.path.join(params.model_dir,'best.pth.tar'))
 
     print(x_test.shape)
     pred = model.predict(x_test)
