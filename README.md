@@ -13,8 +13,7 @@ Based on the works of [TimeSeries](https://github.com/zhykoties/TimeSeries), thi
 
 
 ## ConvRNN
-This is a pytorch-based modification of [ConvRNN](https://github.com/KurochkinAlexey/ConvRNN) (Autoregressive Convolutional Recurrent Neural
-Network for Univariate and Multivariate Time)
+This is a pytorch-based modification of ConvRNN([Autoregressive Convolutional Recurrent Neural Network for Univariate and Multivariate Time](https://arxiv.org/abs/1903.02540))
 
 ### Acknowledgement
 - KurochkinAlexey, Fess13 who are the original authors of [ConvRNN](https://github.com/KurochkinAlexey/ConvRNN).
