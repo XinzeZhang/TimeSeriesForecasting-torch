@@ -111,7 +111,7 @@ if __name__ == "__main__":
 
     params.batch_size = len(train_set) // 20
     train_loader = DataLoader(train_set, batch_size=params.batch_size, sampler=RandomSampler(train_set), num_workers=4)
-    val_loader = DataLoader(val_set, batch_size=params.predict_batch, sampler=RandomSampler(test_set), num_workers=4)
+    val_loader = DataLoader(val_set, batch_size=params.predict_batch, sampler=RandomSampler(val_set), num_workers=4)
     logger.info('Loading complete.')
 
     logger.info(f'Model: \n{str(model)}')
