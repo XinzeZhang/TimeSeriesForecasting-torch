@@ -100,20 +100,37 @@ class Net(nn.Module):
     def init_cell(self, input_size):
         return torch.zeros(self.params.lstm_layers, input_size, self.params.lstm_hidden_dim, device=self.params.device)
 
-    def fit_epoch(self, train_loader, test_loader, epoch):
+    def get_v(self, x_batch):
+        # x_batch ([batch_size, train_window, 1+cov_dim]): z_{0:T-1} + x_{1:T}, note that z_0 = 0;
+        batch_size = x_batch.shape[0]
+        v_input= torch.zeros((batch_size, 2),dtype =torch.float32)
+        for i in range(batch_size):
+            nonzero_sum = (x_batch[i, 1:self.params.steps, 0]!=0).sum()
+            if nonzero_sum.item() == 0:
+                v_input[i,0]=0
+            else:
+                v_input[i,0]=torch.true_divide(x_batch[i, 1:self.params.steps, 0].sum(),nonzero_sum)+1
+                x_batch[i,:,0] = x_batch[i,:,0] / v_input[i,0]
+            
+        return x_batch, v_input
+
+    def fit_epoch(self, train_loader, epoch):
         self.train()
         loss_epoch = np.zeros(len(train_loader))
         # Train_loader:
-        # train_batch ([batch_size, train_window, 1+cov_dim]): z_{0:T-1} + x_{1:T}, note that z_0 = 0;
+        # x_batch ([batch_size, train_window, 1+cov_dim]): z_{0:T-1} + x_{1:T}, note that z_0 = 0;
         # idx ([batch_size]): one integer denoting the time series id;
         # labels_batch ([batch_size, train_window]): z_{1:T}.
-        for i, (train_batch, labels_batch) in enumerate(train_loader):
+        for i, (x_batch, label_batch) in enumerate(train_loader):
             self.optimizer.zero_grad()
-            batch_size = train_batch.shape[0]
+            batch_size = x_batch.shape[0]
+            # batch normalize
+            x_batch, v_batch = self.get_v(x_batch)
+            label_batch = label_batch/v_batch[:,0].reshape(-1,1)
 
-            train_batch = train_batch.permute(1, 0, 2).to(
+            x_batch = x_batch.permute(1, 0, 2).to(
                 torch.float32).to(self.params.device)  # not scaled
-            labels_batch = labels_batch.permute(1, 0).to(
+            label_batch = label_batch.permute(1, 0).to(
                 torch.float32).to(self.params.device)  # not scaled
 
             loss = torch.zeros(1, device=self.params.device)
@@ -122,12 +139,12 @@ class Net(nn.Module):
 
             for t in range(self.params.train_window):
                 # if z_t is missing, replace it by output mu from the last time step
-                zero_index = (train_batch[t, :, 0] == 0)
+                zero_index = (x_batch[t, :, 0] == 0)
                 if t > 0 and torch.sum(zero_index) > 0:
-                    train_batch[t, zero_index, 0] = mu[zero_index]
-                x = train_batch[t].unsqueeze_(0).clone()
+                    x_batch[t, zero_index, 0] = mu[zero_index]
+                x = x_batch[t].unsqueeze_(0).clone()
                 mu, sigma, hidden, cell = self(x, hidden, cell)
-                loss += loss_fn(mu, sigma, labels_batch[t])
+                loss += loss_fn(mu, sigma, label_batch[t])
 
             loss.backward()
             self.optimizer.step()
@@ -161,7 +178,7 @@ class Net(nn.Module):
             # print(test_len)
             # loss_summary[epoch * train_len:(epoch + 1) * train_len] = train(model, optimizer, loss_fn, train_loader,  test_loader, self.params, epoch)
             loss_summary[epoch * train_len:(epoch + 1) * train_len] = self.fit_epoch(
-                train_loader, test_loader, epoch)
+                train_loader, epoch)
             # todo
             test_metrics = self.evaluate(
                 test_loader, epoch, sample=self.params.sampling)
@@ -194,26 +211,77 @@ class Net(nn.Module):
                 self.params.model_dir, 'metrics_test_last_weights.json')
             save_dict_to_json(test_metrics, last_json_path)
 
+
+    def point_predict(self, x, using_best=True):
+        '''
+        x: (numpy.narray) shape: [sample, full-len, dim]
+        return: (numpy.narray) shape: [sample, prediction-len]
+        Todo: adding choice for single class and multiple class
+        '''
+        # x_batch: shape: [full-len, sample, dim]
+        best_pth = os.path.join(self.params.model_dir, 'best.pth.tar')
+        if os.path.exists(best_pth) and using_best:
+            self.logger.info(
+                'Restoring best parameters from {}'.format(best_pth))
+            load_checkpoint(best_pth, self, self.optimizer)
+        x = torch.tensor(x)
+        x, v_batch = self.get_v(x)
+        x_batch = x.permute(1, 0, 2).to(
+            torch.float32).to(self.params.device)
+        v_batch = v_batch.to(self.params.device)
+        batch_size = x_batch.shape[1]
+        input_mu = torch.zeros(
+            batch_size, self.params.predict_start, device=self.params.device)  # scaled
+        input_sigma = torch.zeros(
+            batch_size, self.params.predict_start, device=self.params.device)  # scaled
+        hidden = self.init_hidden(batch_size)
+        cell = self.init_cell(batch_size)
+
+        prediction = torch.zeros(
+            batch_size, self.params.predict_steps, device=self.params.device)
+
+        for t in range(self.params.predict_start):
+            # if z_t is missing, replace it by output mu from the last time step
+            zero_index = (x_batch[t, :, 0] == 0)
+            if t > 0 and torch.sum(zero_index) > 0:
+                x_batch[t, zero_index, 0] = mu[zero_index]
+
+            mu, sigma, hidden, cell = self(
+                x_batch[t].unsqueeze(0), hidden, cell)
+            input_mu[:, t] = mu * v_batch[:, 0] + v_batch[:, 1]
+            input_sigma[:, t] = sigma * v_batch[:, 0]
+
+        for t in range(self.params.predict_steps):
+            mu_de, sigma_de, hidden, cell = self(
+                x_batch[self.params.predict_start + t].unsqueeze(0), hidden, cell)
+            prediction[:, t] = mu_de * v_batch[:, 0] + v_batch[:, 1]
+
+        return prediction.cpu().detach().numpy()
+
+
     def evaluate(self, test_loader, plot_num, sample=True):
         self.eval()
         with torch.no_grad():
-            plot_batch = np.random.randint(len(test_loader)-1)
+            # plot_batch = np.random.randint(len(test_loader)-1)
+            plot_batch = 0
 
             summary_metric = {}
             raw_metrics = init_metrics(sample=sample)
 
             # Test_loader:
-            # test_batch ([batch_size, train_window, 1+cov_dim]): z_{0:T-1} + x_{1:T}, note that z_0 = 0;
+            # x_batch ([batch_size, train_window, 1+cov_dim]): z_{0:T-1} + x_{1:T}, note that z_0 = 0;
             # id_batch ([batch_size]): one integer denoting the time series id;
             # v ([batch_size, 2]): scaling factor for each window;
             # labels ([batch_size, train_window]): z_{1:T}.
-            for i, (test_batch, labels) in enumerate(test_loader):
-                test_batch = test_batch.permute(1, 0, 2).to(
+            for i, (x_batch, labels) in enumerate(test_loader):
+                x_batch, v_batch = self.get_v(x_batch)
+
+                x_batch = x_batch.permute(1, 0, 2).to(
                     torch.float32).to(self.params.device)
                 # id_batch = id_batch.unsqueeze(0).to(self.params.device)
-                # v_batch = v.to(torch.float32).to(self.params.device)
+                v_batch = v_batch.to(torch.float32).to(self.params.device)
                 labels = labels.to(torch.float32).to(self.params.device)
-                batch_size = test_batch.shape[1]
+                batch_size = x_batch.shape[1]
                 input_mu = torch.zeros(
                     batch_size, self.params.predict_start, device=self.params.device)  # scaled
                 input_sigma = torch.zeros(
@@ -223,25 +291,25 @@ class Net(nn.Module):
 
                 for t in range(self.params.predict_start):
                     # if z_t is missing, replace it by output mu from the last time step
-                    zero_index = (test_batch[t, :, 0] == 0)
+                    zero_index = (x_batch[t, :, 0] == 0)
                     if t > 0 and torch.sum(zero_index) > 0:
-                        test_batch[t, zero_index, 0] = mu[zero_index]
+                        x_batch[t, zero_index, 0] = mu[zero_index]
 
                     mu, sigma, hidden, cell = self(
-                        test_batch[t].unsqueeze(0), hidden, cell)
-                    # input_mu[:,t] = v_batch[:, 0] * mu + v_batch[:, 1]
-                    # input_sigma[:,t] = v_batch[:, 0] * sigma
-                    input_mu[:, t] = mu
-                    input_sigma[:, t] = sigma
+                        x_batch[t].unsqueeze(0), hidden, cell)
+                    input_mu[:,t] = v_batch[:, 0] * mu + v_batch[:, 1]
+                    input_sigma[:,t] = v_batch[:, 0] * sigma
+                    # input_mu[:, t] = mu
+                    # input_sigma[:, t] = sigma
 
                 if sample:
                     samples, sample_mu, sample_sigma = self.test(
-                        test_batch, hidden, cell, sampling=True)
+                        x_batch, v_batch,hidden, cell, sampling=True)
                     raw_metrics = update_metrics(raw_metrics, input_mu, input_sigma, sample_mu, labels,
                                                  self.params.predict_start, samples, relative=self.params.relative_metrics)
                 else:
                     sample_mu, sample_sigma = self.test(
-                        test_batch, hidden, cell)
+                        x_batch, v_batch,hidden, cell)
                     raw_metrics = update_metrics(raw_metrics, input_mu, input_sigma, sample_mu,
                                                  labels, self.params.predict_start, relative=self.params.relative_metrics)
 
@@ -293,52 +361,10 @@ class Net(nn.Module):
             self.logger.info('- Full test metrics: ' + metrics_string)
         return summary_metric
 
-    def point_predict(self, x, using_best=True):
-        '''
-        x: (numpy.narray) shape: [sample, full-len, dim]
-        return: (numpy.narray) shape: [sample, prediction-len]
-        Todo: adding choice for single class and multiple class
-        '''
-        # test_batch: shape: [full-len, sample, dim]
-        best_pth = os.path.join(self.params.model_dir, 'best.pth.tar')
-        if os.path.exists(best_pth) and using_best:
-            self.logger.info(
-                'Restoring best parameters from {}'.format(best_pth))
-            load_checkpoint(best_pth, self, self.optimizer)
-        x = torch.tensor(x)
-        test_batch = x.permute(1, 0, 2).to(
-            torch.float32).to(self.params.device)
-        batch_size = test_batch.shape[1]
-        input_mu = torch.zeros(
-            batch_size, self.params.predict_start, device=self.params.device)  # scaled
-        input_sigma = torch.zeros(
-            batch_size, self.params.predict_start, device=self.params.device)  # scaled
-        hidden = self.init_hidden(batch_size)
-        cell = self.init_cell(batch_size)
-
-        prediction = torch.zeros(
-            batch_size, self.params.predict_steps, device=self.params.device)
-
-        for t in range(self.params.predict_start):
-            # if z_t is missing, replace it by output mu from the last time step
-            zero_index = (test_batch[t, :, 0] == 0)
-            if t > 0 and torch.sum(zero_index) > 0:
-                test_batch[t, zero_index, 0] = mu[zero_index]
-
-            mu, sigma, hidden, cell = self(
-                test_batch[t].unsqueeze(0), hidden, cell)
-            input_mu[:, t] = mu
-            input_sigma[:, t] = sigma
-
-        for t in range(self.params.predict_steps):
-            mu_de, sigma_de, hidden, cell = self(
-                test_batch[self.params.predict_start + t].unsqueeze(0), hidden, cell)
-            prediction[:, t] = mu_de
-
-        return prediction.cpu().detach().numpy()
-
-    def test(self, x, hidden, cell, sampling=False):
+    def test(self, x, v_batch, hidden, cell, sampling=False):
         batch_size = x.shape[1]
+        # x,v_batch = self.get_v(x)
+
         if sampling:
             samples = torch.zeros(self.params.sample_times, batch_size, self.params.predict_steps,
                                   device=self.params.device)
@@ -351,8 +377,8 @@ class Net(nn.Module):
                     gaussian = torch.distributions.normal.Normal(
                         mu_de, sigma_de)
                     pred = gaussian.sample()  # not scaled
-                    # samples[j, :, t] = pred * v_batch[:, 0] + v_batch[:, 1]
-                    samples[j, :, t] = pred
+                    samples[j, :, t] = pred * v_batch[:, 0] + v_batch[:, 1]
+                    # samples[j, :, t] = pred
                     if t < (self.params.predict_steps - 1):
                         x[self.params.predict_start + t + 1, :, 0] = pred
 
@@ -370,10 +396,10 @@ class Net(nn.Module):
             for t in range(self.params.predict_steps):
                 mu_de, sigma_de, decoder_hidden, decoder_cell = self(x[self.params.predict_start + t].unsqueeze(0),
                                                                      decoder_hidden, decoder_cell)
-                # sample_mu[:, t] = mu_de * v_batch[:, 0] + v_batch[:, 1]
-                # sample_sigma[:, t] = sigma_de * v_batch[:, 0]
-                sample_mu[:, t] = mu_de
-                sample_sigma[:, t] = sigma_de
+                sample_mu[:, t] = mu_de * v_batch[:, 0] + v_batch[:, 1]
+                sample_sigma[:, t] = sigma_de * v_batch[:, 0]
+                # sample_mu[:, t] = mu_de
+                # sample_sigma[:, t] = sigma_de
                 if t < (self.params.predict_steps - 1):
                     x[self.params.predict_start + t + 1, :, 0] = mu_de
             return sample_mu, sample_sigma

@@ -13,7 +13,7 @@ from numpy import concatenate
 import math
 
 import matplotlib
-matplotlib.use('TkAgg') # avoiding Invalid DISPLAY variable; this annotation must be before 'import matplotlib.pyplot as plt'
+# matplotlib.use('TkAgg') # avoiding Invalid DISPLAY variable; this annotation must be before 'import matplotlib.pyplot as plt'
 import matplotlib.ticker as ticker
 import matplotlib.pyplot as plt
 

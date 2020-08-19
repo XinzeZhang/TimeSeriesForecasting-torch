@@ -105,8 +105,21 @@ class multiClass_Dataset(Dataset):
         return self.test_len
 
     def __getitem__(self, index):
-        return (self.data[index, :, :-1], int(self.data[index, 0, -1]), self.v[index], self.label[index])
+        return (self.data[index,:,:-1],int(self.data[index,0,-1]),self.v[index],self.label[index])
 
+
+# class _deepAR_dataset(Dataset):
+#     def __init__(self, x_data, label_data, v_data):
+#         self.data = x_data.copy()
+#         self.label = label_data.copy()
+#         self.v = v_data.copy()
+#         self.samples = self.data.shape[0]
+
+#     def __len__(self):
+#         return self.samples
+
+#     def __getitem__(self, index):
+#         return (self.data[index,:,:],self.v[index],self.label[index])
 
 def deepAR_dataset(data, train=True, h=None, steps=None, sample_dense=True):
     assert h != None and steps != None
@@ -123,6 +136,7 @@ def deepAR_dataset(data, train=True, h=None, steps=None, sample_dense=True):
 
     x_input = np.zeros((total_windows, window_size, 1), dtype='float32')
     label = np.zeros((total_windows, window_size), dtype='float32')
+    v_input= np.zeros((total_windows, 2),dtype = 'float32')
 
     count =0
     for i in range(windows_per_series[0]):
@@ -144,7 +158,17 @@ def deepAR_dataset(data, train=True, h=None, steps=None, sample_dense=True):
 
         x_input[count, 1:, 0] = raw_data[window_start:window_end-1, 0]
         label[count, :] = raw_data[window_start:window_end, 0]
-        # get the nonzero number of the input observed values
+        nonzero_sum = (x_input[count, 1:input_size, 0]!=0).sum()
+        if nonzero_sum == 0:
+            v_input[count, 0] = 0
+        else:
+            # get the average values of the input observed values ( +1 means smoothing?)
+            v_input[count, 0] = np.true_divide(x_input[count, 1:input_size, 0].sum(),nonzero_sum)+1
+            # sample standardization
+            x_input[count, :, 0] = x_input[count, :, 0]/v_input[count, 0]
+            if train:
+                label[count, :] = label[count, :]/v_input[count, 0]# get the nonzero number of the input observed values
+        
         count += 1
 
     packed_dataset = scaled_Dataset(x_data=x_input, label_data=label)
@@ -159,10 +183,12 @@ class Params:
     params.learning_rate = 0.5  # change the value of learning_rate in params
     '''
 
-    def __init__(self, json_path):
-        with open(json_path) as f:
-            params = json.load(f)
-            self.__dict__.update(params)
+    def __init__(self, json_path, zero_start = False):
+        if not zero_start:
+            with open(json_path) as f:
+                params = json.load(f)
+                assert os.path.isfile(json_path), f'No json configuration file found at {json_path}'
+                self.__dict__.update(params)
 
     def save(self, json_path):
         with open(json_path, 'w') as f:
@@ -548,3 +574,9 @@ def deep_ar_loss_fn(mu: torch.Tensor, sigma: torch.Tensor, labels: torch.Tensor)
         mu[zero_index], sigma[zero_index])
     likelihood = distribution.log_prob(labels[zero_index])
     return -torch.mean(likelihood)
+
+def de_scale(params, scaler, pred):
+    ones= np.ones((pred.shape[0], params.steps))
+    cat = np.concatenate((ones, pred),axis=1)
+    pred = scaler.inverse_transform(cat)[:,-params.H:]
+    return pred

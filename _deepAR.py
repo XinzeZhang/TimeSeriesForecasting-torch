@@ -74,8 +74,8 @@ if __name__ == "__main__":
     params.model_name = '{}_h{}_deepAR'.format(params.dataset,params.H)
     dataset = create_dataset(ts, look_back=params.steps + params.H - 1)
 
-    scaler = MinMaxScaler(feature_range=(-1, 1))
-    dataset = scaler.fit_transform(dataset)
+    # scaler = MinMaxScaler(feature_range=(-1, 1))
+    # dataset = scaler.fit_transform(dataset)
     # X, Y = dataset[:, :(0 - params.H)], dataset[:, (0-params.H):]
 
     train_data = dataset[:segmentation,:]
@@ -92,7 +92,7 @@ if __name__ == "__main__":
     params.predict_steps=params.H
     # params.num_class = 1
     params.cov_dim = 0
-    params.predict_batch=int(test_set.samples // 2)
+    params.predict_batch=int(test_set.samples)
 
     model_dir = os.path.join('experiments', params.model_name)
     params.model_dir = model_dir
@@ -120,14 +120,14 @@ if __name__ == "__main__":
 
     logger.info('Loading the datasets for batch-training')
 
-    params.batch_size = len(train_set) // 20
+    params.batch_size = len(train_set) // 10
     train_loader = DataLoader(train_set, batch_size=params.batch_size, sampler=RandomSampler(train_set), num_workers=4)
     test_loader = DataLoader(test_set, batch_size=params.predict_batch, sampler=RandomSampler(test_set), num_workers=4)
     logger.info('Loading complete.')
 
     logger.info(f'Model: \n{str(model)}')
 
-    model.xfit(train_loader,test_loader,restore_file=os.path.join(params.model_dir,'best.pth.tar'))
+    # model.xfit(train_loader,test_loader,restore_file=os.path.join(params.model_dir,'best.pth.tar'))
 
     print(predict_input.shape)
     pred = model.point_predict(predict_input)
