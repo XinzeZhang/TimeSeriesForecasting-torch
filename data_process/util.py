@@ -274,7 +274,7 @@ def savebest_checkpoint(state, checkpoint):
         state: (dict) contains model's state_dict, may contain other keys such as epoch, optimizer state_dict
         checkpoint: (string) folder where parameters are to be saved
     '''
-    filepath = os.path.join(checkpoint, 'best.pth.tar')
+    filepath = os.path.join(checkpoint, 'best.cv{}.pth.tar'.format(state['cv']))
     torch.save(state, filepath)
     # logger.info(f'Checkpoint saved to {filepath}')
 

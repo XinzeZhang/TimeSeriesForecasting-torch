@@ -12,6 +12,7 @@ from data_process.util import deepAR_dataset
 
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import KFold
 
 # import torch
 import logging
@@ -23,13 +24,13 @@ from torch.utils.data import DataLoader
 from torch.utils.data.sampler import RandomSampler
 
 import models.deepAR as net
-
+from tqdm import tqdm
 # import matplotlib
 # matplotlib.use('Agg')
 # import matplotlib.pyplot as plt
 
 
-logger = logging.getLogger('DeepAR')
+
 
 parser = argparse.ArgumentParser(
     description='PyTorch DeeepAR Time Series Forecasting')
@@ -39,6 +40,7 @@ parser.add_argument('-H', type=int, default=6, metavar='N',
 parser.add_argument('-steps', type=int, default=24)
 parser.add_argument('-num_epochs', type=int, default=20, metavar='N',
                     help='epochs for training (default: 20)')
+parser.add_argument('-k', type=int, default=5)
 
 parser.add_argument('-sample-dense', action='store_true',default=True, help='Whether to continually sample the time series during preprocessing')
 parser.add_argument('-restore', action='store_true', help='Whether to restore the model state from the best.pth.tar')
@@ -57,34 +59,14 @@ if __name__ == "__main__":
     params.merge(args)
     
     
-    #test
-    params.dataset = 'MT_001'
+    params.dataset = 'london_2013_summary'
     ts = np.load('./data/paper/{}.npy'.format(params.dataset))
     ts = ts.reshape(-1)
     # set_length = len(ts)
-    segmentation = int(len(ts)*5/6)
-    # ts = ts.reshape(-1,1)
-    # scaler, ts_scaled = scale_raw(ts)
     
     params.steps=168
     params.H=24
     # test
-    params.num_epochs = 30
-
-    params.model_name = '{}_h{}_deepAR'.format(params.dataset,params.H)
-    dataset = create_dataset(ts, look_back=params.steps + params.H - 1)
-
-    # scaler = MinMaxScaler(feature_range=(-1, 1))
-    # dataset = scaler.fit_transform(dataset)
-    # X, Y = dataset[:, :(0 - params.H)], dataset[:, (0-params.H):]
-
-    train_data = dataset[:segmentation,:]
-    test_data = dataset[segmentation:,:]
-    
-    train_set,_ = deepAR_dataset(train_data,train=True,h=params.H,steps=params.steps,sample_dense=args.sample_dense)
-    test_set, predict_input = deepAR_dataset(test_data,train=False,h=params.H,steps=params.steps,sample_dense=args.sample_dense) # Remaining modification
-
-
     params.train_window = params.steps+params.H
     params.test_window = params.train_window
     params.predict_start = params.steps
@@ -92,46 +74,80 @@ if __name__ == "__main__":
     params.predict_steps=params.H
     # params.num_class = 1
     params.cov_dim = 0
-    params.predict_batch=int(test_set.samples)
 
-    model_dir = os.path.join('experiments', params.model_name)
-    params.model_dir = model_dir
-    params.plot_dir = os.path.join(model_dir, 'figures')
-    # create missing directories
-    try:
-        os.makedirs(params.plot_dir)
-    except FileExistsError:
-        pass
-    set_logger(os.path.join(model_dir, 'train.log'),logger)
+    params.num_epochs = 30
 
-    # use GPU if available
-    cuda_exist = torch.cuda.is_available()
-    # Set random seeds for reproducible experiments if necessary
-    if cuda_exist:
-        params.device = torch.device('cuda')
-        # torch.cuda.manual_seed(240)
-        logger.info('Using Cuda...')
-        model = net.Net(params, logger).cuda()
-    else:
-        params.device = torch.device('cpu')
-        # torch.manual_seed(230)
-        logger.info('Not using cuda...')
-        model = net.Net(params,logger)    
 
-    logger.info('Loading the datasets for batch-training')
+    params.model_name = '{}_h{}_deepAR'.format(params.dataset,params.H)
+    dataset = create_dataset(ts, look_back=params.steps + params.H - 1)
 
-    params.batch_size = len(train_set) // 10
-    train_loader = DataLoader(train_set, batch_size=params.batch_size, sampler=RandomSampler(train_set), num_workers=4)
-    test_loader = DataLoader(test_set, batch_size=params.predict_batch, sampler=RandomSampler(test_set), num_workers=4)
-    logger.info('Loading complete.')
+    kf = KFold(n_splits=params.k)
+    kf.get_n_splits(dataset)
+    params.restore = False
 
-    logger.info(f'Model: \n{str(model)}')
+    cvs = []
+    for i, (train_idx, test_idx) in tqdm(enumerate(kf.split(dataset))):
+        params.cv = i
+        logger = logging.getLogger('deepAR.cv{}'.format(i))
+        model_dir = os.path.join('experiments', params.model_name)
+        set_logger(os.path.join(model_dir, 'train.cv{}.log'.format(i)), logger)
 
-    # model.xfit(train_loader,test_loader,restore_file=os.path.join(params.model_dir,'best.pth.tar'))
+        train_data = dataset[train_idx]
+        test_data = dataset[test_idx]
+    
+        train_set,_ = deepAR_dataset(train_data,train=True,h=params.H,steps=params.steps,sample_dense=args.sample_dense)
+        test_set, predict_input = deepAR_dataset(test_data,train=False,h=params.H,steps=params.steps,sample_dense=args.sample_dense) # Remaining modification
 
-    print(predict_input.shape)
-    pred = model.point_predict(predict_input)
-    target = predict_input[:,params.predict_start:,0]
-    vrmse = np.sqrt(mean_squared_error(target,pred))
-    print(params.dataset + '\t H: ' + str(params.H) + '\t RMSE: ' + str(vrmse) + '\t')
+        logger.info('Loading the datasets for batch-training')
+        params.batch_size = len(train_set) // 4
+        train_loader = DataLoader(train_set, batch_size=params.batch_size, sampler=RandomSampler(train_set), num_workers=4)
+        test_loader = DataLoader(test_set, batch_size=test_set.samples,
+                                sampler=RandomSampler(test_set), num_workers=4)
+
+        # params.predict_batch=int(test_set.samples)
+
+        params.model_dir = model_dir
+        params.plot_dir = os.path.join(model_dir, 'figures')
+        # create missing directories
+        try:
+            os.makedirs(params.plot_dir)
+        except FileExistsError:
+            pass
+
+
+
+        # use GPU if available
+        cuda_exist = torch.cuda.is_available()
+        # Set random seeds for reproducible experiments if necessary
+        if cuda_exist:
+            params.device = torch.device('cuda')
+            # torch.cuda.manual_seed(240)
+            logger.info('Using Cuda...')
+            model = net.Net(params, logger).cuda()
+        else:
+            params.device = torch.device('cpu')
+            # torch.manual_seed(230)
+            logger.info('Not using cuda...')
+            model = net.Net(params,logger)    
+
+
+        logger.info('Loading complete.')
+
+        logger.info(f'Model: \n{str(model)}')
+
+        model.xfit(train_loader,test_loader,restore_file=os.path.join(params.model_dir,'best.pth.tar'))
+
+        print(predict_input.shape)
+        pred = model.point_predict(predict_input)
+        target = predict_input[:,params.predict_start:,0]
+        cvs.append((pred, target))
+
+    measures = np.zeros(len(cvs))
+    for i, (pred, target) in enumerate(cvs):
+        vrmse = np.sqrt(mean_squared_error(target, pred))
+        measures[i] = vrmse
+        logger.info('{}\t H: {}\t CV: {}\t RMSE:{}'.format(
+            params.dataset, params.H, i, vrmse))
+        logger.info(params.dataset + '\t H: ' + str(params.H) +
+              '\t Avg RMSE: ' + str(measures.mean()) + '\t')
 

@@ -1,5 +1,4 @@
 import logging
-from sklearn.model_selection import KFold
 from tqdm import tqdm
 from data_process.util import create_dataset, Params, de_scale, scaled_Dataset, set_logger
 import argparse
@@ -12,6 +11,7 @@ from numpy import concatenate, atleast_2d
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import KFold
 import os
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 
@@ -38,13 +38,13 @@ if __name__ == "__main__":
     params.merge(args)
 
     #test
-    params.dataset = 'AR1'
+    params.dataset = 'london_2013_summary'
     ts = np.load('./data/paper/{}.npy'.format(params.dataset))
     ts = ts.reshape(-1)
     # set_length = len(ts)
-    # segmentation = int(len(ts)*5/6)
-    params.steps = 15
-    params.H = 3
+    
+    params.steps=168
+    params.H=24
     # test
 
     params.model_name = '{}_h{}_CNN'.format(params.dataset, params.H)
@@ -58,6 +58,7 @@ if __name__ == "__main__":
 
     cvs = []
     for i, (train_idx, test_idx) in tqdm(enumerate(kf.split(dataset))):
+        params.cv = i
         train_data = dataset[train_idx]
         test_data = dataset[test_idx]
 
@@ -74,8 +75,8 @@ if __name__ == "__main__":
         test_set = scaled_Dataset(x_data=x_test, label_data=y_test)
 
         # added for testing
-        params.batch_size = train_set.samples
-        params.restore = False
+        params.batch_size = len(train_set) // 4
+        
         # params.test_batch=int()
 
         train_loader = DataLoader(
@@ -94,7 +95,7 @@ if __name__ == "__main__":
 
         logger = logging.getLogger('CNN.cv{}'.format(i))
         set_logger(os.path.join(model_dir, 'train.cv{}.log'.format(i)), logger)
-
+        params.restore = False
         # use GPU if available
         cuda_exist = torch.cuda.is_available()
         # Set random seeds for reproducible experiments if necessary

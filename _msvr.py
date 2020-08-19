@@ -29,13 +29,13 @@ if __name__ == "__main__":
     params.merge(args)
     
     #test
-    params.dataset = 'AR1'
+    params.dataset = 'london_2013_summary'
     ts = np.load('./data/paper/{}.npy'.format(params.dataset))
     ts = ts.reshape(-1)
     # set_length = len(ts)
-    # segmentation = int(len(ts)*5/6)
-    params.steps=15
-    params.H=3
+    
+    params.steps=168
+    params.H=24
 
     params.model_name = '{}_h{}_mSVR'.format(params.dataset,params.H)
     dataset = create_dataset(ts, look_back=params.steps + params.H - 1)

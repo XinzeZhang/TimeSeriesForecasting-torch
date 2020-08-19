@@ -1,13 +1,13 @@
 import os
 import numpy as np
-
+from tqdm import tqdm
 # added for preprocessing
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error
-
+from sklearn.model_selection import KFold
 import argparse
-from data_process.util import create_dataset,unpadding,scale_raw, Params, set_logger
-from data_process.util import scaled_Dataset
+from data_process.util import create_dataset,unpadding, Params, set_logger
+from data_process.util import scaled_Dataset, de_scale
 
 import torch
 from torch.utils.data import DataLoader
@@ -29,7 +29,7 @@ parser.add_argument('-num_epochs', type=int, default=1000, metavar='N',
                     help='epochs for training (default: 1000)')
 parser.add_argument('-sample-dense', action='store_true',default=True, help='Whether to continually sample the time series during preprocessing')
 parser.add_argument('-restore', action='store_true', help='Whether to restore the model state from the best.pth.tar')
-
+parser.add_argument('-k', type=int, default=5)
 # parser.add_argument('--model-name', default='brent_model', help='Directory to save model state')
 # parser.add_argument('--relative-metrics', action='store_true', help='Whether to normalize the metrics by label scales')
 parser.add_argument('--sampling', action='store_true', help='Whether to sample during evaluation')
@@ -66,59 +66,82 @@ if __name__ == "__main__":
     scaler = MinMaxScaler(feature_range=(-1, 1))
     dataset = scaler.fit_transform(dataset)
 
-    ts = unpadding(dataset)
+    # ts = unpadding(dataset)
 
-    ts_train = ts[:-9*24].copy()
-    ts_val = ts[-9*24-168:-7*24].copy()
-    ts_test= ts[-7*24-168:].copy()
+    # # ts_train = ts[:-9*24].copy()
+    # # ts_val = ts[-9*24-168:-7*24].copy()
+    # # ts_test= ts[-7*24-168:].copy()
+    kf = KFold(n_splits=params.k)
+    kf.get_n_splits(dataset)
 
-    x_train, y_train = pack_dataset(ts_train, steps= params.steps, H = params.H)
-    x_val, y_val = pack_dataset(ts_val, steps= params.steps, H = params.H)
-    x_test, y_test = pack_dataset(ts_test, steps= params.steps, H = params.H)
+    cvs = []
+    for i, (train_idx, test_idx) in tqdm(enumerate(kf.split(dataset))):
+        params.cv = i
+        train_data = dataset[train_idx]
+        test_data = dataset[test_idx]
+        x_train = train_data[:, :(
+            0 - params.H)].reshape(train_data.shape[0], params.steps,1)
+        y_train = train_data[:, (0-params.H):].reshape(-1, params.H)
+        x_test = test_data[:, :(0 - params.H)
+                           ].reshape(test_data.shape[0], params.steps,1)
+        y_test = test_data[:, (0-params.H):].reshape(-1, params.H)
 
-    train_set= scaled_Dataset(x_data=x_train,label_data=y_train)
-    val_set = scaled_Dataset(x_data=x_val,label_data=y_val)
-    test_set = scaled_Dataset(x_data=x_test,label_data=y_test)
 
-    params.predict_batch=int(val_set.samples // 2)
+        train_set = scaled_Dataset(x_data=x_train, label_data=y_train)
+        test_set = scaled_Dataset(x_data=x_test, label_data=y_test)
 
-    model_dir = os.path.join('experiments', params.model_name)
-    params.model_dir = model_dir
-    params.plot_dir = os.path.join(model_dir, 'figures')
-    # create missing directories
-    try:
-        os.makedirs(params.plot_dir)
-    except FileExistsError:
-        pass
+        params.batch_size = len(train_set) // 4
+        train_loader = DataLoader(train_set, batch_size=params.batch_size, sampler=RandomSampler(train_set), num_workers=4)
+        val_loader = DataLoader(test_set, batch_size=test_set.samples,
+                                sampler=RandomSampler(test_set), num_workers=4)
+        logger.info('Loading complete.')
 
-    set_logger(os.path.join(model_dir, 'train.log'),logger)
+        model_dir = os.path.join('experiments', params.model_name)
+        params.model_dir = model_dir
+        params.plot_dir = os.path.join(model_dir, 'figures')
+        # create missing directories
+        try:
+            os.makedirs(params.plot_dir)
+        except FileExistsError:
+            pass
 
-    # use GPU if available
-    cuda_exist = torch.cuda.is_available()
-    # Set random seeds for reproducible experiments if necessary
-    if cuda_exist:
-        params.device = torch.device('cuda')
-        # torch.cuda.manual_seed(240)
-        logger.info('Using Cuda...')
-        model = ConvRNN(params, logger).cuda()
-    else:
-        params.device = torch.device('cpu')
-        # torch.manual_seed(230)
-        logger.info('Not using cuda...')
-        model = ConvRNN(params,logger)
+        logger = logging.getLogger('convRNN.cv{}'.format(i))
+        set_logger(os.path.join(model_dir, 'train.cv{}.log'.format(i)), logger)
 
-    logger.info('Loading the datasets for batch-training')
+        # use GPU if available
+        cuda_exist = torch.cuda.is_available()
+        # Set random seeds for reproducible experiments if necessary
+        if cuda_exist:
+            params.device = torch.device('cuda')
+            # torch.cuda.manual_seed(240)
+            logger.info('Using Cuda...')
+            model = ConvRNN(params, logger).cuda()
+        else:
+            params.device = torch.device('cpu')
+            # torch.manual_seed(230)
+            logger.info('Not using cuda...')
+            model = ConvRNN(params,logger)
 
-    params.batch_size = len(train_set) // 20
-    train_loader = DataLoader(train_set, batch_size=params.batch_size, sampler=RandomSampler(train_set), num_workers=4)
-    val_loader = DataLoader(val_set, batch_size=params.predict_batch, sampler=RandomSampler(val_set), num_workers=4)
-    logger.info('Loading complete.')
+        logger.info('Loading the datasets for batch-training')
 
-    logger.info(f'Model: \n{str(model)}')
+        logger.info(f'Model: \n{str(model)}')
 
-    model.xfit(train_loader,val_loader,restore_file=os.path.join(params.model_dir,'best.pth.tar'))
 
-    print(x_test.shape)
-    pred = model.predict(x_test)
-    vrmse = np.sqrt(mean_squared_error(y_test,pred))
-    print(params.dataset + '\t H: ' + str(params.H) + '\t RMSE: ' + str(vrmse) + '\t')
+        params.restore = False
+        model.xfit(train_loader,val_loader,restore_file=os.path.join(params.model_dir,'best.pth.tar'))
+
+        print(x_test.shape)
+        pred = model.predict(x_test)
+        pred = de_scale(params, scaler, pred)
+        target = de_scale(params, scaler, y_test)
+        cvs.append((pred, target))
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+    measures = np.zeros(len(cvs))
+    for i, (pred, target) in enumerate(cvs):
+        vrmse = np.sqrt(mean_squared_error(target, pred))
+        measures[i] = vrmse
+        logger.info('{}\t H: {}\t CV: {}\t RMSE:{}'.format(
+            params.dataset, params.H, i, vrmse))
+        logger.info(params.dataset + '\t H: ' + str(params.H) +
+              '\t Avg RMSE: ' + str(measures.mean()) + '\t')

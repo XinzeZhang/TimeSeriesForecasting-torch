@@ -156,6 +156,7 @@ class ConvRNN(nn.Module):
                 self.logger.info('Found new best state')
                 savebest_checkpoint({
                     'epoch': epoch,
+                    'cv': self.params.cv,
                     'state_dict': self.state_dict(),
                     'optim_dict': self.optimizer.state_dict()}, checkpoint=self.params.model_dir)
                 self.logger.info(

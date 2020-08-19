@@ -43,13 +43,6 @@ class CNN(nn.Module):
         self.epoch_scheduler = torch.optim.lr_scheduler.StepLR(
             self.optimizer, params.step_lr, gamma=0.9)
 
-    def load_state(self, file_path):
-        state = np.load(file_path)
-        conv1_W, conv1_B , fc_w = state['arr_0'], state['arr_1'], state['arr_2']
-        self.Conv.weight.data = torch.from_numpy(conv1_W).cuda()
-        self.Conv.bias.data = torch.from_numpy(conv1_B).cuda()
-        # self.fc.weight.data = torch.from_numpy(fc_w).t()
-
     def forward(self,input):
         feature_map = self.Conv(input)
         feature_map = torch.sigmoid(feature_map)
@@ -117,6 +110,7 @@ class CNN(nn.Module):
                 self.logger.info('Found new best state')
                 savebest_checkpoint({
                     'epoch': epoch,
+                    'cv': self.params.cv,
                     'state_dict': self.state_dict(),
                     'optim_dict': self.optimizer.state_dict()}, checkpoint=self.params.model_dir)
                 self.logger.info(

@@ -195,6 +195,7 @@ class Net(nn.Module):
 
                 savebest_checkpoint({
                     'epoch': epoch,
+                    'cv': self.params.cv,
                     'state_dict': self.state_dict(),
                     'optim_dict': self.optimizer.state_dict()}, checkpoint=self.params.model_dir)
                 self.logger.info(
