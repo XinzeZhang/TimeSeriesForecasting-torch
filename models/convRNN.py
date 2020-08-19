@@ -17,13 +17,13 @@ class ConvRNN(nn.Module):
         self.params = params
         self.logger = logger
 
+        for (arg, value) in params.dict.items():
+            self.logger.info("Argument %s: %r", arg, value)
+
         input_dim, timesteps, output_dim = 1 + params.cov_dim, params.steps, params.H
         kernel_size1, kernel_size2, kernel_size3 = 7, 5, 3
         n_channels1, n_channels2, n_channels3 = params.n_channels1, params.n_channels2, params.n_channels3
         n_units1, n_units2, n_units3 = params.n_units1, params.n_units2, params.n_units3
-
-        for (arg, value) in params.dict.items():
-            self.logger.info("Argument %s: %r", arg, value)
 
         self.avg_pool1 = nn.AvgPool1d(2, 2)
         self.avg_pool2 = nn.AvgPool1d(4, 4)

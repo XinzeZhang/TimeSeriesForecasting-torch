@@ -14,9 +14,9 @@ from sklearn.model_selection import KFold
 
 parser = argparse.ArgumentParser(
     description='Time Series Forecasting Baseline model')
-parser.add_argument('-step', type=int, default=6, metavar='N',
-                    help='steps for prediction (default: 1)')
 parser.add_argument('-dataset', type=str, default='Brent')
+parser.add_argument('-steps', type=int, default=6, metavar='N',
+                    help='steps for prediction (default: 1)')
 parser.add_argument('-dim', type=int, default=24)
 parser.add_argument('-k', type=int, default=5)
 
@@ -29,16 +29,13 @@ if __name__ == "__main__":
     params.merge(args)
     
     #test
-    params.dataset = 'MT_001'
+    params.dataset = 'AR1'
     ts = np.load('./data/paper/{}.npy'.format(params.dataset))
     ts = ts.reshape(-1)
     # set_length = len(ts)
-    segmentation = int(len(ts)*5/6)
-    # ts = ts.reshape(-1,1)
-    # scaler, ts_scaled = scale_raw(ts)
-    
-    params.steps=168
-    params.H=24
+    # segmentation = int(len(ts)*5/6)
+    params.steps=15
+    params.H=3
 
     params.model_name = '{}_h{}_mSVR'.format(params.dataset,params.H)
     dataset = create_dataset(ts, look_back=params.steps + params.H - 1)

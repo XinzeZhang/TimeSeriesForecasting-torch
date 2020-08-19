@@ -6,5 +6,6 @@
     "n_units2": 40,
     "n_units3": 40,
     "learning_rate": 0.001,
-    "step_lr": 20
+    "step_lr": 20,
+    "num_epochs": 5000
 }

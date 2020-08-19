@@ -37,7 +37,7 @@ parser.add_argument('--sampling', action='store_true', help='Whether to sample d
 
 def pack_dataset(ts, steps, H):
     _ = create_dataset(ts ,look_back= steps + H - 1)
-    X, Y = _[:, :(0 - H)], _[:, (0-H):]
+    X, Y = _[:, :(0 - H)], _[:, (0-H):].reshape(-1, H)
     X = X[:,:, np.newaxis]
     return X, Y
 
