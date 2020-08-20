@@ -74,6 +74,7 @@ if __name__ == "__main__":
     kf = KFold(n_splits=params.k)
     kf.get_n_splits(dataset)
 
+    params.restore = False
     cvs = []
     for i, (train_idx, test_idx) in tqdm(enumerate(kf.split(dataset))):
         params.cv = i
@@ -127,7 +128,6 @@ if __name__ == "__main__":
         logger.info(f'Model: \n{str(model)}')
 
 
-        params.restore = False
         model.xfit(train_loader,val_loader,restore_file=os.path.join(params.model_dir,'best.pth.tar'))
 
         print(x_test.shape)

@@ -136,7 +136,7 @@ def deepAR_dataset(data, train=True, h=None, steps=None, sample_dense=True):
 
     x_input = np.zeros((total_windows, window_size, 1), dtype='float32')
     label = np.zeros((total_windows, window_size), dtype='float32')
-    v_input= np.zeros((total_windows, 2),dtype = 'float32')
+    # v_input= np.zeros((total_windows, 2),dtype = 'float32')
 
     count =0
     for i in range(windows_per_series[0]):
@@ -158,16 +158,16 @@ def deepAR_dataset(data, train=True, h=None, steps=None, sample_dense=True):
 
         x_input[count, 1:, 0] = raw_data[window_start:window_end-1, 0]
         label[count, :] = raw_data[window_start:window_end, 0]
-        nonzero_sum = (x_input[count, 1:input_size, 0]!=0).sum()
-        if nonzero_sum == 0:
-            v_input[count, 0] = 0
-        else:
-            # get the average values of the input observed values ( +1 means smoothing?)
-            v_input[count, 0] = np.true_divide(x_input[count, 1:input_size, 0].sum(),nonzero_sum)+1
-            # sample standardization
-            x_input[count, :, 0] = x_input[count, :, 0]/v_input[count, 0]
-            if train:
-                label[count, :] = label[count, :]/v_input[count, 0]# get the nonzero number of the input observed values
+        # nonzero_sum = (x_input[count, 1:input_size, 0]!=0).sum()
+        # if nonzero_sum == 0:
+        #     v_input[count, 0] = 0
+        # else:
+        #     # get the average values of the input observed values ( +1 means smoothing?)
+        #     v_input[count, 0] = np.true_divide(x_input[count, 1:input_size, 0].sum(),nonzero_sum)+1
+        #     # sample standardization
+        #     x_input[count, :, 0] = x_input[count, :, 0]/v_input[count, 0]
+        #     if train:
+        #         label[count, :] = label[count, :]/v_input[count, 0]# get the nonzero number of the input observed values
         
         count += 1
 
