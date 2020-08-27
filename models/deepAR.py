@@ -6,7 +6,7 @@ Todo: adding choice for single class and multiple class
 from data_process.util import init_metrics, get_metrics, update_metrics, final_metrics
 from tqdm import trange
 from data_process.util import deep_ar_loss_fn as loss_fn
-from data_process.util import plot_all_epoch, plot_eight_windows
+from data_process.util import plot_all_epoch, plot_eight_windows,plot_xfit
 from data_process.util import savebest_checkpoint, load_checkpoint, save_dict_to_json
 # import logging
 from torch.autograd import Variable
@@ -171,17 +171,23 @@ class Net(nn.Module):
         train_len = len(train_loader)
         ND_summary = np.zeros(self.params.num_epochs)
         loss_summary = np.zeros((train_len * self.params.num_epochs))
+        loss_avg = np.zeros((self.params.num_epochs))
+        vloss_avg = np.zeros_like(loss_avg)
+
         for epoch in trange(self.params.num_epochs):
             self.logger.info(
                 'Epoch {}/{}'.format(epoch + 1, self.params.num_epochs))
             # test_len = len(test_loader)
             # print(test_len)
             # loss_summary[epoch * train_len:(epoch + 1) * train_len] = train(model, optimizer, loss_fn, train_loader,  test_loader, self.params, epoch)
-            loss_summary[epoch * train_len:(epoch + 1) * train_len] = self.fit_epoch(
-                train_loader, epoch)
+            loss_epoch = self.fit_epoch(train_loader, epoch)
+            loss_summary[epoch * train_len:(epoch + 1) * train_len] = loss_epoch
             # todo
-            test_metrics = self.evaluate(
+            loss_avg[epoch] = loss_epoch.mean()
+            test_metrics, vloss_epoch_i = self.evaluate(
                 test_loader, epoch, sample=self.params.sampling)
+            vloss_avg[epoch] = vloss_epoch_i
+
             ND_summary[epoch] = test_metrics['ND']
             is_best = ND_summary[epoch] <= best_test_ND
 
@@ -203,14 +209,15 @@ class Net(nn.Module):
 
             self.logger.info('Current Best ND is: %.5f' % best_test_ND)
 
-            plot_all_epoch(
-                ND_summary[:epoch + 1], self.params.dataset + '_ND', self.params.plot_dir)
-            plot_all_epoch(loss_summary[:(
-                epoch + 1) * train_len], self.params.dataset + '_loss', self.params.plot_dir)
-
-            last_json_path = os.path.join(
-                self.params.model_dir, 'metrics_test_last_weights.json')
-            save_dict_to_json(test_metrics, last_json_path)
+            # plot_all_epoch(
+            #     ND_summary[:epoch + 1], self.params.dataset + '_ND', self.params.plot_dir)
+        
+        plot_all_epoch(loss_summary[:(
+            epoch + 1) * train_len], self.params.dataset + '_loss', self.params.plot_dir)
+        plot_xfit(loss_avg,vloss_avg,self.params.dataset + '_loss', self.params.plot_dir)
+            # last_json_path = os.path.join(
+            #     self.params.model_dir, 'metrics_test_last_weights.json')
+            # save_dict_to_json(test_metrics, last_json_path)
 
 
     def point_predict(self, x, using_best=True):
@@ -274,8 +281,13 @@ class Net(nn.Module):
             # id_batch ([batch_size]): one integer denoting the time series id;
             # v ([batch_size, 2]): scaling factor for each window;
             # labels ([batch_size, train_window]): z_{1:T}.
+            vloss_epoch = np.zeros(len(test_loader))
             for i, (x_batch, labels) in enumerate(test_loader):
                 x_batch, v_batch = self.get_v(x_batch)
+                label_batch = labels.detach().clone()
+                label_batch = label_batch/v_batch[:,0].reshape(-1,1)
+                label_batch = label_batch.permute(1, 0).to(
+                torch.float32).to(self.params.device)  # not scaled
 
                 x_batch = x_batch.permute(1, 0, 2).to(
                     torch.float32).to(self.params.device)
@@ -287,6 +299,7 @@ class Net(nn.Module):
                     batch_size, self.params.predict_start, device=self.params.device)  # scaled
                 input_sigma = torch.zeros(
                     batch_size, self.params.predict_start, device=self.params.device)  # scaled
+                vloss = torch.zeros(1, device=self.params.device)
                 hidden = self.init_hidden(batch_size)
                 cell = self.init_cell(batch_size)
 
@@ -297,11 +310,18 @@ class Net(nn.Module):
                         x_batch[t, zero_index, 0] = mu[zero_index]
 
                     mu, sigma, hidden, cell = self(
-                        x_batch[t].unsqueeze(0), hidden, cell)
+                        x_batch[t].unsqueeze(0).clone(), hidden, cell)
+
+                    vloss += loss_fn(mu,sigma,label_batch[t])
                     input_mu[:,t] = v_batch[:, 0] * mu + v_batch[:, 1]
                     input_sigma[:,t] = v_batch[:, 0] * sigma
                     # input_mu[:, t] = mu
                     # input_sigma[:, t] = sigma
+
+                vloss = vloss.item() / self.params.train_window
+                vloss_epoch[i] = vloss
+
+
 
                 if sample:
                     samples, sample_mu, sample_sigma = self.test(
@@ -360,7 +380,7 @@ class Net(nn.Module):
             metrics_string = '; '.join('{}: {:05.3f}'.format(
                 k, v) for k, v in summary_metric.items())
             self.logger.info('- Full test metrics: ' + metrics_string)
-        return summary_metric
+        return summary_metric, vloss_epoch.mean()
 
     def test(self, x, v_batch, hidden, cell, sampling=False):
         batch_size = x.shape[1]

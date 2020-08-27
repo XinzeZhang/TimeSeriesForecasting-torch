@@ -13,6 +13,8 @@ import os
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), os.path.pardir))
 
+from pathlib import Path
+
 
 matplotlib.use('Agg')
 #matplotlib.rcParams['savefig.dpi'] = 300 #Uncomment for higher plot resolutions
@@ -167,13 +169,13 @@ def deepAR_dataset(data, train=True, h=None, steps=None, sample_dense=True):
 def deepAR_weight(x_batch, steps):
     # x_batch ([batch_size, train_window, 1+cov_dim]): z_{0:T-1} + x_{1:T}, note that z_0 = 0;
     batch_size = x_batch.shape[0]
-    v_input= torch.zeros((batch_size, 2),dtype =torch.float32)
+    v_input= np.zeros((batch_size, 2),dtype ='float32')
     for i in range(batch_size):
         nonzero_sum = (x_batch[i, 1:steps, 0]!=0).sum()
         if nonzero_sum.item() == 0:
             v_input[i,0]=0
         else:
-            v_input[i,0]=torch.true_divide(x_batch[i, 1:steps, 0].sum(),nonzero_sum)+1
+            v_input[i,0]=np.true_divide(x_batch[i, 1:steps, 0].sum(),nonzero_sum)+1
             x_batch[i,:,0] = x_batch[i,:,0] / v_input[i,0]
         
     return x_batch, v_input
@@ -239,6 +241,9 @@ def set_logger(log_path, logger):
     Args:
         log_path: (string) where to log
     '''
+    log_file = Path(log_path)
+    log_file.touch(exist_ok=True)
+
     logger.setLevel(logging.INFO)
 
     fmt = logging.Formatter('[%(asctime)s] %(name)s: %(message)s', '%H:%M:%S')
@@ -598,3 +603,10 @@ def de_scale(params, scaler, pred):
     cat = np.concatenate((ones, pred),axis=1)
     pred = scaler.inverse_transform(cat)[:,-params.H:]
     return pred
+
+def os_makedirs(folder_path):
+    try:
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
+    except FileExistsError:
+        pass

@@ -51,31 +51,6 @@ parser.add_argument('--sampling', action='store_true', help='Whether to sample d
 parser.add_argument('--save-best', action='store_true', help='Whether to save best ND to param_search.txt')
 
 
-def pack_dataset(params):
-    ts = np.load('./data/paper/{}.npy'.format(params.dataset))
-    ts = ts.reshape(-1)
-
-    dataset_params_path = 'data/paper/lag_settings.json'
-    params.update(dataset_params_path)
-    
-    params.steps = params.datasets[dataset]['lag_order']
-
-    params.train_window = params.steps+params.H
-    params.test_window = params.train_window
-    params.predict_start = params.steps
-
-    params.predict_steps=params.H
-    # params.num_class = 1
-    params.cov_dim = 0
-
-    params.num_epochs = 30
-    params.model_name = '{}_h{}_deepAR'.format(params.dataset,params.H)
-    dataset = create_dataset(ts, look_back=params.steps + params.H - 1)
-    kf = KFold(n_splits=params.k)
-    kf.get_n_splits(dataset)
-
-    
-
 if __name__ == "__main__":
     args = parser.parse_args()
     json_path = os.path.join('models', 'deepAR.params.json')

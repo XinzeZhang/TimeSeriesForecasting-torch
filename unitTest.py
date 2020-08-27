@@ -7,12 +7,12 @@ import numpy as np
 
 # added for preprocessing
 import argparse
-from data_process.util import create_dataset,unpadding,scale_raw, Params, set_logger
+from data_process.util import create_dataset,unpadding,scale_raw, Params, set_logger,os_makedirs
 from data_process.util import deepAR_dataset,deepAR_weight,deepAR_WeightedSampler
 
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error
-from sklearn.model_selection import KFold
+
 from sklearn.model_selection import TimeSeriesSplit
 # import torch
 import logging
@@ -20,16 +20,9 @@ import logging
 # added for training
 import torch
 from torch.utils.data import DataLoader
-# from torch.utils.data import DataLoader, Dataset, Sampler
 from torch.utils.data.sampler import RandomSampler
 
 import models.deepAR as net
-from tqdm import tqdm
-# import matplotlib
-# matplotlib.use('Agg')
-# import matplotlib.pyplot as plt
-
-
 
 
 parser = argparse.ArgumentParser(
@@ -37,10 +30,10 @@ parser = argparse.ArgumentParser(
 parser.add_argument('-dataset', type=str, default='Brent')
 parser.add_argument('-H', type=int, default=6, metavar='N',
                     help='steps for prediction (default: 1)')
-parser.add_argument('-num_epochs', type=int, default=20, metavar='N',
+parser.add_argument('-num_epochs', type=int, default=30, metavar='N',
                     help='epochs for training (default: 20)')
-parser.add_argument('-k', type=int, default=5)
 
+parser.add_argument('-k', type=int, default=5)
 parser.add_argument('-sample-dense', action='store_true',default=True, help='Whether to continually sample the time series during preprocessing')
 parser.add_argument('-restore', action='store_true', help='Whether to restore the model state from the best.pth.tar')
 
@@ -61,7 +54,7 @@ def pack_dataset(args):
     dataset_params_path = 'data/paper/lag_settings.json'
     params.update(dataset_params_path)
     
-    params.steps = params.datasets[dataset]['lag_order']
+    params.steps = params.datasets[params.dataset]['lag_order']
 
     params.train_window = params.steps+params.H
     params.test_window = params.train_window
@@ -71,8 +64,7 @@ def pack_dataset(args):
     # params.num_class = 1
     params.cov_dim = 0
 
-    params.num_epochs = 30
-    params.model_name = '{}_h{}_deepAR'.format(params.dataset,params.H)
+    # params.num_epochs = 30
     dataset = create_dataset(ts, look_back=params.steps + params.H - 1)
     tscv = TimeSeriesSplit(n_splits=params.k-1)
     *lst, last = tscv.split(dataset)
@@ -97,22 +89,21 @@ def pack_dataset(args):
     valid_loader = DataLoader(valid_set, batch_size=valid_set.samples,
                             sampler=RandomSampler(valid_set), num_workers=4)
     
+    params.model_name = '{}_h{}_deepAR'.format(params.dataset,params.H)
+    params.model_dir = os.path.join('experiments', params.model_name)
+    params.plot_dir = os.path.join(params.model_dir, 'figures')
+    # create missing directories
+    os_makedirs(params.plot_dir)
+
     i=-1
+    params.cv = i
     logger = logging.getLogger('deepAR.cv{}'.format(i))
-    model_dir = os.path.join('experiments', params.model_name)
-    set_logger(os.path.join(model_dir, 'train.cv{}.log'.format(i)), logger)
+    set_logger(os.path.join(params.model_dir, 'train.cv{}.log'.format(i)), logger)
 
     logger.info('Loading the datasets for batch-training')
 
-    params.restore = False
-    params.model_dir = model_dir
-    params.plot_dir = os.path.join(model_dir, 'figures')
-    # create missing directories
-    try:
-        os.makedirs(params.plot_dir)
-    except FileExistsError:
-        pass
 
+    params.restore = False
     return params, logger, train_loader, valid_loader, test_input, test_target
 
 
@@ -137,7 +128,7 @@ if __name__ == "__main__":
     logger.info('Loading complete.')
     logger.info(f'Model: \n{str(model)}')
 
-    model.xfit(train_loader,valid_loader,restore_file=os.path.join(params.model_dir,'best.pth.tar'))
+    model.xfit(train_loader,valid_loader)
 
     # print(test_input.shape)
     pred = model.point_predict(test_input)
