@@ -158,22 +158,40 @@ def deepAR_dataset(data, train=True, h=None, steps=None, sample_dense=True):
 
         x_input[count, 1:, 0] = raw_data[window_start:window_end-1, 0]
         label[count, :] = raw_data[window_start:window_end, 0]
-        # nonzero_sum = (x_input[count, 1:input_size, 0]!=0).sum()
-        # if nonzero_sum == 0:
-        #     v_input[count, 0] = 0
-        # else:
-        #     # get the average values of the input observed values ( +1 means smoothing?)
-        #     v_input[count, 0] = np.true_divide(x_input[count, 1:input_size, 0].sum(),nonzero_sum)+1
-        #     # sample standardization
-        #     x_input[count, :, 0] = x_input[count, :, 0]/v_input[count, 0]
-        #     if train:
-        #         label[count, :] = label[count, :]/v_input[count, 0]# get the nonzero number of the input observed values
         
         count += 1
 
     packed_dataset = scaled_Dataset(x_data=x_input, label_data=label)
     return packed_dataset, x_input
 
+def deepAR_weight(x_batch, steps):
+    # x_batch ([batch_size, train_window, 1+cov_dim]): z_{0:T-1} + x_{1:T}, note that z_0 = 0;
+    batch_size = x_batch.shape[0]
+    v_input= torch.zeros((batch_size, 2),dtype =torch.float32)
+    for i in range(batch_size):
+        nonzero_sum = (x_batch[i, 1:steps, 0]!=0).sum()
+        if nonzero_sum.item() == 0:
+            v_input[i,0]=0
+        else:
+            v_input[i,0]=torch.true_divide(x_batch[i, 1:steps, 0].sum(),nonzero_sum)+1
+            x_batch[i,:,0] = x_batch[i,:,0] / v_input[i,0]
+        
+    return x_batch, v_input
+
+class deepAR_WeightedSampler(Sampler):
+    def __init__(self, v_input, replacement=True):
+        v = v_input.copy()
+        self.weights = torch.as_tensor(np.abs(v[:,0])/np.sum(np.abs(v[:,0])), dtype=torch.double)
+        # logger.info(f'weights: {self.weights}')
+        self.num_samples = self.weights.shape[0]
+        # logger.info(f'num samples: {self.num_samples}')
+        self.replacement = replacement
+
+    def __iter__(self):
+        return iter(torch.multinomial(self.weights, self.num_samples, self.replacement).tolist())
+
+    def __len__(self):
+        return self.num_samples
 
 class Params:
     '''Class that loads hyperparameters from a json file.

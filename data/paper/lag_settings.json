@@ -1,0 +1,10 @@
+{
+    "datasets": {
+        "AR1": {
+            "lag_order": 15
+        },
+        "CrudeOilPrice.wti": {
+            "lag_order": 40
+        }
+    }
+}
