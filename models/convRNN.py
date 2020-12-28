@@ -1,12 +1,13 @@
-from data_process.util import savebest_checkpoint, load_checkpoint,plot_all_epoch,plot_xfit
+import os
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), os.path.pardir))
+
+from data_process.util import savebest_checkpoint, load_checkpoint,plot_all_epoch,plot_xfit, os_makedirs
 from sklearn.metrics import mean_squared_error
 import numpy as np
 from tqdm import trange
 import torch.nn as nn
 import torch
-import os
-import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), os.path.pardir))
 
 
 
@@ -61,9 +62,20 @@ class ConvRNN(nn.Module):
             self.optimizer, params.step_lr, gamma=0.9)
         self.loss_fn = nn.MSELoss()
 
+        self.num_epochs = self.params.num_epochs
+
+        self.params.plot_dir = os.path.join(params.model_dir, 'figures')
+        # create missing directories
+        os_makedirs(self.params.plot_dir)
+
+        if self.params.device == torch.device('cpu'):
+            self.logger.info('Not using cuda...')
+        else:
+            self.logger.info('Using Cuda...')
+            self.to(self.params.device)
 
     def forward(self, x):
-        x = x.permute(0, 2, 1)
+        # x = x.permute(0, 2, 1)
         # line1
         y1 = self.zp11(x)
         y1 = torch.relu(self.conv11(y1))
@@ -102,13 +114,14 @@ class ConvRNN(nn.Module):
 
         min_vmse = 9999
         train_len = len(train_loader)
-        loss_summary = np.zeros((train_len * self.params.num_epochs))
-        loss_avg = np.zeros((self.params.num_epochs))
+        loss_summary = np.zeros((train_len * self.num_epochs))
+        loss_avg = np.zeros((self.num_epochs))
         vloss_avg = np.zeros_like(loss_avg)
 
-        for epoch in trange(self.params.num_epochs):
+        epoch = 0
+        for epoch in trange(self.num_epochs):
             self.logger.info(
-                'Epoch {}/{}'.format(epoch + 1, self.params.num_epochs))
+                'Epoch {}/{}'.format(epoch + 1, self.num_epochs))
             mse_train = 0
             loss_epoch = np.zeros(train_len)
             for i, (batch_x, batch_y) in enumerate(train_loader):
@@ -116,7 +129,7 @@ class ConvRNN(nn.Module):
                 batch_y = batch_y.to(torch.float32).to(self.params.device)
                 self.optimizer.zero_grad()
                 y_pred = self(batch_x)
-                y_pred = y_pred.squeeze(1)
+                # y_pred = y_pred.squeeze(1)
                 loss = self.loss_fn(y_pred, batch_y)
                 loss.backward()
                 mse_train += loss.item()
@@ -136,7 +149,7 @@ class ConvRNN(nn.Module):
                     batch_x = batch_x.to(torch.float32).to(self.params.device)
                     batch_y = batch_y.to(torch.float32).to(self.params.device)
                     output = self(batch_x)
-                    output = output.squeeze(1)
+                    # output = output.squeeze(1)
                     preds.append(output.detach().cpu().numpy())
                     true.append(batch_y.detach().cpu().numpy())
                     mse_val += self.loss_fn(output,
@@ -173,14 +186,14 @@ class ConvRNN(nn.Module):
         return: (numpy.narray) shape: [sample, prediction-len]
         '''
         # test_batch: shape: [full-len, sample, dim]
-        best_pth = os.path.join(self.params.model_dir, 'best.pth.tar')
+        best_pth = os.path.join(self.params.model_dir, 'best.cv{}.pth.tar'.format(self.params.cv))
         if os.path.exists(best_pth) and using_best:
             self.logger.info('Restoring best parameters from {}'.format(best_pth))
             load_checkpoint(best_pth, self, self.optimizer)
 
         x = torch.tensor(x).to(torch.float32).to(self.params.device)
         output = self(x)
-        output = output.squeeze(1)
+        # output = output.squeeze(1)
         pred = output.detach().cpu().numpy()
 
         return pred

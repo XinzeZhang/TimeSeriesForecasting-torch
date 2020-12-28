@@ -1,5 +1,9 @@
+import os
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), os.path.pardir))
 import math
 from torch.utils.data import DataLoader, Dataset, Sampler
+from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import MinMaxScaler
 import matplotlib.pyplot as plt
 import matplotlib
@@ -9,11 +13,9 @@ import torch
 import shutil
 import logging
 import json
-import os
-import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), os.path.pardir))
 
 from pathlib import Path
+import shutil
 
 
 matplotlib.use('Agg')
@@ -164,7 +166,7 @@ def deepAR_dataset(data, train=True, h=None, steps=None, sample_dense=True):
         count += 1
 
     packed_dataset = scaled_Dataset(x_data=x_input, label_data=label)
-    return packed_dataset, x_input
+    return packed_dataset, x_input, label
 
 def deepAR_weight(x_batch, steps):
     # x_batch ([batch_size, train_window, 1+cov_dim]): z_{0:T-1} + x_{1:T}, note that z_0 = 0;
@@ -203,12 +205,19 @@ class Params:
     params.learning_rate = 0.5  # change the value of learning_rate in params
     '''
 
-    def __init__(self, json_path, zero_start = False):
+    def __init__(self, json_path, zero_start = False, cuda=True):
         if not zero_start:
             with open(json_path) as f:
                 params = json.load(f)
                 assert os.path.isfile(json_path), f'No json configuration file found at {json_path}'
                 self.__dict__.update(params)
+
+        if cuda:
+            cuda_exist = torch.cuda.is_available()
+            if cuda_exist:
+                self.dict['device'] = torch.device('cuda')
+            else:
+                self.dict['device'] = torch.device('cpu')
 
     def save(self, json_path):
         with open(json_path, 'w') as f:
@@ -226,6 +235,21 @@ class Params:
             if not key in self.dict:
                 self.dict[key] = new[key]
 
+    def scaler(self, ):
+        self.dict['experiment'] = 'experiments' if self.dict['test'] == False else 'test'
+
+        if self.dict['normal']:
+            self.dict['experiment'] = os.path.join(self.dict['experiment'], 'normal')
+            self.dict['scaler'] = StandardScaler()
+        else:
+            self.dict['experiment'] = os.path.join(self.dict['experiment'], 'minmax')
+            self.dict['scaler'] = MinMaxScaler(feature_range=(-1, 1))
+        if self.dict['diff']:
+            self.dict['experiment'] += '_diff'
+        
+        self.dict['experiment'] = os.path.join(self.dict['experiment'], self.dict['dataset'])
+
+
     @property
     def dict(self):
         '''Gives dict-like access to Params instance by params.dict['learning_rate']'''
@@ -241,12 +265,16 @@ def set_logger(log_path, logger):
     Args:
         log_path: (string) where to log
     '''
+    if os.path.exists(log_path):
+        os.remove(log_path)
     log_file = Path(log_path)
+    log_folder = log_file.parent
+    os_makedirs(log_folder)
     log_file.touch(exist_ok=True)
 
     logger.setLevel(logging.INFO)
 
-    fmt = logging.Formatter('[%(asctime)s] %(name)s: %(message)s', '%H:%M:%S')
+    fmt = logging.Formatter('[%(asctime)s] %(name)s: %(message)s', '%Y-%m-%d %H:%M:%S')
 
     class TqdmHandler(logging.StreamHandler):
         def __init__(self, formatter):
@@ -323,7 +351,9 @@ def load_checkpoint(checkpoint, model, optimizer=None):
         optimizer.load_state_dict(checkpoint['optim_dict'])
 
     if 'epoch' in checkpoint:
-        model.params.num_epochs -= checkpoint['epoch'] + 1
+        model.num_epochs -= checkpoint['epoch'] + 1
+        if model.num_epochs < 0:
+            model.num_epochs = 0
 
     return checkpoint
 
@@ -355,6 +385,50 @@ def plot_xfit(tloss,vloss, save_name, location='./figures/'):
     plt.plot(x, tloss[:num_samples], label='Training')
     plt.plot(x, vloss[:num_samples], label='Validation')
     f.savefig(os.path.join(location, save_name + '_xfit.png'))
+    plt.close()
+
+
+def plot_eight_windows(plot_dir,
+                       predict_values,
+                       predict_sigma,
+                       labels,
+                       window_size,
+                       predict_start,
+                       plot_num,
+                       plot_metrics,
+                       sampling=False):
+
+    x = np.arange(window_size)
+    f = plt.figure(figsize=(8, 42), constrained_layout=True)
+    nrows = 21
+    ncols = 1
+    ax = f.subplots(nrows, ncols)
+
+    for k in range(nrows):
+        if k == 10:
+            ax[k].plot(x, x, color='g')
+            ax[k].plot(x, x[::-1], color='g')
+            ax[k].set_title('This separates top 10 and bottom 90', fontsize=10)
+            continue
+        m = k if k < 10 else k - 1
+        ax[k].plot(x, predict_values[m], color='b')
+        ax[k].fill_between(x[predict_start:], predict_values[m, predict_start:] - 2 * predict_sigma[m, predict_start:],
+                           predict_values[m, predict_start:] + 2 * predict_sigma[m, predict_start:], color='blue',
+                           alpha=0.2)
+        ax[k].plot(x, labels[m, :], color='r')
+        ax[k].axvline(predict_start, color='g', linestyle='dashed')
+
+        #metrics = utils.final_metrics_({_k: [_i[k] for _i in _v] for _k, _v in plot_metrics.items()})
+
+        plot_metrics_str = f'ND: {plot_metrics["ND"][m]: .3f} ' \
+            f'RMSE: {plot_metrics["RMSE"][m]: .3f}'
+        if sampling:
+            plot_metrics_str += f' rou90: {plot_metrics["rou90"][m]: .3f} ' \
+                                f'rou50: {plot_metrics["rou50"][m]: .3f}'
+
+        ax[k].set_title(plot_metrics_str, fontsize=10)
+
+    f.savefig(os.path.join(plot_dir, str(plot_num) + '.png'))
     plt.close()
 
 def init_metrics(sample=True):
@@ -538,50 +612,6 @@ def accuracy_ROU_(rou: float, samples: torch.Tensor, labels: torch.Tensor, relat
     return result
 
 
-def plot_eight_windows(plot_dir,
-                       predict_values,
-                       predict_sigma,
-                       labels,
-                       window_size,
-                       predict_start,
-                       plot_num,
-                       plot_metrics,
-                       sampling=False):
-
-    x = np.arange(window_size)
-    f = plt.figure(figsize=(8, 42), constrained_layout=True)
-    nrows = 21
-    ncols = 1
-    ax = f.subplots(nrows, ncols)
-
-    for k in range(nrows):
-        if k == 10:
-            ax[k].plot(x, x, color='g')
-            ax[k].plot(x, x[::-1], color='g')
-            ax[k].set_title('This separates top 10 and bottom 90', fontsize=10)
-            continue
-        m = k if k < 10 else k - 1
-        ax[k].plot(x, predict_values[m], color='b')
-        ax[k].fill_between(x[predict_start:], predict_values[m, predict_start:] - 2 * predict_sigma[m, predict_start:],
-                           predict_values[m, predict_start:] + 2 * predict_sigma[m, predict_start:], color='blue',
-                           alpha=0.2)
-        ax[k].plot(x, labels[m, :], color='r')
-        ax[k].axvline(predict_start, color='g', linestyle='dashed')
-
-        #metrics = utils.final_metrics_({_k: [_i[k] for _i in _v] for _k, _v in plot_metrics.items()})
-
-        plot_metrics_str = f'ND: {plot_metrics["ND"][m]: .3f} ' \
-            f'RMSE: {plot_metrics["RMSE"][m]: .3f}'
-        if sampling:
-            plot_metrics_str += f' rou90: {plot_metrics["rou90"][m]: .3f} ' \
-                                f'rou50: {plot_metrics["rou50"][m]: .3f}'
-
-        ax[k].set_title(plot_metrics_str, fontsize=10)
-
-    f.savefig(os.path.join(plot_dir, str(plot_num) + '.png'))
-    plt.close()
-
-
 def deep_ar_loss_fn(mu: torch.Tensor, sigma: torch.Tensor, labels: torch.Tensor):
     '''
     Compute using gaussian the log-likehood which needs to be maximized. Ignore time steps where labels are missing.
@@ -598,15 +628,24 @@ def deep_ar_loss_fn(mu: torch.Tensor, sigma: torch.Tensor, labels: torch.Tensor)
     likelihood = distribution.log_prob(labels[zero_index])
     return -torch.mean(likelihood)
 
-def de_scale(params, scaler, pred):
-    ones= np.ones((pred.shape[0], params.steps))
-    cat = np.concatenate((ones, pred),axis=1)
-    pred = scaler.inverse_transform(cat)[:,-params.H:]
-    return pred
+def de_scale(params, pred):
+    _pred = pred.copy()
+    ones= np.ones((_pred.shape[0], params.steps))
+    cat = np.concatenate((ones, _pred),axis=1)
+    _pred = params.scaler.inverse_transform(cat)[:,-params.H:]
+    return _pred
 
 def os_makedirs(folder_path):
     try:
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
+    except FileExistsError:
+        pass
+
+def os_rmdirs(folder_path):
+    try:
+        dirPath = Path(folder_path)
+        if dirPath.exists() and dirPath.is_dir():
+            shutil.rmtree(dirPath)
     except FileExistsError:
         pass

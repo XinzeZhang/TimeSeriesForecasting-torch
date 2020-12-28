@@ -1,12 +1,49 @@
+import os
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), os.path.pardir))
+
 from sklearn.linear_model import Ridge
 from sklearn.metrics import mean_squared_error
+
 import numpy as np
-import time
 import torch.nn as nn
 import torch
 
+from data_process.util import os_makedirs, os_rmdirs
+from data_process.util import plot_xfit, savebest_checkpoint
 
-from data_process._data_process import timeSince,plot_loss,plot_train
+from tqdm import trange
+
+import gc
+
+def load_checkpoint(checkpoint, model):
+    if not os.path.exists(checkpoint):
+        raise FileNotFoundError(f"File doesn't exist {checkpoint}")
+
+    if model.params.device == torch.device('cpu'):
+        checkpoint = torch.load(checkpoint, map_location='cpu')
+    else:
+        checkpoint = torch.load(checkpoint, map_location='cuda')
+
+    model.hidden_size = checkpoint['hidden_size']
+    model.best_hidden_size = checkpoint['best_hidden_size']
+    model.weight_IH = checkpoint['weight_IH']
+    model.bias_IH = checkpoint['bias_IH']
+    model.weight_HO = checkpoint['weight_HO']
+    model.best_HO = checkpoint['best_HO']
+    model.loss_list = checkpoint['loss_list']
+    model.vloss_list = checkpoint['vloss_list']
+
+def save_checkpoint(state, checkpoint):
+    '''Saves model and training parameters at checkpoint + 'last.pth.tar'. If
+    Args:
+        state: (dict) contains model's state_dict, may contain other keys such as epoch, optimizer state_dict
+        checkpoint: (string) folder where parameters are to be saved
+    '''
+    filepath = os.path.join(
+        checkpoint, 'train.cv{}.pth.tar'.format(state['cv']))
+    torch.save(state, filepath)
+
 
 def initWeight(input_dim, hidden_size=1, grad=False):
     result = torch.empty(input_dim, hidden_size).float()
@@ -28,32 +65,52 @@ def initBiases(hidden_size=1, grad=False):
 # ---------------
 
 
-class scnModel():
+class scnModel(nn.Module):
     '''
     Stochastic Configuration Networks
     '''
 
-    def __init__(self, Input_dim, Output_dim=1, Hidden_size=100, Candidate_size=100, Ridge_alpha = 0.1,print_interval=50, plot_interval=1, plot_=False):
+    def __init__(self,params=None, logger=None):
+        self.params = params
+        self.logger = logger
+        for (arg, value) in params.dict.items():
+            self.logger.info("Argument %s: %r", arg, value)
+
         super(scnModel, self).__init__()
-        self.input_dim = Input_dim
-        self.output_dim = Output_dim
-        self.candidate_size = Candidate_size
-        self.hidden_size = Hidden_size
-        self.Lambdas = [0.5, 1, 5, 10, 30, 50, 100, 150, 200, 250]
-        self.r = [0.9, 0.99, 0.999, 0.9999, 0.99999, 0.999999]
-        self.tolerance = 0.001
-        self.loss = 10
-        self.weight_IH = initWeight(self.input_dim, 1)
-        self.bias_IH = initBiases()
+        self.input_dim = params.steps
+        self.output_dim = params.H
+        self.candidate_size = params.candidate_size
+        self.hidden_size = params.hidden_size
+        self.best_hidden_size = 1
+        self.Lambdas = params.Lambdas
+        self.r = params.r
+        self.tolerance = params.tolerance
+
+
+        with torch.no_grad():
+            self.weight_IH = initWeight(self.input_dim, 1).to(self.params.device)
+            self.bias_IH = initBiases().to(self.params.device)
         self.weight_HO = None
         self.weight_candidates = None
         self.bias_candidates = None
-        self.ridge_alpha = Ridge_alpha
-        self.regressor = Ridge(alpha=self.ridge_alpha)
+        # self.ridge_alpha = 0.1
+        # self.regressor = Ridge(alpha=self.ridge_alpha)
+        # self.best_regressor = Ridge(alpha=self.ridge_alpha)
 
-        self.Print_interval = print_interval
-        self.Plot_interval = plot_interval
-        self.plot_ = plot_
+
+        self.loss_list = []
+        self.vloss_list = []
+        self.params.plot_dir = os.path.join(params.model_dir, 'figures')
+        # create missing directories
+        os_makedirs(self.params.plot_dir)
+
+        if self.params.device == torch.device('cpu'):
+            self.logger.info('Not using cuda...')
+        else:
+            self.logger.info('Using Cuda...')
+            self.to(self.params.device)
+
+        self.loss_fn = nn.MSELoss()
 
     def construct(self, epoch, input, target, error):
         self.find = False
@@ -62,12 +119,13 @@ class scnModel():
 
         for Lambda in self.Lambdas:
             self.weight_candidates = torch.empty(
-                self.input_dim, self.candidate_size).uniform_(-Lambda, Lambda).float()
+                self.input_dim, self.candidate_size).uniform_(-Lambda, Lambda).float().to(self.params.device)
             self.bias_candidates = torch.empty(
-                1, self.candidate_size).uniform_(-Lambda, Lambda).float()
+                1, self.candidate_size).uniform_(-Lambda, Lambda).float().to(self.params.device)
 
             temp1_array = []
             temp2_array = []
+            scores = torch.zeros(self.candidate_size, len(self.r)).to(self.params.device)
 
             # shape: (N, candidate_size)
             candidates_state = input.mm(
@@ -79,28 +137,36 @@ class scnModel():
                 c_idx = torch.reshape(
                     c_idx, (candidates_state.data.size(0), 1))  # shape :(N,1)
 
+                left_vector = torch.zeros(self.error_dim)
+                right_vector = torch.zeros(self.error_dim)
+
                 for dim in range(self.error_dim):
-                    e_dim = error[:, dim]
-                    e_dim = torch.reshape(
-                        e_dim, (error.data.size(0), 1))  # shape : (N, 1)
+                    e_dim = error[:, dim].reshape(-1, 1)
 
-                    temp1 = torch.pow(torch.mm(e_dim.t(), c_idx),
-                                      2) / torch.mm(c_idx.t(), c_idx)
-                    temp2 = torch.mm(e_dim.t(), e_dim)
-                    temp1_array.append(temp1)
-                    temp2_array.append(temp2)
+                    left_vector[dim] = (torch.pow(torch.mm(e_dim.t(), c_idx),
+                                      2) / torch.mm(c_idx.t(), c_idx))[0]
+                    right_vector[dim]= torch.mm(e_dim.t(), e_dim)[0,0]
 
-            for r_l in self.r:
-                criteria_max = -0.1
-                for idx in range(self.candidate_size):
-                    criteria = temp1_array[idx] - \
-                        (1-r_l) * temp2_array[idx]*epoch/(epoch+1)
-                    criteria = criteria.data.numpy()
-                    if criteria >= 0 and criteria > criteria_max:
-                        criteria_max = criteria
-                        self.best_idx = idx
-                        self.find = True
-                if self.find:
+
+                    for i, r_l in enumerate(self.r):
+                        scores[idx, i] += left_vector[dim] - (1-r_l) * right_vector[dim]
+            
+            # max_idx = torch.argmax(scores)
+            # max_idx = np.unravel_index(max_idx.cpu(), scores.shape)
+            # best_c_idx = max_idx[0]
+            # best_r_idx = max_idx[1]
+            # best_r = r[best_r_idx]
+            # best_score = scores[best_c_idx, best_r_idx]
+            for i, r_l in enumerate(self.r):
+                score_r = scores[:, i]
+                if score_r.max() > 0:
+                    best_c_idx = torch.argmax(score_r)
+                    best_r = r_l
+                    best_score = score_r.max()
+                    
+                    self.find = True
+                    self.best_idx = best_c_idx
+                    # self.best_r = best_r
                     break
 
             if self.find:
@@ -122,11 +188,14 @@ class scnModel():
     def forward(self, input):
         H_state = torch.mm(input, self.weight_IH) + self.bias_IH
         H_state = torch.sigmoid(H_state)
-        H_state = H_state.data.numpy()
-
         return H_state
 
-    def fit(self, input, target, save_road='./Results/'):
+    def solve_output(self, feature, target):
+        output_w, _ = torch.lstsq(target, feature)
+        output_w = output_w[0:feature.size(1)].to(self.params.device)
+        return output_w
+
+    def xfit(self, train_loader, val_loader):
         """fit the data to scn
         
         Parameters
@@ -140,61 +209,77 @@ class scnModel():
         -------
         self : returns an instance of self.
         """
-        fit_error = target.clone().detach()
-        epoch = 1
-        # Initialize timer
-        time_tr_start = time.time()
-        if self.plot_ == True:
-            plot_losses = []
-        train_print_loss_total = 0  # Reset every print_every
-        train_plot_loss_total = 0  # Reset every plot_every
+        with torch.no_grad():
+            min_vmse = 9999
+            train_x, train_y = None, None
+            for batch_x, batch_y in train_loader:
+                batch_x = batch_x.to(torch.float32).to(self.params.device)
+                batch_y = batch_y.to(torch.float32).to(self.params.device)
+                train_x, train_y = batch_x.detach().clone(), batch_y.detach().clone()
 
-        while (epoch<=self.hidden_size) and (self.loss > self.tolerance):
+            val_x, val_y = None, None
+            for batch_x, batch_y in val_loader:
+                batch_x = batch_x.to(torch.float32).to(self.params.device)
+                batch_y = batch_y.to(torch.float32).to(self.params.device)
+                val_x, val_y = batch_x.detach().clone(), batch_y.detach().clone()
+            
 
-            if epoch >= 2:
-                if self.construct(epoch, input, target, fit_error) == False:
-                    # once construct, hidden neurons add one
-                    break
 
-            H_state = self.forward(input)
+            fit_error = train_y.clone().detach()
 
-            # solve the linear problem  H_state * Weight_HO = Output by ridge regression
-            self.regressor.fit(H_state, target.data.numpy())
-            pred = self.regressor.predict(H_state)
-            # solve the linear problem: H_state * Weight_HO = Output by least square
-            # self.weight_HO, LU = torch.gesv(target,H_state) 
-            # pred = torch.mm(H_state, self.weight_HO)
-            # pred = pred.data.numpy()
+            for epoch in trange(1, self.hidden_size+1):
+                if epoch >= 2:
+                    if self.construct(epoch, train_x, train_y, fit_error) == False:
+                        # once construct, hidden neurons add one
+                        break
 
-            self.loss = mean_squared_error(target.data.numpy(), pred)
+                H_state = self.forward(train_x)
+                # solve the linear problem  H_state * Weight_HO = Output by ridge regression
+                self.weight_HO = self.solve_output(H_state, train_y)
+                # self.weight_HO, _ = torch.lstsq(train_y, H_state)
+                pred = H_state.mm(self.weight_HO)
+                fit_error = train_y - pred
+                # solve the linear problem: H_state * Weight_HO = Output by least square
+                # self.weight_HO, LU = torch.gesv(target,H_state) 
+                # pred = torch.mm(H_state, self.weight_HO)
+                # pred = pred.data.numpy()
 
-            training_rmse = np.sqrt(self.loss)
-            if self.plot_ == True:
-                train_plot_loss_total += training_rmse
-            train_print_loss_total += training_rmse
+                loss = self.loss_fn(pred, train_y).item()
+                self.loss_list.append(loss)
 
-            fit_error = torch.from_numpy(pred).float() - target
+                v_state = self.forward(val_x)
+                vpred= v_state.mm(self.weight_HO)
+                vloss = self.loss_fn(vpred, val_y).item()
+                self.vloss_list.append(vloss)
+                self.logger.info('Hidden size: {} \t \nTraining MSE: {:.8f} \t Validating MSE: {:.8f} \t Best VMSE: {:.8f}'.format(
+                    self.weight_IH.data.size(1), loss, vloss, min_vmse))
 
-            if epoch % self.Print_interval == 0:
-                print_loss_avg = train_print_loss_total / self.Print_interval
-                train_print_loss_total = 0
-                print('%s (%d %d%%) ' % (timeSince(time_tr_start, epoch / self.hidden_size),
-                                             epoch, epoch / self.hidden_size * 100))
-                print('Training RMSE:  \t %.3e' % (print_loss_avg))
-            if self.plot_ == True:
-                if epoch % self.Plot_interval == 0:
-                    plot_loss_avg = train_plot_loss_total / self.Plot_interval
-                    plot_losses.append(plot_loss_avg)
-                    train_plot_loss_total = 0
+                if vloss < min_vmse:
+                    min_vmse = vloss
+                    self.best_hidden_size = self.weight_IH.data.size(1)
+                    self.best_HO = self.weight_HO.detach().clone()
+                    self.logger.info('Found new best state')
+                    self.logger.info('Best vmse: {:.4f}'.format(min_vmse))
 
-            epoch = epoch+1
-        if self.plot_ == True:
-            plot_loss(plot_losses, Fig_name=save_road+'Loss_'+"SCN" + '_H' + str(self.hidden_size) +'_C' + str(self.candidate_size))
-        print('\n------------------------------------------------')
-        print('SCN Model finished fitting')
-        print('------------------------------------------------')
+                save_checkpoint({
+                    'hidden_size': self.weight_IH.data.size(1),
+                    'best_hidden_size': self.best_hidden_size,
+                    'best_HO': self.best_HO,
+                    'cv': self.params.cv,
+                    'weight_IH': self.weight_IH,
+                    'bias_IH': self.bias_IH,
+                    'weight_HO': self.weight_HO,
+                    'loss_list': self.loss_list,
+                    'vloss_list': self.vloss_list}, checkpoint=self.params.model_dir)
+                self.logger.info(
+                    'Checkpoint saved to {}'.format(self.params.model_dir))
+                gc.collect()
 
-    def predict(self, input):
+        plot_xfit(np.array(self.loss_list), np.array(self.vloss_list),
+                    '{}_cv{}_loss'.format(self.params.dataset, self.params.cv), self.params.plot_dir)
+
+
+    def predict(self, input, using_best = True):
         """Predict the output by SCN
         
         Parameters
@@ -206,6 +291,18 @@ class scnModel():
         -------
         output : numpy array-like shape, (n_samples, Output_dim).
         """
-        H_state = self.forward(input)
-        pred = self.regressor.predict(H_state)
-        return pred
+        best_pth = os.path.join(self.params.model_dir,
+                                'train.cv{}.pth.tar'.format(self.params.cv))
+        if os.path.exists(best_pth):
+            self.logger.info(
+                'Restoring best parameters from {}'.format(best_pth))
+            load_checkpoint(best_pth, self)
+        if using_best:
+            self.weight_IH = self.weight_IH[:,:self.best_hidden_size].reshape(-1, self.best_hidden_size)
+            self.bias_IH = self.bias_IH[:, :self.best_hidden_size].reshape(-1, self.best_hidden_size)
+            self.weight_HO = self.best_HO.detach().clone()
+        with torch.no_grad():
+            input = torch.tensor(input).float().to(self.params.device)
+            H_state = self.forward(input)
+            pred = H_state.mm(self.weight_HO)
+        return pred.cpu().numpy()

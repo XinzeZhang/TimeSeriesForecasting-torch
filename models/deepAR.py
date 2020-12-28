@@ -6,7 +6,7 @@ Todo: adding choice for single class and multiple class
 from data_process.util import init_metrics, get_metrics, update_metrics, final_metrics
 from tqdm import trange
 from data_process.util import deep_ar_loss_fn as loss_fn
-from data_process.util import plot_all_epoch, plot_eight_windows,plot_xfit
+from data_process.util import plot_all_epoch, plot_eight_windows,plot_xfit, os_makedirs
 from data_process.util import savebest_checkpoint, load_checkpoint, save_dict_to_json
 # import logging
 from torch.autograd import Variable
@@ -27,13 +27,13 @@ sys.path.append(os.path.join(os.path.dirname(__file__), os.path.pardir))
 # logger = logging.getLogger('DeepAR.Net')
 
 
-class Net(nn.Module):
+class DeepAR(nn.Module):
     def __init__(self, params, logger):
         '''
         We define a recurrent network that predicts the future values of a time-dependent variable based on
         past inputs and covariates.
         '''
-        super(Net, self).__init__()
+        super(DeepAR, self).__init__()
         self.params = params
         self.logger = logger
 
@@ -67,6 +67,20 @@ class Net(nn.Module):
             params.lstm_hidden_dim * params.lstm_layers, 1)
         self.distribution_sigma = nn.Softplus()
         self.optimizer = optim.Adam(self.parameters(), lr=params.learning_rate)
+        self.epoch_scheduler = torch.optim.lr_scheduler.StepLR(
+            self.optimizer, params.step_lr, gamma=0.9)
+
+        self.num_epochs = self.params.num_epochs
+
+        self.params.plot_dir = os.path.join(params.model_dir, 'figures')
+        # create missing directories
+        os_makedirs(self.params.plot_dir)
+
+        if self.params.device == torch.device('cpu'):
+            self.logger.info('Not using cuda...')
+        else:
+            self.logger.info('Using Cuda...')
+            self.to(self.params.device)
 
     def forward(self, x, hidden, cell):
         '''
@@ -158,6 +172,7 @@ class Net(nn.Module):
             # if i == 0:
             #     self.logger.info(f'train_loss: {loss}')
 
+        self.epoch_scheduler.step()
         self.logger.info(f'train_loss: {loss}')
         return loss_epoch
 
@@ -169,14 +184,15 @@ class Net(nn.Module):
 
         best_test_ND = float('inf')
         train_len = len(train_loader)
-        ND_summary = np.zeros(self.params.num_epochs)
-        loss_summary = np.zeros((train_len * self.params.num_epochs))
-        loss_avg = np.zeros((self.params.num_epochs))
+        ND_summary = np.zeros(self.num_epochs)
+        loss_summary = np.zeros((train_len * self.num_epochs))
+        loss_avg = np.zeros((self.num_epochs))
         vloss_avg = np.zeros_like(loss_avg)
 
-        for epoch in trange(self.params.num_epochs):
+        epoch = 0
+        for epoch in trange(self.num_epochs):
             self.logger.info(
-                'Epoch {}/{}'.format(epoch + 1, self.params.num_epochs))
+                'Epoch {}/{}'.format(epoch + 1, self.num_epochs))
             # test_len = len(test_loader)
             # print(test_len)
             # loss_summary[epoch * train_len:(epoch + 1) * train_len] = train(model, optimizer, loss_fn, train_loader,  test_loader, self.params, epoch)
@@ -227,7 +243,7 @@ class Net(nn.Module):
         Todo: adding choice for single class and multiple class
         '''
         # x_batch: shape: [full-len, sample, dim]
-        best_pth = os.path.join(self.params.model_dir, 'best.pth.tar')
+        best_pth = os.path.join(self.params.model_dir, 'best.cv{}.pth.tar'.format(self.params.cv))
         if os.path.exists(best_pth) and using_best:
             self.logger.info(
                 'Restoring best parameters from {}'.format(best_pth))
@@ -263,11 +279,13 @@ class Net(nn.Module):
             mu_de, sigma_de, hidden, cell = self(
                 x_batch[self.params.predict_start + t].unsqueeze(0), hidden, cell)
             prediction[:, t] = mu_de * v_batch[:, 0] + v_batch[:, 1]
+            if t < (self.params.predict_steps - 1):
+                x_batch[self.params.predict_start + t + 1, :, 0] = mu_de
 
         return prediction.cpu().detach().numpy()
 
 
-    def evaluate(self, test_loader, plot_num, sample=True):
+    def evaluate(self, test_loader, plot_num, sample=True, plot = False):
         self.eval()
         with torch.no_grad():
             # plot_batch = np.random.randint(len(test_loader)-1)
@@ -334,7 +352,7 @@ class Net(nn.Module):
                     raw_metrics = update_metrics(raw_metrics, input_mu, input_sigma, sample_mu,
                                                  labels, self.params.predict_start, relative=self.params.relative_metrics)
 
-                if i == plot_batch:
+                if i == plot_batch and plot:
                     if sample:
                         sample_metrics = get_metrics(
                             sample_mu, labels, self.params.predict_start, samples, relative=self.params.relative_metrics)

@@ -1,9 +1,10 @@
 {
-    "learning_rate": 1e-3,
     "batch_size": 64,
     "lstm_layers": 3,
     "lstm_hidden_dim": 40,
-    "lstm_dropout": 0.1,
     "sample_times": 200,
-    "embedding_dim": 20
+    "embedding_dim": 20,
+    "lstm_dropout": 0.1,
+    "learning_rate": 1e-3,
+    "step_lr": 20
 }

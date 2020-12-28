@@ -1,138 +1,147 @@
-import logging
-from tqdm import tqdm
-from data_process.util import create_dataset, Params, de_scale, scaled_Dataset, set_logger
-import argparse
+import os
+import numpy as np
+
+# added for preprocessing
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
+
+from data_process.util import Params, set_logger, os_rmdirs
+from data_process.metric import rmse, mape, smape
+from data_process.dataset import de_scale, scaled_Dataset, inverse_diff, cnn_dataset, get_dataset
+from data_process.parser import get_parser
+
+from sklearn.model_selection import TimeSeriesSplit
+
 import torch
 from torch.utils.data import DataLoader
 from torch.utils.data.sampler import RandomSampler
 from models.CNN import CNN
 
-from numpy import concatenate, atleast_2d
-import numpy as np
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.metrics import mean_squared_error
-from sklearn.model_selection import KFold
-import os
-os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
+import logging
 
 
-parser = argparse.ArgumentParser(
-    description='Time Series Forecasting')
-parser.add_argument('-step', type=int, default=1, metavar='N',
-                    help='steps for prediction (default: 1)')
-parser.add_argument('-dataset', type=str, default='Brent')
-parser.add_argument('-steps', type=int, default=24)
-parser.add_argument('-k', type=int, default=5)
+def pack_dataset(args):
+    json_path = os.path.join('models', 'CNN.params.json')
+    params = Params(json_path)
+    params.merge(args)
+    
+    dataset_params_path = 'data/{}/lag_settings.json'.format(params.datafolder)
+    params.update(dataset_params_path)
+    params.steps = params.datasets[params.dataset]['lag_order']
+    params.normal = params.datasets[params.dataset]['normal']
+    params.cov_dim =params.datasets[params.dataset]['cov_dim']
+    params.kernel_size = params.datasets[params.dataset]['kernel_size']
 
-# parser.add_argument('-in_channels', type=int, default=1)
-parser.add_argument('-channel_size', type=int, default=300)
-parser.add_argument('-restore', action='store_true', help='Whether to restore the model state from the best.pth.tar')
+    params.scaler()
+
+    params.model_name = 'gsCNN_{}_h{}'.format(params.dataset, params.H)
+    params.model_dir = os.path.join(params.experiment, params.model_name)
+
+    raw_dataset, dataset, train_idx, valid_idx, test_idx = get_dataset(params)
+    raw_test_data = raw_dataset[test_idx]
+    dataset = params.scaler.fit_transform(dataset)
+    train_data, valid_data, test_data = dataset[train_idx], dataset[valid_idx], dataset[test_idx]
+
+    train_set, _, _ = cnn_dataset(
+        train_data, h=params.H, steps=params.steps)
+    valid_set, _, _ = cnn_dataset(
+        valid_data, h=params.H, steps=params.steps)
+    test_set, test_input, test_target = cnn_dataset(
+        test_data, h=params.H, steps=params.steps)
+
+    params.batch_size = 128
+    train_loader = DataLoader(
+        train_set, batch_size=params.batch_size, sampler=RandomSampler(train_set))
+    valid_loader = DataLoader(valid_set, batch_size=valid_set.samples,
+                              sampler=RandomSampler(valid_set))
+
+    if params.test:
+        os_rmdirs(params.model_dir)
+
+    return params, train_loader, valid_loader, test_input, test_target, raw_test_data
+
 
 if __name__ == "__main__":
-    args = parser.parse_args()
-    json_path = os.path.join('models', 'convRNN.params.json')
-    assert os.path.isfile(
-        json_path), f'No json configuration file found at {json_path}'
-    params = Params(json_path)
+    args = get_parser()
+    params, train_loader, valid_loader, test_input, test_target, raw_test_data = pack_dataset(
+        args)
 
-    params.merge(args)
+    channel_sizes = np.arange(10, 100, 10).tolist()
 
-    #test
-    params.dataset = 'london_2013_summary'
-    ts = np.load('./data/paper/{}.npy'.format(params.dataset))
-    ts = ts.reshape(-1)
-    # set_length = len(ts)
-    
-    params.steps=168
-    params.H=24
-    # test
-
-    params.model_name = '{}_h{}_CNN'.format(params.dataset, params.H)
-    dataset = create_dataset(ts, look_back=params.steps + params.H - 1)
-
-    scaler = MinMaxScaler(feature_range=(-1, 1))
-    dataset = scaler.fit_transform(dataset)
-
-    kf = KFold(n_splits=params.k)
-    kf.get_n_splits(dataset)
-
-    cvs = []
-    for i, (train_idx, test_idx) in tqdm(enumerate(kf.split(dataset))):
+    #  set the formal grid search model_dir
+    params.model_dir = os.path.join(params.model_dir, 'gs')
+    best_size = None
+    best_m = 9999
+    logger = logging.getLogger('gsCNN.gs')
+    set_logger(os.path.join(params.model_dir, 'gs.log'), logger)
+    for i, size in enumerate(channel_sizes):
         params.cv = i
-        train_data = dataset[train_idx]
-        test_data = dataset[test_idx]
+        size = int(size)
+        params.channel_size = size
+        model = CNN(params, logger)
+        logger.info(
+            'Loading the datasets and model for {}th-grid-search'.format(i))
+        logger.info('Loading complete.')
+        logger.info(f'Model: \n{str(model)}')
+        model.xfit(train_loader, valid_loader, restore_file=os.path.join(
+                params.model_dir, 'best.cv{}.pth.tar'.format(i)))
+        pred = model.predict(test_input)
+        _pred = de_scale(params, pred)
+        _test_target = de_scale(params, test_target)
+        trmse = rmse(_test_target, _pred)
 
-        x_train = train_data[:, :(
-            0 - params.H)].reshape(train_data.shape[0], 1, params.steps)
-        y_train = train_data[:, (0-params.H):].reshape(-1, params.H)
-        x_test = test_data[:, :(0 - params.H)
-                           ].reshape(test_data.shape[0], 1, params.steps)
-        y_test = test_data[:, (0-params.H):].reshape(-1, params.H)
-
-
-        params.in_channels = x_train.shape[1]
-        train_set = scaled_Dataset(x_data=x_train, label_data=y_train)
-        test_set = scaled_Dataset(x_data=x_test, label_data=y_test)
-
-        # added for testing
-        params.batch_size = len(train_set) // 4
+        if trmse <= best_m:
+            best_m = trmse
+            best_size =  size
         
-        # params.test_batch=int()
+        logger.info("Best Channel Size: {}".format(size))
+    
+    params.channel_size= best_size
+    
+    # set the formal training model_dir
+    params.model_dir = os.path.join(params.experiment, params.model_name)
+    times = params.times 
+    measures = np.zeros((times, 3))
+    for i in range(times):
+        if os.path.exists(os.path.join(params.model_dir, 'measures.npy')):
+            measures = np.load(os.path.join(params.model_dir, 'measures.npy'))
+            if measures[i, 0].item() != 0.0:
+                continue
 
-        train_loader = DataLoader(
-            train_set, batch_size=params.batch_size, sampler=RandomSampler(train_set), num_workers=4)
-        val_loader = DataLoader(test_set, batch_size=test_set.samples,
-                                sampler=RandomSampler(test_set), num_workers=4)
-
-        model_dir = os.path.join('experiments', params.model_name)
-        params.model_dir = model_dir
-        params.plot_dir = os.path.join(model_dir, 'figures')
-        # create missing directories
-        try:
-            os.makedirs(params.plot_dir)
-        except FileExistsError:
-            pass
-
-        logger = logging.getLogger('CNN.cv{}'.format(i))
-        set_logger(os.path.join(model_dir, 'train.cv{}.log'.format(i)), logger)
-        params.restore = False
+        params.cv = i
+        logger = logging.getLogger('gsCNN.cv{}'.format(i))
+        set_logger(os.path.join(params.model_dir,
+                                'train.cv{}.log'.format(i)), logger)
+        logger.info(
+            'Loading the datasets and model for {}th-batch-training'.format(i))
         # use GPU if available
-        cuda_exist = torch.cuda.is_available()
-        # Set random seeds for reproducible experiments if necessary
-        if cuda_exist:
-            params.device = torch.device('cuda')
-            # torch.cuda.manual_seed(240)
-            logger.info('Using Cuda...')
-            model = CNN(params, logger).cuda()
-        else:
-            params.device = torch.device('cpu')
-            # torch.manual_seed(230)
-            logger.info('Not using cuda...')
-            model = CNN(params, logger)
 
-        logger.info('Loading the datasets for batch-training')
+        model = CNN(params, logger)
 
         logger.info('Loading complete.')
 
         logger.info(f'Model: \n{str(model)}')
 
-        params.num_epochs = 100
-        model.xfit(train_loader, val_loader, restore_file=os.path.join(
-            params.model_dir, 'best.pth.tar'))
+        if not os.path.exists(os.path.join(params.model_dir, 'best.cv{}.pth.tar'.format(i+1))):
+            model.xfit(train_loader, valid_loader, restore_file=os.path.join(
+                params.model_dir, 'best.cv{}.pth.tar'.format(i)))
 
-        pred = model.predict(x_test)
-        pred = de_scale(params, scaler, pred)
-        target = de_scale(params, scaler, y_test)
-        cvs.append((pred, target))
+        pred = model.predict(test_input)
+
+        if params.diff:
+            _test_target, _pred = inverse_diff(params,pred, raw_test_data)
+        else:
+            _test_target, _pred = de_scale(params, test_target), de_scale(params, pred)
+
+        trmse = rmse(_test_target, _pred)
+        tmape = mape(_test_target, _pred)
+        tsmape = smape(_test_target, _pred)
+        logger.info('{}\t H: {}\t Trail: {} \nTesting RMSE: {:.4g} \t MAPE: {:.4g} \t SMAPE: {:.4g}'.format(
+            params.dataset, params.H, i, trmse, tmape, tsmape))
+        measures[i, 0] = trmse
+        measures[i, 1] = tmape
+        measures[i, 2] = tsmape
 
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
-
-    measures = np.zeros(len(cvs))
-    for i, (pred, target) in enumerate(cvs):
-        vrmse = np.sqrt(mean_squared_error(target, pred))
-        measures[i] = vrmse
-        logger.info('{}\t H: {}\t CV: {}\t RMSE:{}'.format(
-            params.dataset, params.H, i, vrmse))
-        logger.info(params.dataset + '\t H: ' + str(params.H) +
-              '\t Avg RMSE: ' + str(measures.mean()) + '\t')
+        np.save(os.path.join(params.model_dir, 'measures'), measures)

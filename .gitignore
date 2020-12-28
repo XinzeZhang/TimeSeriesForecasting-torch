@@ -183,6 +183,7 @@ dmypy.json
 *.tar
 .vscode/*
 data/elect
-experiments/
+experiments/*.tar
 experiments/*/figures
 experiments-bak/base_model/figures
+data/

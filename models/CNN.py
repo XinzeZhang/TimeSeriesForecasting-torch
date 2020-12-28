@@ -7,6 +7,7 @@ import torch.nn.init as Init
 # from data_process._data_process import mape
 
 from data_process.util import savebest_checkpoint, plot_all_epoch, plot_xfit,load_checkpoint
+from data_process.util import  os_makedirs
 
 import os
 from tqdm import trange
@@ -19,18 +20,18 @@ class CNN(nn.Module):
         for (arg, value) in params.dict.items():
             self.logger.info("Argument %s: %r", arg, value)
 
-        self.In_channels = params.in_channels
-        self.In_dim = params.steps
+        self.In_channels = 1 + params.cov_dim
+        self.Timesteps = params.steps
         self.Output_dim = params.H
         # self.Output_dim = output_dim
         self.Channel_size = params.channel_size
-        self.Kernel_size = int(params.steps // 4)
+        self.Kernel_size = params.kernel_size
         self.p_size = 3
 
         self.Conv = nn.Conv1d(self.In_channels,self.Channel_size,self.Kernel_size,padding=0)
         # self.Conv.weight.data = Init.normal_(torch.empty(channel_size, in_channels, kernel_size).float(), std=0.015)
         # self.Conv.bias.data =  Init.normal_(torch.empty(channel_size).float(), std=0.015)
-        self.fc  = nn.Linear(self.Channel_size * (self.In_dim - self.Kernel_size -self.p_size +2) ,self.Output_dim,bias=False)
+        self.fc  = nn.Linear(self.Channel_size * (self.Timesteps - self.Kernel_size -self.p_size +2) ,self.Output_dim,bias=False)
         self.Pool = nn.AvgPool1d(kernel_size=self.p_size,stride=1,padding=0)
 
         # self.Num_iters = Num_iters
@@ -42,13 +43,27 @@ class CNN(nn.Module):
         self.loss_fn = nn.MSELoss()
         self.epoch_scheduler = torch.optim.lr_scheduler.StepLR(
             self.optimizer, params.step_lr, gamma=0.9)
+        
+        self.num_epochs = self.params.num_epochs
+
+        self.params.plot_dir = os.path.join(params.model_dir, 'figures')
+        # create missing directories
+        os_makedirs(self.params.plot_dir)
+
+        if self.params.device == torch.device('cpu'):
+            self.logger.info('Not using cuda...')
+        else:
+            self.logger.info('Using Cuda...')
+            self.to(self.params.device)
+
 
     def forward(self,input):
+        # input = input.permute(0, 2, 1)
         feature_map = self.Conv(input)
         feature_map = torch.sigmoid(feature_map)
         feature_map = self.Pool(feature_map)
         
-        feature_map = feature_map.view(-1, self.Channel_size * (self.In_dim - self.Kernel_size -self.p_size +2))
+        feature_map = feature_map.view(-1, self.Channel_size * (self.Timesteps - self.Kernel_size -self.p_size +2))
         
         pred = self.fc(feature_map)
 
@@ -63,13 +78,13 @@ class CNN(nn.Module):
 
         min_vmse = 9999
         train_len = len(train_loader)
-        loss_summary = np.zeros((train_len * self.params.num_epochs))
-        loss_avg = np.zeros((self.params.num_epochs))
+        loss_summary = np.zeros((train_len * self.num_epochs))
+        loss_avg = np.zeros((self.num_epochs))
         vloss_avg = np.zeros_like(loss_avg)
 
-        for epoch in trange(self.params.num_epochs):
+        for epoch in trange(self.num_epochs):
             self.logger.info(
-                'Epoch {}/{}'.format(epoch + 1, self.params.num_epochs))
+                'Epoch {}/{}'.format(epoch + 1, self.num_epochs))
             mse_train = 0
             loss_epoch = np.zeros(train_len)
             for i, (batch_x, batch_y) in enumerate(train_loader):
@@ -127,7 +142,7 @@ class CNN(nn.Module):
         return: (numpy.narray) shape: [sample, prediction-len]
         '''
         # test_batch: shape: [full-len, sample, dim]
-        best_pth = os.path.join(self.params.model_dir, 'best.pth.tar')
+        best_pth = os.path.join(self.params.model_dir, 'best.cv{}.pth.tar'.format(self.params.cv))
         if os.path.exists(best_pth) and using_best:
             self.logger.info('Restoring best parameters from {}'.format(best_pth))
             load_checkpoint(best_pth, self, self.optimizer)
