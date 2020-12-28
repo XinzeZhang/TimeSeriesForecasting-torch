@@ -1,0 +1,451 @@
+[2020-10-23 10:59:31] esmCNN.cv18: Loading the datasets and model for 47th-batch-training
+[2020-10-23 10:59:31] esmCNN.cv18: Argument channel_size: 100
+[2020-10-23 10:59:31] esmCNN.cv18: Argument candidate_size: 300
+[2020-10-23 10:59:31] esmCNN.cv18: Argument kernel_size: 6
+[2020-10-23 10:59:31] esmCNN.cv18: Argument kernel_list: [8, 6, 5, 4]
+[2020-10-23 10:59:31] esmCNN.cv18: Argument Lambdas: [0.5, 1, 5, 15, 30, 50, 100, 150, 200]
+[2020-10-23 10:59:31] esmCNN.cv18: Argument Lambdas_std: [0.01, 0.05, 0.1, 0.5, 1]
+[2020-10-23 10:59:31] esmCNN.cv18: Argument r: [0.8, 0.9, 0.99, 0.9999, 0.999999]
+[2020-10-23 10:59:31] esmCNN.cv18: Argument tolerance: 0
+[2020-10-23 10:59:31] esmCNN.cv18: Argument device: device(type='cuda')
+[2020-10-23 10:59:31] esmCNN.cv18: Argument dataset: 'sili'
+[2020-10-23 10:59:31] esmCNN.cv18: Argument H: 1
+[2020-10-23 10:59:31] esmCNN.cv18: Argument k: 5
+[2020-10-23 10:59:31] esmCNN.cv18: Argument test: False
+[2020-10-23 10:59:31] esmCNN.cv18: Argument search: 'random'
+[2020-10-23 10:59:31] esmCNN.cv18: Argument normal: True
+[2020-10-23 10:59:31] esmCNN.cv18: Argument diff: False
+[2020-10-23 10:59:31] esmCNN.cv18: Argument times: 60
+[2020-10-23 10:59:31] esmCNN.cv18: Argument datasets: {'ar1': {'lag_order': 15, 'normal': True, 'cov_dim': 0, 'kernel_size': 3}, 'wti': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'gold': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'sp': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'brent': {'lag_order': 24, 'normal': True, 'cov_dim': 0, 'kernel_size': 6}, 'sili': {'lag_order': 26, 'normal': True, 'cov_dim': 0, 'kernel_size': 6}}
+[2020-10-23 10:59:31] esmCNN.cv18: Argument steps: 26
+[2020-10-23 10:59:31] esmCNN.cv18: Argument cov_dim: 0
+[2020-10-23 10:59:31] esmCNN.cv18: Argument experiment: 'experiments/normal/sili'
+[2020-10-23 10:59:31] esmCNN.cv18: Argument scaler: StandardScaler()
+[2020-10-23 10:59:31] esmCNN.cv18: Argument model_name: 'esmCNN_random_sili_h1'
+[2020-10-23 10:59:31] esmCNN.cv18: Argument model_dir: 'experiments/normal/sili/esmCNN_random_sili_h1'
+[2020-10-23 10:59:31] esmCNN.cv18: Argument In_channels: 1
+[2020-10-23 10:59:31] esmCNN.cv18: Argument restore: True
+[2020-10-23 10:59:31] esmCNN.cv18: Argument cv: 18
+[2020-10-23 10:59:31] esmCNN.cv18: Argument plot_dir: 'experiments/normal/sili/esmCNN_random_sili_h1/figures'
+[2020-10-23 10:59:31] esmCNN.cv18: Argument num_process: 8
+[2020-10-23 10:59:31] esmCNN.cv18: Using Cuda...
+[2020-10-23 10:59:31] esmCNN.cv18: Loading complete.
+[2020-10-23 10:59:31] esmCNN.cv18: Model: 
+ESM_CNN(
+  (Pool): AvgPool1d(kernel_size=(3,), stride=(1,), padding=(0,))
+  (loss_fn): MSELoss()
+)
+[2020-10-23 10:59:31] esmCNN.cv18: Found new best state
+[2020-10-23 10:59:31] esmCNN.cv18: Best vmse: 0.3614
+[2020-10-23 10:59:31] esmCNN.cv18: Channel size: 1 	 Kernel size: 6 
+Training MSE: 0.12476134 	 Validating MSE: 0.36141142 	 Best VMSE: 0.36141142
+[2020-10-23 10:59:31] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:31] esmCNN.cv18: Find channel with Kernel size: 4 	 Lambda: 0.5: 	 Best Score: 0.1153
+[2020-10-23 10:59:31] esmCNN.cv18: Found new best state
+[2020-10-23 10:59:31] esmCNN.cv18: Best vmse: 0.2942
+[2020-10-23 10:59:31] esmCNN.cv18: Channel size: 2 	 Kernel size: 4 
+Training MSE: 0.11533322 	 Validating MSE: 0.29416731 	 Best VMSE: 0.29416731
+[2020-10-23 10:59:31] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:31] esmCNN.cv18: Find channel with Kernel size: 4 	 Lambda: 0.5: 	 Best Score: 0.1140
+[2020-10-23 10:59:31] esmCNN.cv18: Found new best state
+[2020-10-23 10:59:31] esmCNN.cv18: Best vmse: 0.2793
+[2020-10-23 10:59:31] esmCNN.cv18: Channel size: 3 	 Kernel size: 4 
+Training MSE: 0.11395981 	 Validating MSE: 0.27929455 	 Best VMSE: 0.27929455
+[2020-10-23 10:59:31] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:31] esmCNN.cv18: Find channel with Kernel size: 5 	 Lambda: 0.5: 	 Best Score: 0.1133
+[2020-10-23 10:59:31] esmCNN.cv18: Found new best state
+[2020-10-23 10:59:31] esmCNN.cv18: Best vmse: 0.2768
+[2020-10-23 10:59:31] esmCNN.cv18: Channel size: 4 	 Kernel size: 5 
+Training MSE: 0.11332539 	 Validating MSE: 0.27675632 	 Best VMSE: 0.27675632
+[2020-10-23 10:59:31] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:31] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.1131
+[2020-10-23 10:59:31] esmCNN.cv18: Found new best state
+[2020-10-23 10:59:31] esmCNN.cv18: Best vmse: 0.2753
+[2020-10-23 10:59:31] esmCNN.cv18: Channel size: 5 	 Kernel size: 8 
+Training MSE: 0.11307923 	 Validating MSE: 0.27530134 	 Best VMSE: 0.27530134
+[2020-10-23 10:59:31] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:31] esmCNN.cv18: Find channel with Kernel size: 5 	 Lambda: 0.5: 	 Best Score: 0.1127
+[2020-10-23 10:59:31] esmCNN.cv18: Channel size: 6 	 Kernel size: 5 
+Training MSE: 0.11267324 	 Validating MSE: 0.27708906 	 Best VMSE: 0.27530134
+[2020-10-23 10:59:31] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:31] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.1123
+[2020-10-23 10:59:31] esmCNN.cv18: Channel size: 7 	 Kernel size: 8 
+Training MSE: 0.11232516 	 Validating MSE: 0.27760249 	 Best VMSE: 0.27530134
+[2020-10-23 10:59:31] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:31] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.1118
+[2020-10-23 10:59:31] esmCNN.cv18: Found new best state
+[2020-10-23 10:59:31] esmCNN.cv18: Best vmse: 0.2737
+[2020-10-23 10:59:31] esmCNN.cv18: Channel size: 8 	 Kernel size: 8 
+Training MSE: 0.11180473 	 Validating MSE: 0.27373827 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:31] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:31] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.1113
+[2020-10-23 10:59:31] esmCNN.cv18: Channel size: 9 	 Kernel size: 6 
+Training MSE: 0.11132855 	 Validating MSE: 0.27540156 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:31] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:31] esmCNN.cv18: Find channel with Kernel size: 4 	 Lambda: 0.5: 	 Best Score: 0.1110
+[2020-10-23 10:59:31] esmCNN.cv18: Channel size: 10 	 Kernel size: 4 
+Training MSE: 0.11097340 	 Validating MSE: 0.27655500 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:31] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:31] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.1105
+[2020-10-23 10:59:31] esmCNN.cv18: Channel size: 11 	 Kernel size: 8 
+Training MSE: 0.11051576 	 Validating MSE: 0.27604407 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:31] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:32] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.1101
+[2020-10-23 10:59:32] esmCNN.cv18: Channel size: 12 	 Kernel size: 6 
+Training MSE: 0.11010653 	 Validating MSE: 0.27546719 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:32] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:32] esmCNN.cv18: Find channel with Kernel size: 4 	 Lambda: 0.5: 	 Best Score: 0.1100
+[2020-10-23 10:59:32] esmCNN.cv18: Channel size: 13 	 Kernel size: 4 
+Training MSE: 0.10996578 	 Validating MSE: 0.27756545 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:32] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:32] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.1098
+[2020-10-23 10:59:32] esmCNN.cv18: Channel size: 14 	 Kernel size: 6 
+Training MSE: 0.10983049 	 Validating MSE: 0.27527648 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:32] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:32] esmCNN.cv18: Find channel with Kernel size: 4 	 Lambda: 0.5: 	 Best Score: 0.1097
+[2020-10-23 10:59:32] esmCNN.cv18: Channel size: 15 	 Kernel size: 4 
+Training MSE: 0.10969322 	 Validating MSE: 0.27768996 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:32] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:32] esmCNN.cv18: Find channel with Kernel size: 5 	 Lambda: 0.5: 	 Best Score: 0.1096
+[2020-10-23 10:59:32] esmCNN.cv18: Channel size: 16 	 Kernel size: 5 
+Training MSE: 0.10963142 	 Validating MSE: 0.27931181 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:32] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:32] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.1096
+[2020-10-23 10:59:32] esmCNN.cv18: Channel size: 17 	 Kernel size: 8 
+Training MSE: 0.10956484 	 Validating MSE: 0.28001094 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:32] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:32] esmCNN.cv18: Find channel with Kernel size: 4 	 Lambda: 0.5: 	 Best Score: 0.1093
+[2020-10-23 10:59:32] esmCNN.cv18: Channel size: 18 	 Kernel size: 4 
+Training MSE: 0.10928354 	 Validating MSE: 0.28010112 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:32] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:32] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.1091
+[2020-10-23 10:59:32] esmCNN.cv18: Channel size: 19 	 Kernel size: 6 
+Training MSE: 0.10905585 	 Validating MSE: 0.28329340 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:32] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:32] esmCNN.cv18: Find channel with Kernel size: 4 	 Lambda: 0.5: 	 Best Score: 0.1087
+[2020-10-23 10:59:32] esmCNN.cv18: Channel size: 20 	 Kernel size: 4 
+Training MSE: 0.10866439 	 Validating MSE: 0.28283843 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:32] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:32] esmCNN.cv18: Find channel with Kernel size: 5 	 Lambda: 0.5: 	 Best Score: 0.1082
+[2020-10-23 10:59:32] esmCNN.cv18: Channel size: 21 	 Kernel size: 5 
+Training MSE: 0.10824250 	 Validating MSE: 0.27956286 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:32] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:32] esmCNN.cv18: Find channel with Kernel size: 4 	 Lambda: 0.5: 	 Best Score: 0.1082
+[2020-10-23 10:59:32] esmCNN.cv18: Channel size: 22 	 Kernel size: 4 
+Training MSE: 0.10817700 	 Validating MSE: 0.27814648 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:32] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:32] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.1081
+[2020-10-23 10:59:32] esmCNN.cv18: Channel size: 23 	 Kernel size: 8 
+Training MSE: 0.10807292 	 Validating MSE: 0.27924964 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:32] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:32] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.1076
+[2020-10-23 10:59:32] esmCNN.cv18: Channel size: 24 	 Kernel size: 8 
+Training MSE: 0.10758507 	 Validating MSE: 0.28209034 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:32] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:32] esmCNN.cv18: Find channel with Kernel size: 4 	 Lambda: 0.5: 	 Best Score: 0.1072
+[2020-10-23 10:59:32] esmCNN.cv18: Channel size: 25 	 Kernel size: 4 
+Training MSE: 0.10715074 	 Validating MSE: 0.28112340 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:32] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:32] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.1070
+[2020-10-23 10:59:32] esmCNN.cv18: Channel size: 26 	 Kernel size: 6 
+Training MSE: 0.10701374 	 Validating MSE: 0.28285226 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:32] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:32] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.1069
+[2020-10-23 10:59:32] esmCNN.cv18: Channel size: 27 	 Kernel size: 6 
+Training MSE: 0.10688661 	 Validating MSE: 0.28350106 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:32] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:32] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.1062
+[2020-10-23 10:59:32] esmCNN.cv18: Channel size: 28 	 Kernel size: 6 
+Training MSE: 0.10620675 	 Validating MSE: 0.27631137 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:32] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:32] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.1056
+[2020-10-23 10:59:32] esmCNN.cv18: Channel size: 29 	 Kernel size: 6 
+Training MSE: 0.10556431 	 Validating MSE: 0.28214675 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:32] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:32] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.1053
+[2020-10-23 10:59:32] esmCNN.cv18: Channel size: 30 	 Kernel size: 8 
+Training MSE: 0.10533725 	 Validating MSE: 0.28442627 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:32] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:32] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.1052
+[2020-10-23 10:59:33] esmCNN.cv18: Channel size: 31 	 Kernel size: 8 
+Training MSE: 0.10518559 	 Validating MSE: 0.28265947 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:33] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:33] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.1050
+[2020-10-23 10:59:33] esmCNN.cv18: Channel size: 32 	 Kernel size: 6 
+Training MSE: 0.10496084 	 Validating MSE: 0.28593403 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:33] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:33] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.1047
+[2020-10-23 10:59:33] esmCNN.cv18: Channel size: 33 	 Kernel size: 6 
+Training MSE: 0.10470697 	 Validating MSE: 0.28373459 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:33] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:33] esmCNN.cv18: Find channel with Kernel size: 5 	 Lambda: 0.5: 	 Best Score: 0.1046
+[2020-10-23 10:59:33] esmCNN.cv18: Channel size: 34 	 Kernel size: 5 
+Training MSE: 0.10461237 	 Validating MSE: 0.28454563 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:33] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:33] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.1045
+[2020-10-23 10:59:33] esmCNN.cv18: Channel size: 35 	 Kernel size: 8 
+Training MSE: 0.10453085 	 Validating MSE: 0.28584507 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:33] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:33] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.1044
+[2020-10-23 10:59:33] esmCNN.cv18: Channel size: 36 	 Kernel size: 6 
+Training MSE: 0.10441434 	 Validating MSE: 0.28909668 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:33] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:33] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.1043
+[2020-10-23 10:59:33] esmCNN.cv18: Channel size: 37 	 Kernel size: 8 
+Training MSE: 0.10430621 	 Validating MSE: 0.28651518 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:33] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:33] esmCNN.cv18: Find channel with Kernel size: 5 	 Lambda: 0.5: 	 Best Score: 0.1042
+[2020-10-23 10:59:33] esmCNN.cv18: Channel size: 38 	 Kernel size: 5 
+Training MSE: 0.10418379 	 Validating MSE: 0.29078311 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:33] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:33] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.1041
+[2020-10-23 10:59:33] esmCNN.cv18: Channel size: 39 	 Kernel size: 8 
+Training MSE: 0.10409226 	 Validating MSE: 0.29019901 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:33] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:33] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.1039
+[2020-10-23 10:59:33] esmCNN.cv18: Channel size: 40 	 Kernel size: 6 
+Training MSE: 0.10393056 	 Validating MSE: 0.29256931 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:33] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:33] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.1038
+[2020-10-23 10:59:33] esmCNN.cv18: Channel size: 41 	 Kernel size: 6 
+Training MSE: 0.10376693 	 Validating MSE: 0.29625532 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:33] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:33] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.1036
+[2020-10-23 10:59:33] esmCNN.cv18: Channel size: 42 	 Kernel size: 6 
+Training MSE: 0.10364456 	 Validating MSE: 0.29589602 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:33] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:33] esmCNN.cv18: Find channel with Kernel size: 5 	 Lambda: 0.5: 	 Best Score: 0.1035
+[2020-10-23 10:59:33] esmCNN.cv18: Channel size: 43 	 Kernel size: 5 
+Training MSE: 0.10351098 	 Validating MSE: 0.29685131 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:33] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:33] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.1034
+[2020-10-23 10:59:33] esmCNN.cv18: Channel size: 44 	 Kernel size: 6 
+Training MSE: 0.10343236 	 Validating MSE: 0.29469517 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:33] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:33] esmCNN.cv18: Find channel with Kernel size: 4 	 Lambda: 0.5: 	 Best Score: 0.1033
+[2020-10-23 10:59:33] esmCNN.cv18: Channel size: 45 	 Kernel size: 4 
+Training MSE: 0.10328136 	 Validating MSE: 0.29475826 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:33] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:33] esmCNN.cv18: Find channel with Kernel size: 4 	 Lambda: 0.5: 	 Best Score: 0.1032
+[2020-10-23 10:59:33] esmCNN.cv18: Channel size: 46 	 Kernel size: 4 
+Training MSE: 0.10318964 	 Validating MSE: 0.29333496 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:33] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:33] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.1031
+[2020-10-23 10:59:34] esmCNN.cv18: Channel size: 47 	 Kernel size: 8 
+Training MSE: 0.10314289 	 Validating MSE: 0.29375002 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:34] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:34] esmCNN.cv18: Find channel with Kernel size: 4 	 Lambda: 0.5: 	 Best Score: 0.1031
+[2020-10-23 10:59:34] esmCNN.cv18: Channel size: 48 	 Kernel size: 4 
+Training MSE: 0.10306101 	 Validating MSE: 0.29606009 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:34] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:34] esmCNN.cv18: Find channel with Kernel size: 4 	 Lambda: 0.5: 	 Best Score: 0.1030
+[2020-10-23 10:59:34] esmCNN.cv18: Channel size: 49 	 Kernel size: 4 
+Training MSE: 0.10302290 	 Validating MSE: 0.29744217 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:34] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:34] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.1028
+[2020-10-23 10:59:34] esmCNN.cv18: Channel size: 50 	 Kernel size: 6 
+Training MSE: 0.10278966 	 Validating MSE: 0.29831445 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:34] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:34] esmCNN.cv18: Find channel with Kernel size: 5 	 Lambda: 0.5: 	 Best Score: 0.1026
+[2020-10-23 10:59:34] esmCNN.cv18: Channel size: 51 	 Kernel size: 5 
+Training MSE: 0.10260791 	 Validating MSE: 0.30016091 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:34] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:34] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.1024
+[2020-10-23 10:59:34] esmCNN.cv18: Channel size: 52 	 Kernel size: 6 
+Training MSE: 0.10241745 	 Validating MSE: 0.30128261 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:34] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:34] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.1022
+[2020-10-23 10:59:34] esmCNN.cv18: Channel size: 53 	 Kernel size: 8 
+Training MSE: 0.10217675 	 Validating MSE: 0.29760459 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:34] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:34] esmCNN.cv18: Find channel with Kernel size: 4 	 Lambda: 0.5: 	 Best Score: 0.1019
+[2020-10-23 10:59:34] esmCNN.cv18: Channel size: 54 	 Kernel size: 4 
+Training MSE: 0.10194690 	 Validating MSE: 0.30102110 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:34] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:34] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.1018
+[2020-10-23 10:59:34] esmCNN.cv18: Channel size: 55 	 Kernel size: 8 
+Training MSE: 0.10176925 	 Validating MSE: 0.29986051 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:34] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:34] esmCNN.cv18: Find channel with Kernel size: 5 	 Lambda: 0.5: 	 Best Score: 0.1016
+[2020-10-23 10:59:34] esmCNN.cv18: Channel size: 56 	 Kernel size: 5 
+Training MSE: 0.10163528 	 Validating MSE: 0.29941136 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:34] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:34] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.1015
+[2020-10-23 10:59:34] esmCNN.cv18: Channel size: 57 	 Kernel size: 6 
+Training MSE: 0.10151218 	 Validating MSE: 0.30345133 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:34] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:34] esmCNN.cv18: Find channel with Kernel size: 4 	 Lambda: 0.5: 	 Best Score: 0.1013
+[2020-10-23 10:59:34] esmCNN.cv18: Channel size: 58 	 Kernel size: 4 
+Training MSE: 0.10129004 	 Validating MSE: 0.30553123 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:34] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:34] esmCNN.cv18: Find channel with Kernel size: 4 	 Lambda: 0.5: 	 Best Score: 0.1011
+[2020-10-23 10:59:34] esmCNN.cv18: Channel size: 59 	 Kernel size: 4 
+Training MSE: 0.10112646 	 Validating MSE: 0.30426016 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:34] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:34] esmCNN.cv18: Find channel with Kernel size: 4 	 Lambda: 0.5: 	 Best Score: 0.1010
+[2020-10-23 10:59:35] esmCNN.cv18: Channel size: 60 	 Kernel size: 4 
+Training MSE: 0.10098521 	 Validating MSE: 0.30674329 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:35] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:35] esmCNN.cv18: Find channel with Kernel size: 4 	 Lambda: 0.5: 	 Best Score: 0.1009
+[2020-10-23 10:59:35] esmCNN.cv18: Channel size: 61 	 Kernel size: 4 
+Training MSE: 0.10089944 	 Validating MSE: 0.30580577 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:35] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:35] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.1009
+[2020-10-23 10:59:35] esmCNN.cv18: Channel size: 62 	 Kernel size: 8 
+Training MSE: 0.10087736 	 Validating MSE: 0.30560020 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:35] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:35] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.1008
+[2020-10-23 10:59:35] esmCNN.cv18: Channel size: 63 	 Kernel size: 6 
+Training MSE: 0.10081733 	 Validating MSE: 0.30646619 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:35] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:35] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.1007
+[2020-10-23 10:59:35] esmCNN.cv18: Channel size: 64 	 Kernel size: 6 
+Training MSE: 0.10072605 	 Validating MSE: 0.30736485 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:35] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:35] esmCNN.cv18: Find channel with Kernel size: 4 	 Lambda: 0.5: 	 Best Score: 0.1006
+[2020-10-23 10:59:35] esmCNN.cv18: Channel size: 65 	 Kernel size: 4 
+Training MSE: 0.10058113 	 Validating MSE: 0.31049621 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:35] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:35] esmCNN.cv18: Find channel with Kernel size: 5 	 Lambda: 0.5: 	 Best Score: 0.1005
+[2020-10-23 10:59:35] esmCNN.cv18: Channel size: 66 	 Kernel size: 5 
+Training MSE: 0.10045239 	 Validating MSE: 0.31201845 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:35] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:35] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.1003
+[2020-10-23 10:59:35] esmCNN.cv18: Channel size: 67 	 Kernel size: 6 
+Training MSE: 0.10029833 	 Validating MSE: 0.31208727 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:35] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:35] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.1002
+[2020-10-23 10:59:35] esmCNN.cv18: Channel size: 68 	 Kernel size: 6 
+Training MSE: 0.10015176 	 Validating MSE: 0.31152463 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:35] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:35] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.1001
+[2020-10-23 10:59:35] esmCNN.cv18: Channel size: 69 	 Kernel size: 8 
+Training MSE: 0.10008623 	 Validating MSE: 0.31417161 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:35] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:35] esmCNN.cv18: Find channel with Kernel size: 4 	 Lambda: 0.5: 	 Best Score: 0.1000
+[2020-10-23 10:59:35] esmCNN.cv18: Channel size: 70 	 Kernel size: 4 
+Training MSE: 0.10001876 	 Validating MSE: 0.31172967 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:35] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:35] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.0998
+[2020-10-23 10:59:35] esmCNN.cv18: Channel size: 71 	 Kernel size: 6 
+Training MSE: 0.09984403 	 Validating MSE: 0.31013125 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:35] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:35] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.0996
+[2020-10-23 10:59:36] esmCNN.cv18: Channel size: 72 	 Kernel size: 6 
+Training MSE: 0.09959601 	 Validating MSE: 0.31098223 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:36] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:36] esmCNN.cv18: Find channel with Kernel size: 5 	 Lambda: 0.5: 	 Best Score: 0.0995
+[2020-10-23 10:59:36] esmCNN.cv18: Channel size: 73 	 Kernel size: 5 
+Training MSE: 0.09952363 	 Validating MSE: 0.31365797 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:36] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:36] esmCNN.cv18: Find channel with Kernel size: 4 	 Lambda: 0.5: 	 Best Score: 0.0995
+[2020-10-23 10:59:36] esmCNN.cv18: Channel size: 74 	 Kernel size: 4 
+Training MSE: 0.09948570 	 Validating MSE: 0.31411889 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:36] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:36] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.0994
+[2020-10-23 10:59:36] esmCNN.cv18: Channel size: 75 	 Kernel size: 6 
+Training MSE: 0.09936991 	 Validating MSE: 0.31406674 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:36] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:36] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.0993
+[2020-10-23 10:59:36] esmCNN.cv18: Channel size: 76 	 Kernel size: 8 
+Training MSE: 0.09925447 	 Validating MSE: 0.31331813 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:36] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:36] esmCNN.cv18: Find channel with Kernel size: 4 	 Lambda: 0.5: 	 Best Score: 0.0992
+[2020-10-23 10:59:36] esmCNN.cv18: Channel size: 77 	 Kernel size: 4 
+Training MSE: 0.09916029 	 Validating MSE: 0.31574380 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:36] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:36] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.0991
+[2020-10-23 10:59:36] esmCNN.cv18: Channel size: 78 	 Kernel size: 8 
+Training MSE: 0.09910971 	 Validating MSE: 0.31594136 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:36] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:36] esmCNN.cv18: Find channel with Kernel size: 5 	 Lambda: 0.5: 	 Best Score: 0.0991
+[2020-10-23 10:59:36] esmCNN.cv18: Channel size: 79 	 Kernel size: 5 
+Training MSE: 0.09905178 	 Validating MSE: 0.31551290 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:36] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:36] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.0990
+[2020-10-23 10:59:36] esmCNN.cv18: Channel size: 80 	 Kernel size: 6 
+Training MSE: 0.09901088 	 Validating MSE: 0.31449920 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:36] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:36] esmCNN.cv18: Find channel with Kernel size: 5 	 Lambda: 0.5: 	 Best Score: 0.0989
+[2020-10-23 10:59:36] esmCNN.cv18: Channel size: 81 	 Kernel size: 5 
+Training MSE: 0.09887489 	 Validating MSE: 0.31646842 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:36] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:36] esmCNN.cv18: Find channel with Kernel size: 4 	 Lambda: 0.5: 	 Best Score: 0.0988
+[2020-10-23 10:59:36] esmCNN.cv18: Channel size: 82 	 Kernel size: 4 
+Training MSE: 0.09878589 	 Validating MSE: 0.31876144 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:36] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:36] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.0988
+[2020-10-23 10:59:37] esmCNN.cv18: Channel size: 83 	 Kernel size: 6 
+Training MSE: 0.09875362 	 Validating MSE: 0.31942078 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:37] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:37] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.0984
+[2020-10-23 10:59:37] esmCNN.cv18: Channel size: 84 	 Kernel size: 8 
+Training MSE: 0.09844789 	 Validating MSE: 0.32281771 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:37] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:37] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.0981
+[2020-10-23 10:59:37] esmCNN.cv18: Channel size: 85 	 Kernel size: 6 
+Training MSE: 0.09814823 	 Validating MSE: 0.32851717 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:37] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:37] esmCNN.cv18: Find channel with Kernel size: 5 	 Lambda: 0.5: 	 Best Score: 0.0981
+[2020-10-23 10:59:37] esmCNN.cv18: Channel size: 86 	 Kernel size: 5 
+Training MSE: 0.09807906 	 Validating MSE: 0.32753590 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:37] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:37] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.0980
+[2020-10-23 10:59:37] esmCNN.cv18: Channel size: 87 	 Kernel size: 8 
+Training MSE: 0.09802790 	 Validating MSE: 0.32742423 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:37] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:37] esmCNN.cv18: Find channel with Kernel size: 5 	 Lambda: 0.5: 	 Best Score: 0.0979
+[2020-10-23 10:59:37] esmCNN.cv18: Channel size: 88 	 Kernel size: 5 
+Training MSE: 0.09793954 	 Validating MSE: 0.32905644 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:37] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:37] esmCNN.cv18: Find channel with Kernel size: 4 	 Lambda: 0.5: 	 Best Score: 0.0978
+[2020-10-23 10:59:37] esmCNN.cv18: Channel size: 89 	 Kernel size: 4 
+Training MSE: 0.09781588 	 Validating MSE: 0.32922986 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:37] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:37] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.0977
+[2020-10-23 10:59:37] esmCNN.cv18: Channel size: 90 	 Kernel size: 6 
+Training MSE: 0.09774631 	 Validating MSE: 0.33051172 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:37] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:37] esmCNN.cv18: Find channel with Kernel size: 6 	 Lambda: 0.5: 	 Best Score: 0.0976
+[2020-10-23 10:59:37] esmCNN.cv18: Channel size: 91 	 Kernel size: 6 
+Training MSE: 0.09760973 	 Validating MSE: 0.32300553 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:37] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:37] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.0974
+[2020-10-23 10:59:37] esmCNN.cv18: Channel size: 92 	 Kernel size: 8 
+Training MSE: 0.09739017 	 Validating MSE: 0.32574895 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:37] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:37] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.0973
+[2020-10-23 10:59:38] esmCNN.cv18: Channel size: 93 	 Kernel size: 8 
+Training MSE: 0.09725275 	 Validating MSE: 0.32531765 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:38] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:38] esmCNN.cv18: Find channel with Kernel size: 4 	 Lambda: 0.5: 	 Best Score: 0.0972
+[2020-10-23 10:59:38] esmCNN.cv18: Channel size: 94 	 Kernel size: 4 
+Training MSE: 0.09721552 	 Validating MSE: 0.32711107 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:38] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:38] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.0971
+[2020-10-23 10:59:38] esmCNN.cv18: Channel size: 95 	 Kernel size: 8 
+Training MSE: 0.09712894 	 Validating MSE: 0.33193034 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:38] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:38] esmCNN.cv18: Find channel with Kernel size: 5 	 Lambda: 0.5: 	 Best Score: 0.0970
+[2020-10-23 10:59:38] esmCNN.cv18: Channel size: 96 	 Kernel size: 5 
+Training MSE: 0.09700558 	 Validating MSE: 0.32940400 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:38] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:38] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.0969
+[2020-10-23 10:59:38] esmCNN.cv18: Channel size: 97 	 Kernel size: 8 
+Training MSE: 0.09692155 	 Validating MSE: 0.33107868 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:38] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:38] esmCNN.cv18: Find channel with Kernel size: 5 	 Lambda: 0.5: 	 Best Score: 0.0968
+[2020-10-23 10:59:38] esmCNN.cv18: Channel size: 98 	 Kernel size: 5 
+Training MSE: 0.09680372 	 Validating MSE: 0.33414736 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:38] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:38] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.0967
+[2020-10-23 10:59:38] esmCNN.cv18: Channel size: 99 	 Kernel size: 8 
+Training MSE: 0.09672722 	 Validating MSE: 0.33694175 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:38] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:38] esmCNN.cv18: Find channel with Kernel size: 8 	 Lambda: 0.5: 	 Best Score: 0.0966
+[2020-10-23 10:59:38] esmCNN.cv18: Channel size: 100 	 Kernel size: 8 
+Training MSE: 0.09658106 	 Validating MSE: 0.33821794 	 Best VMSE: 0.27373827
+[2020-10-23 10:59:38] esmCNN.cv18: Checkpoint saved to experiments/normal/sili/esmCNN_random_sili_h1
+[2020-10-23 10:59:38] esmCNN.cv18: Restoring best parameters from experiments/normal/sili/esmCNN_random_sili_h1/train.cv18.pth.tar
+[2020-10-23 10:59:38] esmCNN.cv18: sili	 H: 1	 Trail: 47 
+Testing RMSE: 0.613 	 MAPE: 0.09201 	 SMAPE: 0.04674

@@ -1,0 +1,32 @@
+[2020-09-14 16:34:22] RVFL.cv13: Loading the datasets and model for 13th-batch-training
+[2020-09-14 16:34:22] RVFL.cv13: Argument hidden_size: 100
+[2020-09-14 16:34:22] RVFL.cv13: Argument candidate_size: 300
+[2020-09-14 16:34:22] RVFL.cv13: Argument Lambdas: [0.5, 1, 5, 15, 30, 50, 100, 150, 200]
+[2020-09-14 16:34:22] RVFL.cv13: Argument Lambdas_std: [0.01, 0.05, 0.1, 0.5, 1]
+[2020-09-14 16:34:22] RVFL.cv13: Argument r: [0.8, 0.9, 0.99, 0.9999, 0.999999]
+[2020-09-14 16:34:22] RVFL.cv13: Argument tolerance: 0
+[2020-09-14 16:34:22] RVFL.cv13: Argument device: device(type='cpu')
+[2020-09-14 16:34:22] RVFL.cv13: Argument dataset: 'sili'
+[2020-09-14 16:34:22] RVFL.cv13: Argument H: 8
+[2020-09-14 16:34:22] RVFL.cv13: Argument k: 5
+[2020-09-14 16:34:22] RVFL.cv13: Argument test: False
+[2020-09-14 16:34:22] RVFL.cv13: Argument normal: True
+[2020-09-14 16:34:22] RVFL.cv13: Argument diff: False
+[2020-09-14 16:34:22] RVFL.cv13: Argument times: 20
+[2020-09-14 16:34:22] RVFL.cv13: Argument datasets: {'ar1': {'lag_order': 15, 'normal': True, 'cov_dim': 0, 'kernel_size': 3}, 'wti': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'gold': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'sp': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'brent': {'lag_order': 24, 'normal': True, 'cov_dim': 0, 'kernel_size': 6}, 'sili': {'lag_order': 26, 'normal': True, 'cov_dim': 0, 'kernel_size': 6}}
+[2020-09-14 16:34:22] RVFL.cv13: Argument steps: 26
+[2020-09-14 16:34:22] RVFL.cv13: Argument experiment: 'experiments/normal/sili'
+[2020-09-14 16:34:22] RVFL.cv13: Argument scaler: StandardScaler()
+[2020-09-14 16:34:22] RVFL.cv13: Argument model_name: 'RVFL_sili_h8'
+[2020-09-14 16:34:22] RVFL.cv13: Argument model_dir: 'experiments/normal/sili/RVFL_sili_h8'
+[2020-09-14 16:34:22] RVFL.cv13: Argument restore: True
+[2020-09-14 16:34:22] RVFL.cv13: Argument cv: 13
+[2020-09-14 16:34:22] RVFL.cv13: Loading complete.
+[2020-09-14 16:34:22] RVFL.cv13: Model: 
+RVFL(
+  (loss_fn): MSELoss()
+)
+[2020-09-14 16:34:22] RVFL.cv13: Hidden size: 100 	 
+Training MSE: 0.11864746 	 Validating MSE: 1.73157859 
+[2020-09-14 16:34:22] RVFL.cv13: sili	 H: 8	 Trail: 13 
+Testing RMSE: 1.838 	 MAPE: 0.3377 	 SMAPE: 0.1547

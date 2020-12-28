@@ -1,0 +1,359 @@
+[2020-09-16 22:07:34] SCN.cv9: Loading the datasets and model for 16th-batch-training
+[2020-09-16 22:07:34] SCN.cv9: Argument hidden_size: 100
+[2020-09-16 22:07:34] SCN.cv9: Argument candidate_size: 300
+[2020-09-16 22:07:34] SCN.cv9: Argument Lambdas: [0.5, 1, 5, 15, 30, 50, 100, 150, 200]
+[2020-09-16 22:07:34] SCN.cv9: Argument Lambdas_std: [0.01, 0.05, 0.1, 0.5, 1]
+[2020-09-16 22:07:34] SCN.cv9: Argument r: [0.8, 0.9, 0.99, 0.9999, 0.999999]
+[2020-09-16 22:07:34] SCN.cv9: Argument tolerance: 0
+[2020-09-16 22:07:34] SCN.cv9: Argument device: device(type='cuda')
+[2020-09-16 22:07:34] SCN.cv9: Argument dataset: 'sili'
+[2020-09-16 22:07:34] SCN.cv9: Argument H: 8
+[2020-09-16 22:07:34] SCN.cv9: Argument k: 5
+[2020-09-16 22:07:34] SCN.cv9: Argument test: False
+[2020-09-16 22:07:34] SCN.cv9: Argument normal: True
+[2020-09-16 22:07:34] SCN.cv9: Argument diff: False
+[2020-09-16 22:07:34] SCN.cv9: Argument times: 40
+[2020-09-16 22:07:34] SCN.cv9: Argument datasets: {'ar1': {'lag_order': 15, 'normal': True, 'cov_dim': 0, 'kernel_size': 3}, 'wti': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'gold': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'sp': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'brent': {'lag_order': 24, 'normal': True, 'cov_dim': 0, 'kernel_size': 6}, 'sili': {'lag_order': 26, 'normal': True, 'cov_dim': 0, 'kernel_size': 6}}
+[2020-09-16 22:07:34] SCN.cv9: Argument steps: 26
+[2020-09-16 22:07:34] SCN.cv9: Argument experiment: 'experiments/normal/sili'
+[2020-09-16 22:07:34] SCN.cv9: Argument scaler: StandardScaler()
+[2020-09-16 22:07:34] SCN.cv9: Argument model_name: 'SCN_sili_h8'
+[2020-09-16 22:07:34] SCN.cv9: Argument model_dir: 'experiments/normal/sili/SCN_sili_h8'
+[2020-09-16 22:07:34] SCN.cv9: Argument restore: True
+[2020-09-16 22:07:34] SCN.cv9: Argument cv: 9
+[2020-09-16 22:07:34] SCN.cv9: Argument plot_dir: 'experiments/normal/sili/SCN_sili_h8/figures'
+[2020-09-16 22:07:34] SCN.cv9: Using Cuda...
+[2020-09-16 22:07:34] SCN.cv9: Loading complete.
+[2020-09-16 22:07:34] SCN.cv9: Model: 
+scnModel(
+  (loss_fn): MSELoss()
+)
+[2020-09-16 22:07:34] SCN.cv9: Hidden size: 1 	 
+Training MSE: 0.36959541 	 Validating MSE: 1.52465940 	 Best VMSE: 9999.00000000
+[2020-09-16 22:07:34] SCN.cv9: Found new best state
+[2020-09-16 22:07:34] SCN.cv9: Best vmse: 1.5247
+[2020-09-16 22:07:34] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:35] SCN.cv9: Hidden size: 2 	 
+Training MSE: 0.31101048 	 Validating MSE: 1.31603265 	 Best VMSE: 1.52465940
+[2020-09-16 22:07:35] SCN.cv9: Found new best state
+[2020-09-16 22:07:35] SCN.cv9: Best vmse: 1.3160
+[2020-09-16 22:07:35] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:36] SCN.cv9: Hidden size: 3 	 
+Training MSE: 0.28341812 	 Validating MSE: 1.31117284 	 Best VMSE: 1.31603265
+[2020-09-16 22:07:36] SCN.cv9: Found new best state
+[2020-09-16 22:07:36] SCN.cv9: Best vmse: 1.3112
+[2020-09-16 22:07:36] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:37] SCN.cv9: Hidden size: 4 	 
+Training MSE: 0.25392318 	 Validating MSE: 1.24573922 	 Best VMSE: 1.31117284
+[2020-09-16 22:07:37] SCN.cv9: Found new best state
+[2020-09-16 22:07:37] SCN.cv9: Best vmse: 1.2457
+[2020-09-16 22:07:37] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:38] SCN.cv9: Hidden size: 5 	 
+Training MSE: 0.24808313 	 Validating MSE: 1.11649883 	 Best VMSE: 1.24573922
+[2020-09-16 22:07:38] SCN.cv9: Found new best state
+[2020-09-16 22:07:38] SCN.cv9: Best vmse: 1.1165
+[2020-09-16 22:07:38] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:39] SCN.cv9: Hidden size: 6 	 
+Training MSE: 0.23775198 	 Validating MSE: 1.07034731 	 Best VMSE: 1.11649883
+[2020-09-16 22:07:39] SCN.cv9: Found new best state
+[2020-09-16 22:07:39] SCN.cv9: Best vmse: 1.0703
+[2020-09-16 22:07:39] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:39] SCN.cv9: Hidden size: 7 	 
+Training MSE: 0.23134769 	 Validating MSE: 1.06531429 	 Best VMSE: 1.07034731
+[2020-09-16 22:07:39] SCN.cv9: Found new best state
+[2020-09-16 22:07:39] SCN.cv9: Best vmse: 1.0653
+[2020-09-16 22:07:39] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:40] SCN.cv9: Hidden size: 8 	 
+Training MSE: 0.22508296 	 Validating MSE: 1.00892282 	 Best VMSE: 1.06531429
+[2020-09-16 22:07:40] SCN.cv9: Found new best state
+[2020-09-16 22:07:40] SCN.cv9: Best vmse: 1.0089
+[2020-09-16 22:07:40] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:41] SCN.cv9: Hidden size: 9 	 
+Training MSE: 0.22188692 	 Validating MSE: 0.99629444 	 Best VMSE: 1.00892282
+[2020-09-16 22:07:41] SCN.cv9: Found new best state
+[2020-09-16 22:07:41] SCN.cv9: Best vmse: 0.9963
+[2020-09-16 22:07:41] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:42] SCN.cv9: Hidden size: 10 	 
+Training MSE: 0.21862146 	 Validating MSE: 0.97858876 	 Best VMSE: 0.99629444
+[2020-09-16 22:07:42] SCN.cv9: Found new best state
+[2020-09-16 22:07:42] SCN.cv9: Best vmse: 0.9786
+[2020-09-16 22:07:42] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:43] SCN.cv9: Hidden size: 11 	 
+Training MSE: 0.21623363 	 Validating MSE: 0.99521923 	 Best VMSE: 0.97858876
+[2020-09-16 22:07:43] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:44] SCN.cv9: Hidden size: 12 	 
+Training MSE: 0.21436808 	 Validating MSE: 0.97770244 	 Best VMSE: 0.97858876
+[2020-09-16 22:07:44] SCN.cv9: Found new best state
+[2020-09-16 22:07:44] SCN.cv9: Best vmse: 0.9777
+[2020-09-16 22:07:44] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:45] SCN.cv9: Hidden size: 13 	 
+Training MSE: 0.21053940 	 Validating MSE: 0.94635928 	 Best VMSE: 0.97770244
+[2020-09-16 22:07:45] SCN.cv9: Found new best state
+[2020-09-16 22:07:45] SCN.cv9: Best vmse: 0.9464
+[2020-09-16 22:07:45] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:45] SCN.cv9: Hidden size: 14 	 
+Training MSE: 0.20778784 	 Validating MSE: 0.94375706 	 Best VMSE: 0.94635928
+[2020-09-16 22:07:45] SCN.cv9: Found new best state
+[2020-09-16 22:07:45] SCN.cv9: Best vmse: 0.9438
+[2020-09-16 22:07:45] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:46] SCN.cv9: Hidden size: 15 	 
+Training MSE: 0.20336637 	 Validating MSE: 0.96207756 	 Best VMSE: 0.94375706
+[2020-09-16 22:07:46] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:47] SCN.cv9: Hidden size: 16 	 
+Training MSE: 0.20028497 	 Validating MSE: 0.96230775 	 Best VMSE: 0.94375706
+[2020-09-16 22:07:47] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:48] SCN.cv9: Hidden size: 17 	 
+Training MSE: 0.19721928 	 Validating MSE: 0.96684474 	 Best VMSE: 0.94375706
+[2020-09-16 22:07:48] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:49] SCN.cv9: Hidden size: 18 	 
+Training MSE: 0.19481023 	 Validating MSE: 0.95224041 	 Best VMSE: 0.94375706
+[2020-09-16 22:07:49] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:50] SCN.cv9: Hidden size: 19 	 
+Training MSE: 0.19333869 	 Validating MSE: 0.95667470 	 Best VMSE: 0.94375706
+[2020-09-16 22:07:50] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:51] SCN.cv9: Hidden size: 20 	 
+Training MSE: 0.19076012 	 Validating MSE: 0.96555966 	 Best VMSE: 0.94375706
+[2020-09-16 22:07:51] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:51] SCN.cv9: Hidden size: 21 	 
+Training MSE: 0.18883976 	 Validating MSE: 0.96904606 	 Best VMSE: 0.94375706
+[2020-09-16 22:07:51] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:52] SCN.cv9: Hidden size: 22 	 
+Training MSE: 0.18647052 	 Validating MSE: 0.96137506 	 Best VMSE: 0.94375706
+[2020-09-16 22:07:52] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:53] SCN.cv9: Hidden size: 23 	 
+Training MSE: 0.18296011 	 Validating MSE: 0.97962779 	 Best VMSE: 0.94375706
+[2020-09-16 22:07:53] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:54] SCN.cv9: Hidden size: 24 	 
+Training MSE: 0.18092564 	 Validating MSE: 0.98242152 	 Best VMSE: 0.94375706
+[2020-09-16 22:07:54] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:55] SCN.cv9: Hidden size: 25 	 
+Training MSE: 0.17808867 	 Validating MSE: 0.98326892 	 Best VMSE: 0.94375706
+[2020-09-16 22:07:55] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:56] SCN.cv9: Hidden size: 26 	 
+Training MSE: 0.17648026 	 Validating MSE: 1.00729501 	 Best VMSE: 0.94375706
+[2020-09-16 22:07:56] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:57] SCN.cv9: Hidden size: 27 	 
+Training MSE: 0.17428035 	 Validating MSE: 1.01411247 	 Best VMSE: 0.94375706
+[2020-09-16 22:07:57] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:57] SCN.cv9: Hidden size: 28 	 
+Training MSE: 0.17250797 	 Validating MSE: 1.01239932 	 Best VMSE: 0.94375706
+[2020-09-16 22:07:57] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:58] SCN.cv9: Hidden size: 29 	 
+Training MSE: 0.17035125 	 Validating MSE: 1.01897705 	 Best VMSE: 0.94375706
+[2020-09-16 22:07:58] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:07:59] SCN.cv9: Hidden size: 30 	 
+Training MSE: 0.16906318 	 Validating MSE: 0.99507409 	 Best VMSE: 0.94375706
+[2020-09-16 22:07:59] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:00] SCN.cv9: Hidden size: 31 	 
+Training MSE: 0.16753490 	 Validating MSE: 0.99139255 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:00] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:01] SCN.cv9: Hidden size: 32 	 
+Training MSE: 0.16509755 	 Validating MSE: 0.99244559 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:01] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:02] SCN.cv9: Hidden size: 33 	 
+Training MSE: 0.16406213 	 Validating MSE: 0.99662906 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:02] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:03] SCN.cv9: Hidden size: 34 	 
+Training MSE: 0.16167293 	 Validating MSE: 0.98305196 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:03] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:03] SCN.cv9: Hidden size: 35 	 
+Training MSE: 0.16057535 	 Validating MSE: 0.97348946 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:03] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:04] SCN.cv9: Hidden size: 36 	 
+Training MSE: 0.15911244 	 Validating MSE: 0.98401529 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:04] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:05] SCN.cv9: Hidden size: 37 	 
+Training MSE: 0.15806976 	 Validating MSE: 1.00432813 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:05] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:06] SCN.cv9: Hidden size: 38 	 
+Training MSE: 0.15679330 	 Validating MSE: 1.01249909 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:06] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:07] SCN.cv9: Hidden size: 39 	 
+Training MSE: 0.15574124 	 Validating MSE: 0.99570292 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:07] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:08] SCN.cv9: Hidden size: 40 	 
+Training MSE: 0.15467149 	 Validating MSE: 0.99621791 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:08] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:09] SCN.cv9: Hidden size: 41 	 
+Training MSE: 0.15305620 	 Validating MSE: 0.99984676 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:09] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:09] SCN.cv9: Hidden size: 42 	 
+Training MSE: 0.15241908 	 Validating MSE: 0.99982995 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:09] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:10] SCN.cv9: Hidden size: 43 	 
+Training MSE: 0.15049146 	 Validating MSE: 0.98667449 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:10] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:11] SCN.cv9: Hidden size: 44 	 
+Training MSE: 0.14974591 	 Validating MSE: 1.00224793 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:11] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:12] SCN.cv9: Hidden size: 45 	 
+Training MSE: 0.14814107 	 Validating MSE: 0.98705655 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:12] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:13] SCN.cv9: Hidden size: 46 	 
+Training MSE: 0.14539099 	 Validating MSE: 1.04004657 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:13] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:14] SCN.cv9: Hidden size: 47 	 
+Training MSE: 0.14418231 	 Validating MSE: 1.05724108 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:14] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:15] SCN.cv9: Hidden size: 48 	 
+Training MSE: 0.14287691 	 Validating MSE: 1.06831074 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:15] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:15] SCN.cv9: Hidden size: 49 	 
+Training MSE: 0.14150214 	 Validating MSE: 1.06471694 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:15] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:16] SCN.cv9: Hidden size: 50 	 
+Training MSE: 0.14105393 	 Validating MSE: 1.07261741 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:16] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:17] SCN.cv9: Hidden size: 51 	 
+Training MSE: 0.13972959 	 Validating MSE: 1.10094643 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:17] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:18] SCN.cv9: Hidden size: 52 	 
+Training MSE: 0.13870612 	 Validating MSE: 1.09242904 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:18] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:19] SCN.cv9: Hidden size: 53 	 
+Training MSE: 0.13765483 	 Validating MSE: 1.10152972 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:19] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:20] SCN.cv9: Hidden size: 54 	 
+Training MSE: 0.13666606 	 Validating MSE: 1.08602178 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:20] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:21] SCN.cv9: Hidden size: 55 	 
+Training MSE: 0.13558860 	 Validating MSE: 1.10424161 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:21] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:21] SCN.cv9: Hidden size: 56 	 
+Training MSE: 0.13498335 	 Validating MSE: 1.10013628 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:21] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:22] SCN.cv9: Hidden size: 57 	 
+Training MSE: 0.13383427 	 Validating MSE: 1.09578443 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:22] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:23] SCN.cv9: Hidden size: 58 	 
+Training MSE: 0.13302287 	 Validating MSE: 1.11476648 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:23] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:24] SCN.cv9: Hidden size: 59 	 
+Training MSE: 0.13223037 	 Validating MSE: 1.12250412 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:24] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:25] SCN.cv9: Hidden size: 60 	 
+Training MSE: 0.13128076 	 Validating MSE: 1.12352836 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:25] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:26] SCN.cv9: Hidden size: 61 	 
+Training MSE: 0.13027786 	 Validating MSE: 1.15244341 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:26] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:27] SCN.cv9: Hidden size: 62 	 
+Training MSE: 0.12916030 	 Validating MSE: 1.15919495 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:27] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:27] SCN.cv9: Hidden size: 63 	 
+Training MSE: 0.12754534 	 Validating MSE: 1.17445433 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:27] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:28] SCN.cv9: Hidden size: 64 	 
+Training MSE: 0.12712137 	 Validating MSE: 1.18763411 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:28] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:29] SCN.cv9: Hidden size: 65 	 
+Training MSE: 0.12574847 	 Validating MSE: 1.19395185 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:29] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:30] SCN.cv9: Hidden size: 66 	 
+Training MSE: 0.12489200 	 Validating MSE: 1.20640922 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:30] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:31] SCN.cv9: Hidden size: 67 	 
+Training MSE: 0.12382516 	 Validating MSE: 1.23810768 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:31] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:32] SCN.cv9: Hidden size: 68 	 
+Training MSE: 0.12305541 	 Validating MSE: 1.27626753 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:32] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:33] SCN.cv9: Hidden size: 69 	 
+Training MSE: 0.12212709 	 Validating MSE: 1.32546318 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:33] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:33] SCN.cv9: Hidden size: 70 	 
+Training MSE: 0.12110782 	 Validating MSE: 1.34745741 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:33] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:34] SCN.cv9: Hidden size: 71 	 
+Training MSE: 0.12002664 	 Validating MSE: 1.35361183 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:34] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:35] SCN.cv9: Hidden size: 72 	 
+Training MSE: 0.11930423 	 Validating MSE: 1.35826242 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:35] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:36] SCN.cv9: Hidden size: 73 	 
+Training MSE: 0.11842067 	 Validating MSE: 1.38424230 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:36] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:37] SCN.cv9: Hidden size: 74 	 
+Training MSE: 0.11777619 	 Validating MSE: 1.39923704 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:37] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:38] SCN.cv9: Hidden size: 75 	 
+Training MSE: 0.11688905 	 Validating MSE: 1.40475976 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:38] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:39] SCN.cv9: Hidden size: 76 	 
+Training MSE: 0.11606037 	 Validating MSE: 1.37356842 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:39] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:39] SCN.cv9: Hidden size: 77 	 
+Training MSE: 0.11539797 	 Validating MSE: 1.36236119 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:39] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:40] SCN.cv9: Hidden size: 78 	 
+Training MSE: 0.11481109 	 Validating MSE: 1.39368713 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:40] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:41] SCN.cv9: Hidden size: 79 	 
+Training MSE: 0.11364232 	 Validating MSE: 1.52407658 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:41] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:42] SCN.cv9: Hidden size: 80 	 
+Training MSE: 0.11310412 	 Validating MSE: 1.52761924 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:42] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:43] SCN.cv9: Hidden size: 81 	 
+Training MSE: 0.11257157 	 Validating MSE: 1.50761127 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:43] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:44] SCN.cv9: Hidden size: 82 	 
+Training MSE: 0.11176992 	 Validating MSE: 1.49602163 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:44] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:45] SCN.cv9: Hidden size: 83 	 
+Training MSE: 0.11137612 	 Validating MSE: 1.49611688 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:45] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:45] SCN.cv9: Hidden size: 84 	 
+Training MSE: 0.11068330 	 Validating MSE: 1.48292327 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:45] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:46] SCN.cv9: Hidden size: 85 	 
+Training MSE: 0.10968380 	 Validating MSE: 1.47943139 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:46] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:47] SCN.cv9: Hidden size: 86 	 
+Training MSE: 0.10910328 	 Validating MSE: 1.47473967 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:47] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:48] SCN.cv9: Hidden size: 87 	 
+Training MSE: 0.10783733 	 Validating MSE: 1.51475465 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:48] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:49] SCN.cv9: Hidden size: 88 	 
+Training MSE: 0.10689548 	 Validating MSE: 1.46090317 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:49] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:50] SCN.cv9: Hidden size: 89 	 
+Training MSE: 0.10628148 	 Validating MSE: 1.46345615 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:50] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:51] SCN.cv9: Hidden size: 90 	 
+Training MSE: 0.10419582 	 Validating MSE: 1.59318483 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:51] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:51] SCN.cv9: Hidden size: 91 	 
+Training MSE: 0.10329047 	 Validating MSE: 1.56438100 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:51] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:52] SCN.cv9: Hidden size: 92 	 
+Training MSE: 0.10178103 	 Validating MSE: 1.57915545 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:52] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:53] SCN.cv9: Hidden size: 93 	 
+Training MSE: 0.10100973 	 Validating MSE: 1.67286336 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:53] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:54] SCN.cv9: Hidden size: 94 	 
+Training MSE: 0.09972855 	 Validating MSE: 1.70355475 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:54] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:55] SCN.cv9: Hidden size: 95 	 
+Training MSE: 0.09785067 	 Validating MSE: 1.81610000 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:55] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:56] SCN.cv9: Hidden size: 96 	 
+Training MSE: 0.09726064 	 Validating MSE: 1.87512934 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:56] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:57] SCN.cv9: Hidden size: 97 	 
+Training MSE: 0.09639762 	 Validating MSE: 1.88540041 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:57] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:57] SCN.cv9: Hidden size: 98 	 
+Training MSE: 0.09551438 	 Validating MSE: 1.90186536 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:57] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:58] SCN.cv9: Hidden size: 99 	 
+Training MSE: 0.09426984 	 Validating MSE: 1.98280644 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:58] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:59] SCN.cv9: Hidden size: 100 	 
+Training MSE: 0.09345568 	 Validating MSE: 2.00042701 	 Best VMSE: 0.94375706
+[2020-09-16 22:08:59] SCN.cv9: Checkpoint saved to experiments/normal/sili/SCN_sili_h8
+[2020-09-16 22:08:59] SCN.cv9: Restoring best parameters from experiments/normal/sili/SCN_sili_h8/train.cv9.pth.tar
+[2020-09-16 22:08:59] SCN.cv9: sili	 H: 8	 Trail: 16 
+Testing RMSE: 1.092 	 MAPE: 0.1664 	 SMAPE: 0.09417

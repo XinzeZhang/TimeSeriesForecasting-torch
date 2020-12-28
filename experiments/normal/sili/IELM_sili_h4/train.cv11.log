@@ -1,0 +1,377 @@
+[2020-10-23 13:48:12] IELM.cv11: Loading the datasets and model for 30th-batch-training
+[2020-10-23 13:48:12] IELM.cv11: Argument hidden_size: 100
+[2020-10-23 13:48:12] IELM.cv11: Argument candidate_size: 300
+[2020-10-23 13:48:12] IELM.cv11: Argument Lambdas: [0.5, 1, 5, 15, 30, 50, 100, 150, 200]
+[2020-10-23 13:48:12] IELM.cv11: Argument Lambdas_std: [0.01, 0.05, 0.1, 0.5, 1]
+[2020-10-23 13:48:12] IELM.cv11: Argument r: [0.8, 0.9, 0.99, 0.9999, 0.999999]
+[2020-10-23 13:48:12] IELM.cv11: Argument tolerance: 0
+[2020-10-23 13:48:12] IELM.cv11: Argument device: device(type='cuda')
+[2020-10-23 13:48:12] IELM.cv11: Argument dataset: 'sili'
+[2020-10-23 13:48:12] IELM.cv11: Argument H: 4
+[2020-10-23 13:48:12] IELM.cv11: Argument k: 5
+[2020-10-23 13:48:12] IELM.cv11: Argument test: False
+[2020-10-23 13:48:12] IELM.cv11: Argument normal: True
+[2020-10-23 13:48:12] IELM.cv11: Argument diff: False
+[2020-10-23 13:48:12] IELM.cv11: Argument times: 60
+[2020-10-23 13:48:12] IELM.cv11: Argument datasets: {'ar1': {'lag_order': 15, 'normal': True, 'cov_dim': 0, 'kernel_size': 3}, 'wti': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'gold': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'sp': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'brent': {'lag_order': 24, 'normal': True, 'cov_dim': 0, 'kernel_size': 6}, 'sili': {'lag_order': 26, 'normal': True, 'cov_dim': 0, 'kernel_size': 6}}
+[2020-10-23 13:48:12] IELM.cv11: Argument steps: 26
+[2020-10-23 13:48:12] IELM.cv11: Argument experiment: 'experiments/normal/sili'
+[2020-10-23 13:48:12] IELM.cv11: Argument scaler: StandardScaler()
+[2020-10-23 13:48:12] IELM.cv11: Argument model_name: 'IELM_sili_h4'
+[2020-10-23 13:48:12] IELM.cv11: Argument model_dir: 'experiments/normal/sili/IELM_sili_h4'
+[2020-10-23 13:48:12] IELM.cv11: Argument restore: True
+[2020-10-23 13:48:12] IELM.cv11: Argument cv: 11
+[2020-10-23 13:48:12] IELM.cv11: Argument plot_dir: 'experiments/normal/sili/IELM_sili_h4/figures'
+[2020-10-23 13:48:12] IELM.cv11: Using Cuda...
+[2020-10-23 13:48:12] IELM.cv11: Loading complete.
+[2020-10-23 13:48:12] IELM.cv11: Model: 
+IELM(
+  (loss_fn): MSELoss()
+)
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 1 	 
+Training MSE: 0.37797385 	 Validating MSE: 1.43116879 	 Best VMSE: 9999.00000000
+[2020-10-23 13:48:12] IELM.cv11: Found new best state
+[2020-10-23 13:48:12] IELM.cv11: Best vmse: 1.4312
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 2 	 
+Training MSE: 0.37764364 	 Validating MSE: 1.44420278 	 Best VMSE: 1.43116879
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 3 	 
+Training MSE: 0.36407909 	 Validating MSE: 1.52338755 	 Best VMSE: 1.43116879
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 4 	 
+Training MSE: 0.34960920 	 Validating MSE: 1.44473827 	 Best VMSE: 1.43116879
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 5 	 
+Training MSE: 0.34151655 	 Validating MSE: 1.51437080 	 Best VMSE: 1.43116879
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 6 	 
+Training MSE: 0.32526606 	 Validating MSE: 1.31931305 	 Best VMSE: 1.43116879
+[2020-10-23 13:48:12] IELM.cv11: Found new best state
+[2020-10-23 13:48:12] IELM.cv11: Best vmse: 1.3193
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 7 	 
+Training MSE: 0.32511771 	 Validating MSE: 1.31539226 	 Best VMSE: 1.31931305
+[2020-10-23 13:48:12] IELM.cv11: Found new best state
+[2020-10-23 13:48:12] IELM.cv11: Best vmse: 1.3154
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 8 	 
+Training MSE: 0.32391655 	 Validating MSE: 1.33861780 	 Best VMSE: 1.31539226
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 9 	 
+Training MSE: 0.32308835 	 Validating MSE: 1.37188733 	 Best VMSE: 1.31539226
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 10 	 
+Training MSE: 0.32252276 	 Validating MSE: 1.39640987 	 Best VMSE: 1.31539226
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 11 	 
+Training MSE: 0.32020274 	 Validating MSE: 1.44140697 	 Best VMSE: 1.31539226
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 12 	 
+Training MSE: 0.29810679 	 Validating MSE: 1.26446509 	 Best VMSE: 1.31539226
+[2020-10-23 13:48:12] IELM.cv11: Found new best state
+[2020-10-23 13:48:12] IELM.cv11: Best vmse: 1.2645
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 13 	 
+Training MSE: 0.29790303 	 Validating MSE: 1.26180208 	 Best VMSE: 1.26446509
+[2020-10-23 13:48:12] IELM.cv11: Found new best state
+[2020-10-23 13:48:12] IELM.cv11: Best vmse: 1.2618
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 14 	 
+Training MSE: 0.29004979 	 Validating MSE: 1.33042133 	 Best VMSE: 1.26180208
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 15 	 
+Training MSE: 0.29001659 	 Validating MSE: 1.33329642 	 Best VMSE: 1.26180208
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 16 	 
+Training MSE: 0.28798926 	 Validating MSE: 1.36982191 	 Best VMSE: 1.26180208
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 17 	 
+Training MSE: 0.27117750 	 Validating MSE: 1.13652873 	 Best VMSE: 1.26180208
+[2020-10-23 13:48:12] IELM.cv11: Found new best state
+[2020-10-23 13:48:12] IELM.cv11: Best vmse: 1.1365
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 18 	 
+Training MSE: 0.26109892 	 Validating MSE: 1.21749938 	 Best VMSE: 1.13652873
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 19 	 
+Training MSE: 0.25034553 	 Validating MSE: 1.09521806 	 Best VMSE: 1.13652873
+[2020-10-23 13:48:12] IELM.cv11: Found new best state
+[2020-10-23 13:48:12] IELM.cv11: Best vmse: 1.0952
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 20 	 
+Training MSE: 0.25019830 	 Validating MSE: 1.10411954 	 Best VMSE: 1.09521806
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 21 	 
+Training MSE: 0.24900149 	 Validating MSE: 1.13831222 	 Best VMSE: 1.09521806
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 22 	 
+Training MSE: 0.24764906 	 Validating MSE: 1.16319525 	 Best VMSE: 1.09521806
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 23 	 
+Training MSE: 0.24741517 	 Validating MSE: 1.15654242 	 Best VMSE: 1.09521806
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 24 	 
+Training MSE: 0.24667886 	 Validating MSE: 1.13143635 	 Best VMSE: 1.09521806
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 25 	 
+Training MSE: 0.24603832 	 Validating MSE: 1.10539722 	 Best VMSE: 1.09521806
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 26 	 
+Training MSE: 0.24398470 	 Validating MSE: 1.14617181 	 Best VMSE: 1.09521806
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 27 	 
+Training MSE: 0.24380887 	 Validating MSE: 1.15460205 	 Best VMSE: 1.09521806
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 28 	 
+Training MSE: 0.24376695 	 Validating MSE: 1.15758991 	 Best VMSE: 1.09521806
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 29 	 
+Training MSE: 0.24243662 	 Validating MSE: 1.12371945 	 Best VMSE: 1.09521806
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:12] IELM.cv11: Hidden size: 30 	 
+Training MSE: 0.24235360 	 Validating MSE: 1.12300944 	 Best VMSE: 1.09521806
+[2020-10-23 13:48:12] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 31 	 
+Training MSE: 0.24076024 	 Validating MSE: 1.05843914 	 Best VMSE: 1.09521806
+[2020-10-23 13:48:13] IELM.cv11: Found new best state
+[2020-10-23 13:48:13] IELM.cv11: Best vmse: 1.0584
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 32 	 
+Training MSE: 0.23999919 	 Validating MSE: 1.07803762 	 Best VMSE: 1.05843914
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 33 	 
+Training MSE: 0.23907880 	 Validating MSE: 1.08611774 	 Best VMSE: 1.05843914
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 34 	 
+Training MSE: 0.23803958 	 Validating MSE: 1.05934620 	 Best VMSE: 1.05843914
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 35 	 
+Training MSE: 0.23754887 	 Validating MSE: 1.04419792 	 Best VMSE: 1.05843914
+[2020-10-23 13:48:13] IELM.cv11: Found new best state
+[2020-10-23 13:48:13] IELM.cv11: Best vmse: 1.0442
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 36 	 
+Training MSE: 0.23641765 	 Validating MSE: 1.05598426 	 Best VMSE: 1.04419792
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 37 	 
+Training MSE: 0.23573233 	 Validating MSE: 1.07199442 	 Best VMSE: 1.04419792
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 38 	 
+Training MSE: 0.23535618 	 Validating MSE: 1.06398618 	 Best VMSE: 1.04419792
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 39 	 
+Training MSE: 0.23214312 	 Validating MSE: 0.97971088 	 Best VMSE: 1.04419792
+[2020-10-23 13:48:13] IELM.cv11: Found new best state
+[2020-10-23 13:48:13] IELM.cv11: Best vmse: 0.9797
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 40 	 
+Training MSE: 0.22820196 	 Validating MSE: 0.99811149 	 Best VMSE: 0.97971088
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 41 	 
+Training MSE: 0.22811820 	 Validating MSE: 0.99349606 	 Best VMSE: 0.97971088
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 42 	 
+Training MSE: 0.22572286 	 Validating MSE: 0.92726713 	 Best VMSE: 0.97971088
+[2020-10-23 13:48:13] IELM.cv11: Found new best state
+[2020-10-23 13:48:13] IELM.cv11: Best vmse: 0.9273
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 43 	 
+Training MSE: 0.22460812 	 Validating MSE: 0.95148450 	 Best VMSE: 0.92726713
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 44 	 
+Training MSE: 0.22344179 	 Validating MSE: 0.92319030 	 Best VMSE: 0.92726713
+[2020-10-23 13:48:13] IELM.cv11: Found new best state
+[2020-10-23 13:48:13] IELM.cv11: Best vmse: 0.9232
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 45 	 
+Training MSE: 0.22341274 	 Validating MSE: 0.91987532 	 Best VMSE: 0.92319030
+[2020-10-23 13:48:13] IELM.cv11: Found new best state
+[2020-10-23 13:48:13] IELM.cv11: Best vmse: 0.9199
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 46 	 
+Training MSE: 0.22141634 	 Validating MSE: 0.94452620 	 Best VMSE: 0.91987532
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 47 	 
+Training MSE: 0.21988966 	 Validating MSE: 0.89852595 	 Best VMSE: 0.91987532
+[2020-10-23 13:48:13] IELM.cv11: Found new best state
+[2020-10-23 13:48:13] IELM.cv11: Best vmse: 0.8985
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 48 	 
+Training MSE: 0.21953870 	 Validating MSE: 0.90705729 	 Best VMSE: 0.89852595
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 49 	 
+Training MSE: 0.21729949 	 Validating MSE: 0.93191236 	 Best VMSE: 0.89852595
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 50 	 
+Training MSE: 0.21288733 	 Validating MSE: 0.86416686 	 Best VMSE: 0.89852595
+[2020-10-23 13:48:13] IELM.cv11: Found new best state
+[2020-10-23 13:48:13] IELM.cv11: Best vmse: 0.8642
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 51 	 
+Training MSE: 0.21286477 	 Validating MSE: 0.86277866 	 Best VMSE: 0.86416686
+[2020-10-23 13:48:13] IELM.cv11: Found new best state
+[2020-10-23 13:48:13] IELM.cv11: Best vmse: 0.8628
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 52 	 
+Training MSE: 0.21266414 	 Validating MSE: 0.87488371 	 Best VMSE: 0.86277866
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 53 	 
+Training MSE: 0.21237357 	 Validating MSE: 0.88866079 	 Best VMSE: 0.86277866
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 54 	 
+Training MSE: 0.21233794 	 Validating MSE: 0.88619316 	 Best VMSE: 0.86277866
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 55 	 
+Training MSE: 0.21201928 	 Validating MSE: 0.90098339 	 Best VMSE: 0.86277866
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 56 	 
+Training MSE: 0.21194670 	 Validating MSE: 0.90843928 	 Best VMSE: 0.86277866
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 57 	 
+Training MSE: 0.21105434 	 Validating MSE: 0.86456591 	 Best VMSE: 0.86277866
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 58 	 
+Training MSE: 0.21064937 	 Validating MSE: 0.88211399 	 Best VMSE: 0.86277866
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 59 	 
+Training MSE: 0.21060039 	 Validating MSE: 0.88112003 	 Best VMSE: 0.86277866
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 60 	 
+Training MSE: 0.21059936 	 Validating MSE: 0.88107723 	 Best VMSE: 0.86277866
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 61 	 
+Training MSE: 0.21057412 	 Validating MSE: 0.87952888 	 Best VMSE: 0.86277866
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 62 	 
+Training MSE: 0.21056937 	 Validating MSE: 0.87924403 	 Best VMSE: 0.86277866
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 63 	 
+Training MSE: 0.20984401 	 Validating MSE: 0.85934287 	 Best VMSE: 0.86277866
+[2020-10-23 13:48:13] IELM.cv11: Found new best state
+[2020-10-23 13:48:13] IELM.cv11: Best vmse: 0.8593
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 64 	 
+Training MSE: 0.20910887 	 Validating MSE: 0.88344544 	 Best VMSE: 0.85934287
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 65 	 
+Training MSE: 0.20882566 	 Validating MSE: 0.87236327 	 Best VMSE: 0.85934287
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 66 	 
+Training MSE: 0.20874482 	 Validating MSE: 0.86504263 	 Best VMSE: 0.85934287
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 67 	 
+Training MSE: 0.20865169 	 Validating MSE: 0.86992204 	 Best VMSE: 0.85934287
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:13] IELM.cv11: Hidden size: 68 	 
+Training MSE: 0.20853849 	 Validating MSE: 0.86098933 	 Best VMSE: 0.85934287
+[2020-10-23 13:48:13] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 69 	 
+Training MSE: 0.20737417 	 Validating MSE: 0.87820673 	 Best VMSE: 0.85934287
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 70 	 
+Training MSE: 0.20696925 	 Validating MSE: 0.85983372 	 Best VMSE: 0.85934287
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 71 	 
+Training MSE: 0.20603524 	 Validating MSE: 0.88500506 	 Best VMSE: 0.85934287
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 72 	 
+Training MSE: 0.20591807 	 Validating MSE: 0.87766683 	 Best VMSE: 0.85934287
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 73 	 
+Training MSE: 0.20586517 	 Validating MSE: 0.87576002 	 Best VMSE: 0.85934287
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 74 	 
+Training MSE: 0.20456183 	 Validating MSE: 0.85098976 	 Best VMSE: 0.85934287
+[2020-10-23 13:48:14] IELM.cv11: Found new best state
+[2020-10-23 13:48:14] IELM.cv11: Best vmse: 0.8510
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 75 	 
+Training MSE: 0.20414546 	 Validating MSE: 0.87015724 	 Best VMSE: 0.85098976
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 76 	 
+Training MSE: 0.20392220 	 Validating MSE: 0.87826389 	 Best VMSE: 0.85098976
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 77 	 
+Training MSE: 0.20371227 	 Validating MSE: 0.86243695 	 Best VMSE: 0.85098976
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 78 	 
+Training MSE: 0.20364997 	 Validating MSE: 0.85779357 	 Best VMSE: 0.85098976
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 79 	 
+Training MSE: 0.20362610 	 Validating MSE: 0.86045122 	 Best VMSE: 0.85098976
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 80 	 
+Training MSE: 0.20347388 	 Validating MSE: 0.87024635 	 Best VMSE: 0.85098976
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 81 	 
+Training MSE: 0.20347120 	 Validating MSE: 0.87034571 	 Best VMSE: 0.85098976
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 82 	 
+Training MSE: 0.20338675 	 Validating MSE: 0.87520123 	 Best VMSE: 0.85098976
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 83 	 
+Training MSE: 0.20263293 	 Validating MSE: 0.84885699 	 Best VMSE: 0.85098976
+[2020-10-23 13:48:14] IELM.cv11: Found new best state
+[2020-10-23 13:48:14] IELM.cv11: Best vmse: 0.8489
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 84 	 
+Training MSE: 0.20243016 	 Validating MSE: 0.85597312 	 Best VMSE: 0.84885699
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 85 	 
+Training MSE: 0.20223427 	 Validating MSE: 0.86651772 	 Best VMSE: 0.84885699
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 86 	 
+Training MSE: 0.20211515 	 Validating MSE: 0.86041504 	 Best VMSE: 0.84885699
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 87 	 
+Training MSE: 0.20198521 	 Validating MSE: 0.84883654 	 Best VMSE: 0.84885699
+[2020-10-23 13:48:14] IELM.cv11: Found new best state
+[2020-10-23 13:48:14] IELM.cv11: Best vmse: 0.8488
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 88 	 
+Training MSE: 0.20194739 	 Validating MSE: 0.85065204 	 Best VMSE: 0.84883654
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 89 	 
+Training MSE: 0.20171559 	 Validating MSE: 0.85459262 	 Best VMSE: 0.84883654
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 90 	 
+Training MSE: 0.20124416 	 Validating MSE: 0.83276045 	 Best VMSE: 0.84883654
+[2020-10-23 13:48:14] IELM.cv11: Found new best state
+[2020-10-23 13:48:14] IELM.cv11: Best vmse: 0.8328
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 91 	 
+Training MSE: 0.20106891 	 Validating MSE: 0.82407963 	 Best VMSE: 0.83276045
+[2020-10-23 13:48:14] IELM.cv11: Found new best state
+[2020-10-23 13:48:14] IELM.cv11: Best vmse: 0.8241
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 92 	 
+Training MSE: 0.20103900 	 Validating MSE: 0.82688528 	 Best VMSE: 0.82407963
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 93 	 
+Training MSE: 0.20095192 	 Validating MSE: 0.83580101 	 Best VMSE: 0.82407963
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 94 	 
+Training MSE: 0.20076625 	 Validating MSE: 0.84433711 	 Best VMSE: 0.82407963
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 95 	 
+Training MSE: 0.20047925 	 Validating MSE: 0.82911175 	 Best VMSE: 0.82407963
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 96 	 
+Training MSE: 0.20024917 	 Validating MSE: 0.83744419 	 Best VMSE: 0.82407963
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 97 	 
+Training MSE: 0.20023261 	 Validating MSE: 0.83895093 	 Best VMSE: 0.82407963
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 98 	 
+Training MSE: 0.20022705 	 Validating MSE: 0.83891559 	 Best VMSE: 0.82407963
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 99 	 
+Training MSE: 0.20016772 	 Validating MSE: 0.84458971 	 Best VMSE: 0.82407963
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Hidden size: 100 	 
+Training MSE: 0.19937256 	 Validating MSE: 0.82611781 	 Best VMSE: 0.82407963
+[2020-10-23 13:48:14] IELM.cv11: Checkpoint saved to experiments/normal/sili/IELM_sili_h4
+[2020-10-23 13:48:14] IELM.cv11: Restoring best parameters from experiments/normal/sili/IELM_sili_h4/train.cv11.pth.tar
+[2020-10-23 13:48:14] IELM.cv11: sili	 H: 4	 Trail: 30 
+Testing RMSE: 0.9875 	 MAPE: 0.1532 	 SMAPE: 0.0848

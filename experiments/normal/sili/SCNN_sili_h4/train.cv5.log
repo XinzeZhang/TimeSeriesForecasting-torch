@@ -1,0 +1,41 @@
+[2020-09-14 16:35:51] SCNN.cv5: Loading the datasets and model for 5th-batch-training
+[2020-09-14 16:35:51] SCNN.cv5: Argument channel_size: 100
+[2020-09-14 16:35:51] SCNN.cv5: Argument candidate_size: 300
+[2020-09-14 16:35:51] SCNN.cv5: Argument kernel_size: 6
+[2020-09-14 16:35:51] SCNN.cv5: Argument kernel_list: [4]
+[2020-09-14 16:35:51] SCNN.cv5: Argument Lambdas: [0.5, 1, 5, 15, 30, 50, 100, 150, 200]
+[2020-09-14 16:35:51] SCNN.cv5: Argument Lambdas_std: [0.01, 0.05, 0.1, 0.5, 1]
+[2020-09-14 16:35:51] SCNN.cv5: Argument r: [0.8, 0.9, 0.99, 0.9999, 0.999999]
+[2020-09-14 16:35:51] SCNN.cv5: Argument tolerance: 0
+[2020-09-14 16:35:51] SCNN.cv5: Argument device: device(type='cpu')
+[2020-09-14 16:35:51] SCNN.cv5: Argument dataset: 'sili'
+[2020-09-14 16:35:51] SCNN.cv5: Argument H: 4
+[2020-09-14 16:35:51] SCNN.cv5: Argument k: 5
+[2020-09-14 16:35:51] SCNN.cv5: Argument test: False
+[2020-09-14 16:35:51] SCNN.cv5: Argument search: 'random'
+[2020-09-14 16:35:51] SCNN.cv5: Argument normal: True
+[2020-09-14 16:35:51] SCNN.cv5: Argument diff: False
+[2020-09-14 16:35:51] SCNN.cv5: Argument times: 20
+[2020-09-14 16:35:51] SCNN.cv5: Argument datasets: {'ar1': {'lag_order': 15, 'normal': True, 'cov_dim': 0, 'kernel_size': 3}, 'wti': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'gold': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'sp': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'brent': {'lag_order': 24, 'normal': True, 'cov_dim': 0, 'kernel_size': 6}, 'sili': {'lag_order': 26, 'normal': True, 'cov_dim': 0, 'kernel_size': 6}}
+[2020-09-14 16:35:51] SCNN.cv5: Argument steps: 26
+[2020-09-14 16:35:51] SCNN.cv5: Argument cov_dim: 0
+[2020-09-14 16:35:51] SCNN.cv5: Argument experiment: 'experiments/normal/sili'
+[2020-09-14 16:35:51] SCNN.cv5: Argument scaler: StandardScaler()
+[2020-09-14 16:35:51] SCNN.cv5: Argument model_name: 'SCNN_random_sili_h4'
+[2020-09-14 16:35:51] SCNN.cv5: Argument model_dir: 'experiments/normal/sili/SCNN_random_sili_h4'
+[2020-09-14 16:35:51] SCNN.cv5: Argument In_channels: 1
+[2020-09-14 16:35:51] SCNN.cv5: Argument restore: True
+[2020-09-14 16:35:51] SCNN.cv5: Argument cv: 5
+[2020-09-14 16:35:51] SCNN.cv5: Argument plot_dir: 'experiments/normal/sili/SCNN_random_sili_h4/figures'
+[2020-09-14 16:35:51] SCNN.cv5: Not using cuda...
+[2020-09-14 16:35:51] SCNN.cv5: Loading complete.
+[2020-09-14 16:35:51] SCNN.cv5: Model: 
+S_CNN(
+  (Conv): Conv1d(1, 100, kernel_size=(6,), stride=(1,))
+  (Pool): AvgPool1d(kernel_size=(3,), stride=(1,), padding=(0,))
+  (loss_fn): MSELoss()
+)
+[2020-09-14 16:35:51] SCNN.cv5: Hidden size: 100 	 
+Training MSE: 0.00000021 	 Validating MSE: 95.16374969 
+[2020-09-14 16:35:51] SCNN.cv5: sili	 H: 4	 Trail: 5 
+Testing RMSE: 12.58 	 MAPE: 2.133 	 SMAPE: 1.102

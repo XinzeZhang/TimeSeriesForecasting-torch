@@ -1,0 +1,48 @@
+[2020-10-19 00:17:48] deepAR.cv17: Loading the datasets for 27th-batch-training
+[2020-10-19 00:17:48] deepAR.cv17: Argument batch_size: 128
+[2020-10-19 00:17:48] deepAR.cv17: Argument lstm_layers: 3
+[2020-10-19 00:17:48] deepAR.cv17: Argument lstm_hidden_dim: 40
+[2020-10-19 00:17:48] deepAR.cv17: Argument sample_times: 200
+[2020-10-19 00:17:48] deepAR.cv17: Argument embedding_dim: 20
+[2020-10-19 00:17:48] deepAR.cv17: Argument lstm_dropout: 0.1
+[2020-10-19 00:17:48] deepAR.cv17: Argument learning_rate: 0.001
+[2020-10-19 00:17:48] deepAR.cv17: Argument step_lr: 20
+[2020-10-19 00:17:48] deepAR.cv17: Argument device: device(type='cpu')
+[2020-10-19 00:17:48] deepAR.cv17: Argument dataset: 'ar1'
+[2020-10-19 00:17:48] deepAR.cv17: Argument H: 1
+[2020-10-19 00:17:48] deepAR.cv17: Argument num_epochs: 600
+[2020-10-19 00:17:48] deepAR.cv17: Argument k: 5
+[2020-10-19 00:17:48] deepAR.cv17: Argument sample_dense: True
+[2020-10-19 00:17:48] deepAR.cv17: Argument restore: True
+[2020-10-19 00:17:48] deepAR.cv17: Argument relative_metrics: False
+[2020-10-19 00:17:48] deepAR.cv17: Argument sampling: False
+[2020-10-19 00:17:48] deepAR.cv17: Argument save_best: False
+[2020-10-19 00:17:48] deepAR.cv17: Argument test: False
+[2020-10-19 00:17:48] deepAR.cv17: Argument normal: True
+[2020-10-19 00:17:48] deepAR.cv17: Argument diff: False
+[2020-10-19 00:17:48] deepAR.cv17: Argument datasets: {'ar1': {'lag_order': 15, 'normal': True, 'cov_dim': 0, 'kernel_size': 3}, 'wti': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'gold': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'sp': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'brent': {'lag_order': 24, 'normal': True, 'cov_dim': 0, 'kernel_size': 6}, 'sili': {'lag_order': 26, 'normal': True, 'cov_dim': 0, 'kernel_size': 6}}
+[2020-10-19 00:17:48] deepAR.cv17: Argument steps: 15
+[2020-10-19 00:17:48] deepAR.cv17: Argument cov_dim: 0
+[2020-10-19 00:17:48] deepAR.cv17: Argument experiment: 'experiments/normal/ar1'
+[2020-10-19 00:17:48] deepAR.cv17: Argument scaler: StandardScaler()
+[2020-10-19 00:17:48] deepAR.cv17: Argument model_name: 'deepAR_norm_ar1_h1'
+[2020-10-19 00:17:48] deepAR.cv17: Argument model_dir: 'experiments/normal/ar1/deepAR_norm_ar1_h1'
+[2020-10-19 00:17:48] deepAR.cv17: Argument train_window: 16
+[2020-10-19 00:17:48] deepAR.cv17: Argument test_window: 16
+[2020-10-19 00:17:48] deepAR.cv17: Argument predict_start: 15
+[2020-10-19 00:17:48] deepAR.cv17: Argument predict_steps: 1
+[2020-10-19 00:17:48] deepAR.cv17: Argument cv: 17
+[2020-10-19 00:17:48] deepAR.cv17: Argument plot_dir: 'experiments/normal/ar1/deepAR_norm_ar1_h1/figures'
+[2020-10-19 00:17:48] deepAR.cv17: Not using cuda...
+[2020-10-19 00:17:48] deepAR.cv17: Loading complete.
+[2020-10-19 00:17:48] deepAR.cv17: Model: 
+DeepAR(
+  (lstm): LSTM(1, 40, num_layers=3, dropout=0.1)
+  (relu): ReLU()
+  (distribution_mu): Linear(in_features=120, out_features=1, bias=True)
+  (distribution_presigma): Linear(in_features=120, out_features=1, bias=True)
+  (distribution_sigma): Softplus(beta=1, threshold=20)
+)
+[2020-10-19 00:17:48] deepAR.cv17: Restoring best parameters from experiments/normal/ar1/deepAR_norm_ar1_h1/best.cv17.pth.tar
+[2020-10-19 00:17:48] deepAR.cv17: ar1	 H: 1	 Trail: 27 
+Testing RMSE: 0.4519 	 MAPE: 0.09366 	 SMAPE: 0.04987

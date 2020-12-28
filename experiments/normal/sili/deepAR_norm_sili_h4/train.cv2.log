@@ -1,0 +1,48 @@
+[2020-10-19 00:24:11] deepAR.cv2: Loading the datasets for 3th-batch-training
+[2020-10-19 00:24:11] deepAR.cv2: Argument batch_size: 128
+[2020-10-19 00:24:11] deepAR.cv2: Argument lstm_layers: 3
+[2020-10-19 00:24:11] deepAR.cv2: Argument lstm_hidden_dim: 40
+[2020-10-19 00:24:11] deepAR.cv2: Argument sample_times: 200
+[2020-10-19 00:24:11] deepAR.cv2: Argument embedding_dim: 20
+[2020-10-19 00:24:11] deepAR.cv2: Argument lstm_dropout: 0.1
+[2020-10-19 00:24:11] deepAR.cv2: Argument learning_rate: 0.001
+[2020-10-19 00:24:11] deepAR.cv2: Argument step_lr: 20
+[2020-10-19 00:24:11] deepAR.cv2: Argument device: device(type='cpu')
+[2020-10-19 00:24:11] deepAR.cv2: Argument dataset: 'sili'
+[2020-10-19 00:24:11] deepAR.cv2: Argument H: 4
+[2020-10-19 00:24:11] deepAR.cv2: Argument num_epochs: 600
+[2020-10-19 00:24:11] deepAR.cv2: Argument k: 5
+[2020-10-19 00:24:11] deepAR.cv2: Argument sample_dense: True
+[2020-10-19 00:24:11] deepAR.cv2: Argument restore: True
+[2020-10-19 00:24:11] deepAR.cv2: Argument relative_metrics: False
+[2020-10-19 00:24:11] deepAR.cv2: Argument sampling: False
+[2020-10-19 00:24:11] deepAR.cv2: Argument save_best: False
+[2020-10-19 00:24:11] deepAR.cv2: Argument test: False
+[2020-10-19 00:24:11] deepAR.cv2: Argument normal: True
+[2020-10-19 00:24:11] deepAR.cv2: Argument diff: False
+[2020-10-19 00:24:11] deepAR.cv2: Argument datasets: {'ar1': {'lag_order': 15, 'normal': True, 'cov_dim': 0, 'kernel_size': 3}, 'wti': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'gold': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'sp': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'brent': {'lag_order': 24, 'normal': True, 'cov_dim': 0, 'kernel_size': 6}, 'sili': {'lag_order': 26, 'normal': True, 'cov_dim': 0, 'kernel_size': 6}}
+[2020-10-19 00:24:11] deepAR.cv2: Argument steps: 26
+[2020-10-19 00:24:11] deepAR.cv2: Argument cov_dim: 0
+[2020-10-19 00:24:11] deepAR.cv2: Argument experiment: 'experiments/normal/sili'
+[2020-10-19 00:24:11] deepAR.cv2: Argument scaler: StandardScaler()
+[2020-10-19 00:24:11] deepAR.cv2: Argument model_name: 'deepAR_norm_sili_h4'
+[2020-10-19 00:24:11] deepAR.cv2: Argument model_dir: 'experiments/normal/sili/deepAR_norm_sili_h4'
+[2020-10-19 00:24:11] deepAR.cv2: Argument train_window: 30
+[2020-10-19 00:24:11] deepAR.cv2: Argument test_window: 30
+[2020-10-19 00:24:11] deepAR.cv2: Argument predict_start: 26
+[2020-10-19 00:24:11] deepAR.cv2: Argument predict_steps: 4
+[2020-10-19 00:24:11] deepAR.cv2: Argument cv: 2
+[2020-10-19 00:24:11] deepAR.cv2: Argument plot_dir: 'experiments/normal/sili/deepAR_norm_sili_h4/figures'
+[2020-10-19 00:24:11] deepAR.cv2: Not using cuda...
+[2020-10-19 00:24:11] deepAR.cv2: Loading complete.
+[2020-10-19 00:24:11] deepAR.cv2: Model: 
+DeepAR(
+  (lstm): LSTM(1, 40, num_layers=3, dropout=0.1)
+  (relu): ReLU()
+  (distribution_mu): Linear(in_features=120, out_features=1, bias=True)
+  (distribution_presigma): Linear(in_features=120, out_features=1, bias=True)
+  (distribution_sigma): Softplus(beta=1, threshold=20)
+)
+[2020-10-19 00:24:11] deepAR.cv2: Restoring best parameters from experiments/normal/sili/deepAR_norm_sili_h4/best.cv2.pth.tar
+[2020-10-19 00:24:11] deepAR.cv2: sili	 H: 4	 Trail: 3 
+Testing RMSE: 0.9991 	 MAPE: 0.147 	 SMAPE: 0.08026

@@ -1,0 +1,41 @@
+[2020-10-19 01:01:57] SCNN.cv15: Loading the datasets and model for 15th-batch-training
+[2020-10-19 01:01:57] SCNN.cv15: Argument channel_size: 100
+[2020-10-19 01:01:57] SCNN.cv15: Argument candidate_size: 300
+[2020-10-19 01:01:57] SCNN.cv15: Argument kernel_size: 3
+[2020-10-19 01:01:57] SCNN.cv15: Argument kernel_list: [4]
+[2020-10-19 01:01:57] SCNN.cv15: Argument Lambdas: [0.5, 1, 5, 15, 30, 50, 100, 150, 200]
+[2020-10-19 01:01:57] SCNN.cv15: Argument Lambdas_std: [0.01, 0.05, 0.1, 0.5, 1]
+[2020-10-19 01:01:57] SCNN.cv15: Argument r: [0.8, 0.9, 0.99, 0.9999, 0.999999]
+[2020-10-19 01:01:57] SCNN.cv15: Argument tolerance: 0
+[2020-10-19 01:01:57] SCNN.cv15: Argument device: device(type='cpu')
+[2020-10-19 01:01:57] SCNN.cv15: Argument dataset: 'ar1'
+[2020-10-19 01:01:57] SCNN.cv15: Argument H: 3
+[2020-10-19 01:01:57] SCNN.cv15: Argument k: 5
+[2020-10-19 01:01:57] SCNN.cv15: Argument test: False
+[2020-10-19 01:01:57] SCNN.cv15: Argument search: 'random'
+[2020-10-19 01:01:57] SCNN.cv15: Argument normal: True
+[2020-10-19 01:01:57] SCNN.cv15: Argument diff: False
+[2020-10-19 01:01:57] SCNN.cv15: Argument times: 20
+[2020-10-19 01:01:57] SCNN.cv15: Argument datasets: {'ar1': {'lag_order': 15, 'normal': True, 'cov_dim': 0, 'kernel_size': 3}, 'wti': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'gold': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'sp': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'brent': {'lag_order': 24, 'normal': True, 'cov_dim': 0, 'kernel_size': 6}, 'sili': {'lag_order': 26, 'normal': True, 'cov_dim': 0, 'kernel_size': 6}}
+[2020-10-19 01:01:57] SCNN.cv15: Argument steps: 15
+[2020-10-19 01:01:57] SCNN.cv15: Argument cov_dim: 0
+[2020-10-19 01:01:57] SCNN.cv15: Argument experiment: 'experiments/normal/ar1'
+[2020-10-19 01:01:57] SCNN.cv15: Argument scaler: StandardScaler()
+[2020-10-19 01:01:57] SCNN.cv15: Argument model_name: 'SCNN_ar1_h3'
+[2020-10-19 01:01:57] SCNN.cv15: Argument model_dir: 'experiments/normal/ar1/SCNN_ar1_h3'
+[2020-10-19 01:01:57] SCNN.cv15: Argument In_channels: 1
+[2020-10-19 01:01:57] SCNN.cv15: Argument restore: True
+[2020-10-19 01:01:57] SCNN.cv15: Argument cv: 15
+[2020-10-19 01:01:57] SCNN.cv15: Argument plot_dir: 'experiments/normal/ar1/SCNN_ar1_h3/figures'
+[2020-10-19 01:01:57] SCNN.cv15: Not using cuda...
+[2020-10-19 01:01:57] SCNN.cv15: Loading complete.
+[2020-10-19 01:01:57] SCNN.cv15: Model: 
+S_CNN(
+  (Conv): Conv1d(1, 100, kernel_size=(3,), stride=(1,))
+  (Pool): AvgPool1d(kernel_size=(3,), stride=(1,), padding=(0,))
+  (loss_fn): MSELoss()
+)
+[2020-10-19 01:01:57] SCNN.cv15: Hidden size: 100 	 
+Training MSE: 0.02396741 	 Validating MSE: 426.49606323 
+[2020-10-19 01:01:57] SCNN.cv15: ar1	 H: 3	 Trail: 15 
+Testing RMSE: 198.5 	 MAPE: 27.35 	 SMAPE: 1.469

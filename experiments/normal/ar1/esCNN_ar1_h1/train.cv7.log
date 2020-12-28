@@ -1,0 +1,359 @@
+[2020-10-23 12:58:20] esCNN.cv7: Loading the datasets and model for 23th-batch-training
+[2020-10-23 12:58:20] esCNN.cv7: Argument channel_size: 100
+[2020-10-23 12:58:20] esCNN.cv7: Argument candidate_size: 300
+[2020-10-23 12:58:20] esCNN.cv7: Argument kernel_size: 3
+[2020-10-23 12:58:20] esCNN.cv7: Argument kernel_list: [5, 3, 3, 2]
+[2020-10-23 12:58:20] esCNN.cv7: Argument Lambdas: [0.5, 1, 5, 15, 30, 50, 100, 150, 200]
+[2020-10-23 12:58:20] esCNN.cv7: Argument Lambdas_std: [0.01, 0.05, 0.1, 0.5, 1]
+[2020-10-23 12:58:20] esCNN.cv7: Argument r: [0.8, 0.9, 0.99, 0.9999, 0.999999]
+[2020-10-23 12:58:20] esCNN.cv7: Argument tolerance: 0
+[2020-10-23 12:58:20] esCNN.cv7: Argument device: device(type='cuda')
+[2020-10-23 12:58:20] esCNN.cv7: Argument dataset: 'ar1'
+[2020-10-23 12:58:20] esCNN.cv7: Argument H: 1
+[2020-10-23 12:58:20] esCNN.cv7: Argument k: 5
+[2020-10-23 12:58:20] esCNN.cv7: Argument test: False
+[2020-10-23 12:58:20] esCNN.cv7: Argument search: 'random'
+[2020-10-23 12:58:20] esCNN.cv7: Argument normal: True
+[2020-10-23 12:58:20] esCNN.cv7: Argument diff: False
+[2020-10-23 12:58:20] esCNN.cv7: Argument times: 60
+[2020-10-23 12:58:20] esCNN.cv7: Argument datasets: {'ar1': {'lag_order': 15, 'normal': True, 'cov_dim': 0, 'kernel_size': 3}, 'wti': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'gold': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'sp': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'brent': {'lag_order': 24, 'normal': True, 'cov_dim': 0, 'kernel_size': 6}, 'sili': {'lag_order': 26, 'normal': True, 'cov_dim': 0, 'kernel_size': 6}}
+[2020-10-23 12:58:20] esCNN.cv7: Argument steps: 15
+[2020-10-23 12:58:20] esCNN.cv7: Argument cov_dim: 0
+[2020-10-23 12:58:20] esCNN.cv7: Argument experiment: 'experiments/normal/ar1'
+[2020-10-23 12:58:20] esCNN.cv7: Argument scaler: StandardScaler()
+[2020-10-23 12:58:20] esCNN.cv7: Argument model_name: 'esCNN_random_ar1_h1'
+[2020-10-23 12:58:20] esCNN.cv7: Argument model_dir: 'experiments/normal/ar1/esCNN_random_ar1_h1'
+[2020-10-23 12:58:20] esCNN.cv7: Argument In_channels: 1
+[2020-10-23 12:58:20] esCNN.cv7: Argument restore: True
+[2020-10-23 12:58:20] esCNN.cv7: Argument cv: 7
+[2020-10-23 12:58:20] esCNN.cv7: Argument plot_dir: 'experiments/normal/ar1/esCNN_random_ar1_h1/figures'
+[2020-10-23 12:58:20] esCNN.cv7: Using Cuda...
+[2020-10-23 12:58:20] esCNN.cv7: Loading complete.
+[2020-10-23 12:58:20] esCNN.cv7: Model: 
+ES_CNN(
+  (Pool): AvgPool1d(kernel_size=(3,), stride=(1,), padding=(0,))
+  (loss_fn): MSELoss()
+)
+[2020-10-23 12:58:20] esCNN.cv7: Found new best state
+[2020-10-23 12:58:20] esCNN.cv7: Best vmse: 0.0948
+[2020-10-23 12:58:20] esCNN.cv7: Channel size: 1 	 Kernel size: 3 
+Training MSE: 0.07137810 	 Validating MSE: 0.09482140 	 Best VMSE: 0.09482140
+[2020-10-23 12:58:20] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:20] esCNN.cv7: Found new best state
+[2020-10-23 12:58:20] esCNN.cv7: Best vmse: 0.0230
+[2020-10-23 12:58:20] esCNN.cv7: Channel size: 2 	 Kernel size: 3 
+Training MSE: 0.01679562 	 Validating MSE: 0.02299554 	 Best VMSE: 0.02299554
+[2020-10-23 12:58:20] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:20] esCNN.cv7: Found new best state
+[2020-10-23 12:58:20] esCNN.cv7: Best vmse: 0.0224
+[2020-10-23 12:58:20] esCNN.cv7: Channel size: 3 	 Kernel size: 3 
+Training MSE: 0.01593579 	 Validating MSE: 0.02236485 	 Best VMSE: 0.02236485
+[2020-10-23 12:58:20] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:20] esCNN.cv7: Found new best state
+[2020-10-23 12:58:20] esCNN.cv7: Best vmse: 0.0224
+[2020-10-23 12:58:20] esCNN.cv7: Channel size: 4 	 Kernel size: 3 
+Training MSE: 0.01571479 	 Validating MSE: 0.02235772 	 Best VMSE: 0.02235772
+[2020-10-23 12:58:20] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:20] esCNN.cv7: Found new best state
+[2020-10-23 12:58:20] esCNN.cv7: Best vmse: 0.0220
+[2020-10-23 12:58:20] esCNN.cv7: Channel size: 5 	 Kernel size: 3 
+Training MSE: 0.01565895 	 Validating MSE: 0.02203277 	 Best VMSE: 0.02203277
+[2020-10-23 12:58:20] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:20] esCNN.cv7: Found new best state
+[2020-10-23 12:58:20] esCNN.cv7: Best vmse: 0.0219
+[2020-10-23 12:58:20] esCNN.cv7: Channel size: 6 	 Kernel size: 3 
+Training MSE: 0.01564682 	 Validating MSE: 0.02192511 	 Best VMSE: 0.02192511
+[2020-10-23 12:58:20] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:20] esCNN.cv7: Found new best state
+[2020-10-23 12:58:20] esCNN.cv7: Best vmse: 0.0218
+[2020-10-23 12:58:20] esCNN.cv7: Channel size: 7 	 Kernel size: 3 
+Training MSE: 0.01564552 	 Validating MSE: 0.02183124 	 Best VMSE: 0.02183124
+[2020-10-23 12:58:20] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:20] esCNN.cv7: Channel size: 8 	 Kernel size: 3 
+Training MSE: 0.01564300 	 Validating MSE: 0.02189524 	 Best VMSE: 0.02183124
+[2020-10-23 12:58:20] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:20] esCNN.cv7: Channel size: 9 	 Kernel size: 3 
+Training MSE: 0.01564212 	 Validating MSE: 0.02190920 	 Best VMSE: 0.02183124
+[2020-10-23 12:58:20] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:20] esCNN.cv7: Found new best state
+[2020-10-23 12:58:20] esCNN.cv7: Best vmse: 0.0218
+[2020-10-23 12:58:20] esCNN.cv7: Channel size: 10 	 Kernel size: 3 
+Training MSE: 0.01563226 	 Validating MSE: 0.02182486 	 Best VMSE: 0.02182486
+[2020-10-23 12:58:20] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:20] esCNN.cv7: Channel size: 11 	 Kernel size: 3 
+Training MSE: 0.01562924 	 Validating MSE: 0.02186693 	 Best VMSE: 0.02182486
+[2020-10-23 12:58:20] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:20] esCNN.cv7: Channel size: 12 	 Kernel size: 3 
+Training MSE: 0.01561857 	 Validating MSE: 0.02199841 	 Best VMSE: 0.02182486
+[2020-10-23 12:58:20] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:20] esCNN.cv7: Channel size: 13 	 Kernel size: 3 
+Training MSE: 0.01561655 	 Validating MSE: 0.02194786 	 Best VMSE: 0.02182486
+[2020-10-23 12:58:20] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:20] esCNN.cv7: Found new best state
+[2020-10-23 12:58:20] esCNN.cv7: Best vmse: 0.0218
+[2020-10-23 12:58:20] esCNN.cv7: Channel size: 14 	 Kernel size: 3 
+Training MSE: 0.01560368 	 Validating MSE: 0.02180569 	 Best VMSE: 0.02180569
+[2020-10-23 12:58:20] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:20] esCNN.cv7: Channel size: 15 	 Kernel size: 3 
+Training MSE: 0.01560238 	 Validating MSE: 0.02181186 	 Best VMSE: 0.02180569
+[2020-10-23 12:58:20] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:20] esCNN.cv7: Channel size: 16 	 Kernel size: 3 
+Training MSE: 0.01560217 	 Validating MSE: 0.02181690 	 Best VMSE: 0.02180569
+[2020-10-23 12:58:20] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:20] esCNN.cv7: Channel size: 17 	 Kernel size: 3 
+Training MSE: 0.01560091 	 Validating MSE: 0.02184354 	 Best VMSE: 0.02180569
+[2020-10-23 12:58:20] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:20] esCNN.cv7: Found new best state
+[2020-10-23 12:58:20] esCNN.cv7: Best vmse: 0.0218
+[2020-10-23 12:58:20] esCNN.cv7: Channel size: 18 	 Kernel size: 3 
+Training MSE: 0.01559871 	 Validating MSE: 0.02179726 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:20] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:20] esCNN.cv7: Channel size: 19 	 Kernel size: 3 
+Training MSE: 0.01559262 	 Validating MSE: 0.02187430 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:20] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:20] esCNN.cv7: Channel size: 20 	 Kernel size: 3 
+Training MSE: 0.01558890 	 Validating MSE: 0.02180859 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:20] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:20] esCNN.cv7: Channel size: 21 	 Kernel size: 3 
+Training MSE: 0.01558600 	 Validating MSE: 0.02188588 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:20] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:21] esCNN.cv7: Channel size: 22 	 Kernel size: 3 
+Training MSE: 0.01558331 	 Validating MSE: 0.02183589 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:21] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:21] esCNN.cv7: Channel size: 23 	 Kernel size: 3 
+Training MSE: 0.01558311 	 Validating MSE: 0.02179995 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:21] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:21] esCNN.cv7: Channel size: 24 	 Kernel size: 3 
+Training MSE: 0.01558085 	 Validating MSE: 0.02186440 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:21] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:21] esCNN.cv7: Channel size: 25 	 Kernel size: 3 
+Training MSE: 0.01557937 	 Validating MSE: 0.02184760 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:21] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:21] esCNN.cv7: Channel size: 26 	 Kernel size: 3 
+Training MSE: 0.01557874 	 Validating MSE: 0.02182361 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:21] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:21] esCNN.cv7: Channel size: 27 	 Kernel size: 3 
+Training MSE: 0.01557774 	 Validating MSE: 0.02185661 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:21] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:21] esCNN.cv7: Channel size: 28 	 Kernel size: 3 
+Training MSE: 0.01556467 	 Validating MSE: 0.02201170 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:21] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:21] esCNN.cv7: Channel size: 29 	 Kernel size: 3 
+Training MSE: 0.01555676 	 Validating MSE: 0.02184968 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:21] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:21] esCNN.cv7: Channel size: 30 	 Kernel size: 3 
+Training MSE: 0.01555400 	 Validating MSE: 0.02184268 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:21] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:21] esCNN.cv7: Channel size: 31 	 Kernel size: 3 
+Training MSE: 0.01552026 	 Validating MSE: 0.02229621 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:21] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:21] esCNN.cv7: Channel size: 32 	 Kernel size: 3 
+Training MSE: 0.01548401 	 Validating MSE: 0.02197421 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:21] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:21] esCNN.cv7: Channel size: 33 	 Kernel size: 3 
+Training MSE: 0.01548009 	 Validating MSE: 0.02207523 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:21] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:21] esCNN.cv7: Channel size: 34 	 Kernel size: 3 
+Training MSE: 0.01547832 	 Validating MSE: 0.02199629 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:21] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:21] esCNN.cv7: Channel size: 35 	 Kernel size: 3 
+Training MSE: 0.01547607 	 Validating MSE: 0.02194740 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:21] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:21] esCNN.cv7: Channel size: 36 	 Kernel size: 3 
+Training MSE: 0.01546967 	 Validating MSE: 0.02213628 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:21] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:21] esCNN.cv7: Channel size: 37 	 Kernel size: 3 
+Training MSE: 0.01546376 	 Validating MSE: 0.02194458 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:21] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:21] esCNN.cv7: Channel size: 38 	 Kernel size: 3 
+Training MSE: 0.01546228 	 Validating MSE: 0.02197061 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:21] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:21] esCNN.cv7: Channel size: 39 	 Kernel size: 3 
+Training MSE: 0.01546224 	 Validating MSE: 0.02196205 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:21] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:21] esCNN.cv7: Channel size: 40 	 Kernel size: 3 
+Training MSE: 0.01546206 	 Validating MSE: 0.02197204 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:21] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:21] esCNN.cv7: Channel size: 41 	 Kernel size: 3 
+Training MSE: 0.01546198 	 Validating MSE: 0.02199000 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:21] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:22] esCNN.cv7: Channel size: 42 	 Kernel size: 3 
+Training MSE: 0.01546194 	 Validating MSE: 0.02197281 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:22] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:22] esCNN.cv7: Channel size: 43 	 Kernel size: 3 
+Training MSE: 0.01546192 	 Validating MSE: 0.02195569 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:22] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:22] esCNN.cv7: Channel size: 44 	 Kernel size: 3 
+Training MSE: 0.01546027 	 Validating MSE: 0.02197257 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:22] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:22] esCNN.cv7: Channel size: 45 	 Kernel size: 3 
+Training MSE: 0.01546006 	 Validating MSE: 0.02199627 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:22] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:22] esCNN.cv7: Channel size: 46 	 Kernel size: 3 
+Training MSE: 0.01545945 	 Validating MSE: 0.02201580 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:22] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:22] esCNN.cv7: Channel size: 47 	 Kernel size: 3 
+Training MSE: 0.01545893 	 Validating MSE: 0.02196872 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:22] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:22] esCNN.cv7: Channel size: 48 	 Kernel size: 3 
+Training MSE: 0.01545868 	 Validating MSE: 0.02201147 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:22] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:22] esCNN.cv7: Channel size: 49 	 Kernel size: 3 
+Training MSE: 0.01545849 	 Validating MSE: 0.02201915 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:22] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:22] esCNN.cv7: Channel size: 50 	 Kernel size: 3 
+Training MSE: 0.01545638 	 Validating MSE: 0.02209703 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:22] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:22] esCNN.cv7: Channel size: 51 	 Kernel size: 3 
+Training MSE: 0.01545166 	 Validating MSE: 0.02200683 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:22] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:22] esCNN.cv7: Channel size: 52 	 Kernel size: 3 
+Training MSE: 0.01545072 	 Validating MSE: 0.02198777 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:22] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:22] esCNN.cv7: Channel size: 53 	 Kernel size: 3 
+Training MSE: 0.01545054 	 Validating MSE: 0.02198044 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:22] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:22] esCNN.cv7: Channel size: 54 	 Kernel size: 3 
+Training MSE: 0.01545009 	 Validating MSE: 0.02199262 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:22] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:22] esCNN.cv7: Channel size: 55 	 Kernel size: 3 
+Training MSE: 0.01544963 	 Validating MSE: 0.02197641 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:22] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:22] esCNN.cv7: Channel size: 56 	 Kernel size: 3 
+Training MSE: 0.01544958 	 Validating MSE: 0.02200044 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:22] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:22] esCNN.cv7: Channel size: 57 	 Kernel size: 3 
+Training MSE: 0.01544939 	 Validating MSE: 0.02202545 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:22] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:23] esCNN.cv7: Channel size: 58 	 Kernel size: 3 
+Training MSE: 0.01544790 	 Validating MSE: 0.02209254 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:23] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:23] esCNN.cv7: Channel size: 59 	 Kernel size: 3 
+Training MSE: 0.01544442 	 Validating MSE: 0.02197802 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:23] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:23] esCNN.cv7: Channel size: 60 	 Kernel size: 3 
+Training MSE: 0.01544389 	 Validating MSE: 0.02200462 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:23] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:23] esCNN.cv7: Channel size: 61 	 Kernel size: 3 
+Training MSE: 0.01544331 	 Validating MSE: 0.02197492 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:23] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:23] esCNN.cv7: Channel size: 62 	 Kernel size: 3 
+Training MSE: 0.01544246 	 Validating MSE: 0.02199825 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:23] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:23] esCNN.cv7: Channel size: 63 	 Kernel size: 3 
+Training MSE: 0.01544185 	 Validating MSE: 0.02196359 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:23] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:23] esCNN.cv7: Channel size: 64 	 Kernel size: 3 
+Training MSE: 0.01544138 	 Validating MSE: 0.02199261 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:23] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:23] esCNN.cv7: Channel size: 65 	 Kernel size: 3 
+Training MSE: 0.01543797 	 Validating MSE: 0.02212357 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:23] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:23] esCNN.cv7: Channel size: 66 	 Kernel size: 3 
+Training MSE: 0.01543701 	 Validating MSE: 0.02207010 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:23] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:23] esCNN.cv7: Channel size: 67 	 Kernel size: 3 
+Training MSE: 0.01543646 	 Validating MSE: 0.02200146 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:23] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:23] esCNN.cv7: Channel size: 68 	 Kernel size: 3 
+Training MSE: 0.01543628 	 Validating MSE: 0.02202893 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:23] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:23] esCNN.cv7: Channel size: 69 	 Kernel size: 3 
+Training MSE: 0.01543220 	 Validating MSE: 0.02218646 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:23] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:23] esCNN.cv7: Channel size: 70 	 Kernel size: 3 
+Training MSE: 0.01542367 	 Validating MSE: 0.02206411 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:23] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:24] esCNN.cv7: Channel size: 71 	 Kernel size: 3 
+Training MSE: 0.01542263 	 Validating MSE: 0.02202160 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:24] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:24] esCNN.cv7: Channel size: 72 	 Kernel size: 3 
+Training MSE: 0.01542213 	 Validating MSE: 0.02201284 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:24] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:24] esCNN.cv7: Channel size: 73 	 Kernel size: 3 
+Training MSE: 0.01542195 	 Validating MSE: 0.02201102 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:24] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:24] esCNN.cv7: Channel size: 74 	 Kernel size: 3 
+Training MSE: 0.01541987 	 Validating MSE: 0.02203669 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:24] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:24] esCNN.cv7: Channel size: 75 	 Kernel size: 3 
+Training MSE: 0.01541706 	 Validating MSE: 0.02196287 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:24] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:24] esCNN.cv7: Channel size: 76 	 Kernel size: 3 
+Training MSE: 0.01541667 	 Validating MSE: 0.02201748 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:24] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:24] esCNN.cv7: Channel size: 77 	 Kernel size: 3 
+Training MSE: 0.01541662 	 Validating MSE: 0.02201498 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:24] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:24] esCNN.cv7: Channel size: 78 	 Kernel size: 3 
+Training MSE: 0.01541438 	 Validating MSE: 0.02210099 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:24] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:24] esCNN.cv7: Channel size: 79 	 Kernel size: 3 
+Training MSE: 0.01541227 	 Validating MSE: 0.02217042 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:24] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:24] esCNN.cv7: Channel size: 80 	 Kernel size: 3 
+Training MSE: 0.01541018 	 Validating MSE: 0.02209362 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:24] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:24] esCNN.cv7: Channel size: 81 	 Kernel size: 3 
+Training MSE: 0.01540903 	 Validating MSE: 0.02204583 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:24] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:24] esCNN.cv7: Channel size: 82 	 Kernel size: 3 
+Training MSE: 0.01540834 	 Validating MSE: 0.02199975 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:24] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:25] esCNN.cv7: Channel size: 83 	 Kernel size: 3 
+Training MSE: 0.01540805 	 Validating MSE: 0.02198883 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:25] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:25] esCNN.cv7: Channel size: 84 	 Kernel size: 3 
+Training MSE: 0.01540803 	 Validating MSE: 0.02199850 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:25] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:25] esCNN.cv7: Channel size: 85 	 Kernel size: 3 
+Training MSE: 0.01540796 	 Validating MSE: 0.02198525 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:25] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:25] esCNN.cv7: Channel size: 86 	 Kernel size: 3 
+Training MSE: 0.01540288 	 Validating MSE: 0.02210438 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:25] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:25] esCNN.cv7: Channel size: 87 	 Kernel size: 3 
+Training MSE: 0.01539973 	 Validating MSE: 0.02201370 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:25] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:25] esCNN.cv7: Channel size: 88 	 Kernel size: 3 
+Training MSE: 0.01539965 	 Validating MSE: 0.02201799 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:25] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:25] esCNN.cv7: Channel size: 89 	 Kernel size: 3 
+Training MSE: 0.01539957 	 Validating MSE: 0.02203504 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:25] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:25] esCNN.cv7: Channel size: 90 	 Kernel size: 3 
+Training MSE: 0.01539761 	 Validating MSE: 0.02209677 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:25] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:25] esCNN.cv7: Channel size: 91 	 Kernel size: 3 
+Training MSE: 0.01539434 	 Validating MSE: 0.02225965 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:25] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:25] esCNN.cv7: Channel size: 92 	 Kernel size: 3 
+Training MSE: 0.01538678 	 Validating MSE: 0.02204125 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:25] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:25] esCNN.cv7: Channel size: 93 	 Kernel size: 3 
+Training MSE: 0.01538672 	 Validating MSE: 0.02205882 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:25] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:26] esCNN.cv7: Channel size: 94 	 Kernel size: 3 
+Training MSE: 0.01538145 	 Validating MSE: 0.02218657 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:26] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:26] esCNN.cv7: Channel size: 95 	 Kernel size: 3 
+Training MSE: 0.01537527 	 Validating MSE: 0.02203481 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:26] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:26] esCNN.cv7: Channel size: 96 	 Kernel size: 3 
+Training MSE: 0.01537488 	 Validating MSE: 0.02209025 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:26] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:26] esCNN.cv7: Channel size: 97 	 Kernel size: 3 
+Training MSE: 0.01537463 	 Validating MSE: 0.02209556 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:26] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:26] esCNN.cv7: Channel size: 98 	 Kernel size: 3 
+Training MSE: 0.01537460 	 Validating MSE: 0.02206685 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:26] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:26] esCNN.cv7: Channel size: 99 	 Kernel size: 3 
+Training MSE: 0.01537451 	 Validating MSE: 0.02206324 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:26] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:26] esCNN.cv7: Channel size: 100 	 Kernel size: 3 
+Training MSE: 0.01537446 	 Validating MSE: 0.02208010 	 Best VMSE: 0.02179726
+[2020-10-23 12:58:26] esCNN.cv7: Checkpoint saved to experiments/normal/ar1/esCNN_random_ar1_h1
+[2020-10-23 12:58:26] esCNN.cv7: Restoring best parameters from experiments/normal/ar1/esCNN_random_ar1_h1/train.cv7.pth.tar
+[2020-10-23 12:58:26] esCNN.cv7: ar1	 H: 1	 Trail: 23 
+Testing RMSE: 0.2179 	 MAPE: 0.04321 	 SMAPE: 0.0222

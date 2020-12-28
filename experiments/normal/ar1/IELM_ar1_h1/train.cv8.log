@@ -1,0 +1,385 @@
+[2020-10-23 13:36:43] IELM.cv8: Loading the datasets and model for 24th-batch-training
+[2020-10-23 13:36:43] IELM.cv8: Argument hidden_size: 100
+[2020-10-23 13:36:43] IELM.cv8: Argument candidate_size: 300
+[2020-10-23 13:36:43] IELM.cv8: Argument Lambdas: [0.5, 1, 5, 15, 30, 50, 100, 150, 200]
+[2020-10-23 13:36:43] IELM.cv8: Argument Lambdas_std: [0.01, 0.05, 0.1, 0.5, 1]
+[2020-10-23 13:36:43] IELM.cv8: Argument r: [0.8, 0.9, 0.99, 0.9999, 0.999999]
+[2020-10-23 13:36:43] IELM.cv8: Argument tolerance: 0
+[2020-10-23 13:36:43] IELM.cv8: Argument device: device(type='cuda')
+[2020-10-23 13:36:43] IELM.cv8: Argument dataset: 'ar1'
+[2020-10-23 13:36:43] IELM.cv8: Argument H: 1
+[2020-10-23 13:36:43] IELM.cv8: Argument k: 5
+[2020-10-23 13:36:43] IELM.cv8: Argument test: False
+[2020-10-23 13:36:43] IELM.cv8: Argument normal: True
+[2020-10-23 13:36:43] IELM.cv8: Argument diff: False
+[2020-10-23 13:36:43] IELM.cv8: Argument times: 60
+[2020-10-23 13:36:43] IELM.cv8: Argument datasets: {'ar1': {'lag_order': 15, 'normal': True, 'cov_dim': 0, 'kernel_size': 3}, 'wti': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'gold': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'sp': {'lag_order': 25, 'normal': True, 'cov_dim': 0, 'kernel_size': 5}, 'brent': {'lag_order': 24, 'normal': True, 'cov_dim': 0, 'kernel_size': 6}, 'sili': {'lag_order': 26, 'normal': True, 'cov_dim': 0, 'kernel_size': 6}}
+[2020-10-23 13:36:43] IELM.cv8: Argument steps: 15
+[2020-10-23 13:36:43] IELM.cv8: Argument experiment: 'experiments/normal/ar1'
+[2020-10-23 13:36:43] IELM.cv8: Argument scaler: StandardScaler()
+[2020-10-23 13:36:43] IELM.cv8: Argument model_name: 'IELM_ar1_h1'
+[2020-10-23 13:36:43] IELM.cv8: Argument model_dir: 'experiments/normal/ar1/IELM_ar1_h1'
+[2020-10-23 13:36:43] IELM.cv8: Argument restore: True
+[2020-10-23 13:36:43] IELM.cv8: Argument cv: 8
+[2020-10-23 13:36:43] IELM.cv8: Argument plot_dir: 'experiments/normal/ar1/IELM_ar1_h1/figures'
+[2020-10-23 13:36:43] IELM.cv8: Using Cuda...
+[2020-10-23 13:36:43] IELM.cv8: Loading complete.
+[2020-10-23 13:36:43] IELM.cv8: Model: 
+IELM(
+  (loss_fn): MSELoss()
+)
+[2020-10-23 13:36:43] IELM.cv8: Hidden size: 1 	 
+Training MSE: 0.30289075 	 Validating MSE: 1.83572447 	 Best VMSE: 9999.00000000
+[2020-10-23 13:36:43] IELM.cv8: Found new best state
+[2020-10-23 13:36:43] IELM.cv8: Best vmse: 1.8357
+[2020-10-23 13:36:43] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:43] IELM.cv8: Hidden size: 2 	 
+Training MSE: 0.30259234 	 Validating MSE: 1.78840125 	 Best VMSE: 1.83572447
+[2020-10-23 13:36:43] IELM.cv8: Found new best state
+[2020-10-23 13:36:43] IELM.cv8: Best vmse: 1.7884
+[2020-10-23 13:36:43] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:43] IELM.cv8: Hidden size: 3 	 
+Training MSE: 0.30251658 	 Validating MSE: 1.81300271 	 Best VMSE: 1.78840125
+[2020-10-23 13:36:43] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:43] IELM.cv8: Hidden size: 4 	 
+Training MSE: 0.30180779 	 Validating MSE: 1.87972033 	 Best VMSE: 1.78840125
+[2020-10-23 13:36:43] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:43] IELM.cv8: Hidden size: 5 	 
+Training MSE: 0.29524484 	 Validating MSE: 1.64224958 	 Best VMSE: 1.78840125
+[2020-10-23 13:36:43] IELM.cv8: Found new best state
+[2020-10-23 13:36:43] IELM.cv8: Best vmse: 1.6422
+[2020-10-23 13:36:43] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:43] IELM.cv8: Hidden size: 6 	 
+Training MSE: 0.28770605 	 Validating MSE: 1.80720782 	 Best VMSE: 1.64224958
+[2020-10-23 13:36:43] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:43] IELM.cv8: Hidden size: 7 	 
+Training MSE: 0.28342956 	 Validating MSE: 1.84333301 	 Best VMSE: 1.64224958
+[2020-10-23 13:36:43] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:43] IELM.cv8: Hidden size: 8 	 
+Training MSE: 0.22425535 	 Validating MSE: 0.98251837 	 Best VMSE: 1.64224958
+[2020-10-23 13:36:43] IELM.cv8: Found new best state
+[2020-10-23 13:36:43] IELM.cv8: Best vmse: 0.9825
+[2020-10-23 13:36:43] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:43] IELM.cv8: Hidden size: 9 	 
+Training MSE: 0.20336193 	 Validating MSE: 1.26708078 	 Best VMSE: 0.98251837
+[2020-10-23 13:36:43] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:43] IELM.cv8: Hidden size: 10 	 
+Training MSE: 0.19495526 	 Validating MSE: 0.93139637 	 Best VMSE: 0.98251837
+[2020-10-23 13:36:43] IELM.cv8: Found new best state
+[2020-10-23 13:36:43] IELM.cv8: Best vmse: 0.9314
+[2020-10-23 13:36:43] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 11 	 
+Training MSE: 0.19320203 	 Validating MSE: 0.79213470 	 Best VMSE: 0.93139637
+[2020-10-23 13:36:44] IELM.cv8: Found new best state
+[2020-10-23 13:36:44] IELM.cv8: Best vmse: 0.7921
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 12 	 
+Training MSE: 0.18566541 	 Validating MSE: 1.00898385 	 Best VMSE: 0.79213470
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 13 	 
+Training MSE: 0.18066247 	 Validating MSE: 1.08702004 	 Best VMSE: 0.79213470
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 14 	 
+Training MSE: 0.18048075 	 Validating MSE: 1.10165489 	 Best VMSE: 0.79213470
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 15 	 
+Training MSE: 0.18041255 	 Validating MSE: 1.11012268 	 Best VMSE: 0.79213470
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 16 	 
+Training MSE: 0.17628707 	 Validating MSE: 0.96941316 	 Best VMSE: 0.79213470
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 17 	 
+Training MSE: 0.16840880 	 Validating MSE: 1.02001536 	 Best VMSE: 0.79213470
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 18 	 
+Training MSE: 0.15948744 	 Validating MSE: 0.79136193 	 Best VMSE: 0.79213470
+[2020-10-23 13:36:44] IELM.cv8: Found new best state
+[2020-10-23 13:36:44] IELM.cv8: Best vmse: 0.7914
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 19 	 
+Training MSE: 0.15698144 	 Validating MSE: 0.85029733 	 Best VMSE: 0.79136193
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 20 	 
+Training MSE: 0.15468287 	 Validating MSE: 0.74188197 	 Best VMSE: 0.79136193
+[2020-10-23 13:36:44] IELM.cv8: Found new best state
+[2020-10-23 13:36:44] IELM.cv8: Best vmse: 0.7419
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 21 	 
+Training MSE: 0.15156689 	 Validating MSE: 0.77717787 	 Best VMSE: 0.74188197
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 22 	 
+Training MSE: 0.15085022 	 Validating MSE: 0.74619448 	 Best VMSE: 0.74188197
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 23 	 
+Training MSE: 0.14993896 	 Validating MSE: 0.78278619 	 Best VMSE: 0.74188197
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 24 	 
+Training MSE: 0.14834443 	 Validating MSE: 0.71799231 	 Best VMSE: 0.74188197
+[2020-10-23 13:36:44] IELM.cv8: Found new best state
+[2020-10-23 13:36:44] IELM.cv8: Best vmse: 0.7180
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 25 	 
+Training MSE: 0.13370779 	 Validating MSE: 0.37210354 	 Best VMSE: 0.71799231
+[2020-10-23 13:36:44] IELM.cv8: Found new best state
+[2020-10-23 13:36:44] IELM.cv8: Best vmse: 0.3721
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 26 	 
+Training MSE: 0.12404885 	 Validating MSE: 0.49936765 	 Best VMSE: 0.37210354
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 27 	 
+Training MSE: 0.12376840 	 Validating MSE: 0.47541645 	 Best VMSE: 0.37210354
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 28 	 
+Training MSE: 0.11974707 	 Validating MSE: 0.51029313 	 Best VMSE: 0.37210354
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 29 	 
+Training MSE: 0.11179077 	 Validating MSE: 0.29608542 	 Best VMSE: 0.37210354
+[2020-10-23 13:36:44] IELM.cv8: Found new best state
+[2020-10-23 13:36:44] IELM.cv8: Best vmse: 0.2961
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 30 	 
+Training MSE: 0.10910279 	 Validating MSE: 0.35563141 	 Best VMSE: 0.29608542
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 31 	 
+Training MSE: 0.10904373 	 Validating MSE: 0.36019978 	 Best VMSE: 0.29608542
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 32 	 
+Training MSE: 0.10614012 	 Validating MSE: 0.27282584 	 Best VMSE: 0.29608542
+[2020-10-23 13:36:44] IELM.cv8: Found new best state
+[2020-10-23 13:36:44] IELM.cv8: Best vmse: 0.2728
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 33 	 
+Training MSE: 0.10512592 	 Validating MSE: 0.28986660 	 Best VMSE: 0.27282584
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 34 	 
+Training MSE: 0.10478410 	 Validating MSE: 0.30211386 	 Best VMSE: 0.27282584
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 35 	 
+Training MSE: 0.10478047 	 Validating MSE: 0.30060580 	 Best VMSE: 0.27282584
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 36 	 
+Training MSE: 0.10477660 	 Validating MSE: 0.30214036 	 Best VMSE: 0.27282584
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 37 	 
+Training MSE: 0.10454956 	 Validating MSE: 0.28165016 	 Best VMSE: 0.27282584
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 38 	 
+Training MSE: 0.10451970 	 Validating MSE: 0.27780834 	 Best VMSE: 0.27282584
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 39 	 
+Training MSE: 0.10301284 	 Validating MSE: 0.31981531 	 Best VMSE: 0.27282584
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 40 	 
+Training MSE: 0.10055679 	 Validating MSE: 0.24589954 	 Best VMSE: 0.27282584
+[2020-10-23 13:36:44] IELM.cv8: Found new best state
+[2020-10-23 13:36:44] IELM.cv8: Best vmse: 0.2459
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 41 	 
+Training MSE: 0.09960921 	 Validating MSE: 0.25203228 	 Best VMSE: 0.24589954
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 42 	 
+Training MSE: 0.09946384 	 Validating MSE: 0.24528390 	 Best VMSE: 0.24589954
+[2020-10-23 13:36:44] IELM.cv8: Found new best state
+[2020-10-23 13:36:44] IELM.cv8: Best vmse: 0.2453
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 43 	 
+Training MSE: 0.09802733 	 Validating MSE: 0.27107987 	 Best VMSE: 0.24528390
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 44 	 
+Training MSE: 0.09752510 	 Validating MSE: 0.26123154 	 Best VMSE: 0.24528390
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 45 	 
+Training MSE: 0.08515297 	 Validating MSE: 0.09749483 	 Best VMSE: 0.24528390
+[2020-10-23 13:36:44] IELM.cv8: Found new best state
+[2020-10-23 13:36:44] IELM.cv8: Best vmse: 0.0975
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 46 	 
+Training MSE: 0.07276417 	 Validating MSE: 0.11627304 	 Best VMSE: 0.09749483
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 47 	 
+Training MSE: 0.07258300 	 Validating MSE: 0.11450513 	 Best VMSE: 0.09749483
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:44] IELM.cv8: Hidden size: 48 	 
+Training MSE: 0.07145839 	 Validating MSE: 0.09776703 	 Best VMSE: 0.09749483
+[2020-10-23 13:36:44] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 49 	 
+Training MSE: 0.07131480 	 Validating MSE: 0.10446425 	 Best VMSE: 0.09749483
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 50 	 
+Training MSE: 0.07044267 	 Validating MSE: 0.11532363 	 Best VMSE: 0.09749483
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 51 	 
+Training MSE: 0.06958006 	 Validating MSE: 0.10120994 	 Best VMSE: 0.09749483
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 52 	 
+Training MSE: 0.06893449 	 Validating MSE: 0.08270288 	 Best VMSE: 0.09749483
+[2020-10-23 13:36:45] IELM.cv8: Found new best state
+[2020-10-23 13:36:45] IELM.cv8: Best vmse: 0.0827
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 53 	 
+Training MSE: 0.06749710 	 Validating MSE: 0.09153787 	 Best VMSE: 0.08270288
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 54 	 
+Training MSE: 0.06744030 	 Validating MSE: 0.09294774 	 Best VMSE: 0.08270288
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 55 	 
+Training MSE: 0.06743971 	 Validating MSE: 0.09286274 	 Best VMSE: 0.08270288
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 56 	 
+Training MSE: 0.06657934 	 Validating MSE: 0.07322049 	 Best VMSE: 0.08270288
+[2020-10-23 13:36:45] IELM.cv8: Found new best state
+[2020-10-23 13:36:45] IELM.cv8: Best vmse: 0.0732
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 57 	 
+Training MSE: 0.06651418 	 Validating MSE: 0.06807525 	 Best VMSE: 0.07322049
+[2020-10-23 13:36:45] IELM.cv8: Found new best state
+[2020-10-23 13:36:45] IELM.cv8: Best vmse: 0.0681
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 58 	 
+Training MSE: 0.06526720 	 Validating MSE: 0.07773559 	 Best VMSE: 0.06807525
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 59 	 
+Training MSE: 0.06327435 	 Validating MSE: 0.04709188 	 Best VMSE: 0.06807525
+[2020-10-23 13:36:45] IELM.cv8: Found new best state
+[2020-10-23 13:36:45] IELM.cv8: Best vmse: 0.0471
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 60 	 
+Training MSE: 0.06231160 	 Validating MSE: 0.05521902 	 Best VMSE: 0.04709188
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 61 	 
+Training MSE: 0.06125459 	 Validating MSE: 0.04414600 	 Best VMSE: 0.04709188
+[2020-10-23 13:36:45] IELM.cv8: Found new best state
+[2020-10-23 13:36:45] IELM.cv8: Best vmse: 0.0441
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 62 	 
+Training MSE: 0.06018249 	 Validating MSE: 0.04515571 	 Best VMSE: 0.04414600
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 63 	 
+Training MSE: 0.06015582 	 Validating MSE: 0.04415329 	 Best VMSE: 0.04414600
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 64 	 
+Training MSE: 0.06015577 	 Validating MSE: 0.04418979 	 Best VMSE: 0.04414600
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 65 	 
+Training MSE: 0.05952326 	 Validating MSE: 0.03902428 	 Best VMSE: 0.04414600
+[2020-10-23 13:36:45] IELM.cv8: Found new best state
+[2020-10-23 13:36:45] IELM.cv8: Best vmse: 0.0390
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 66 	 
+Training MSE: 0.05927140 	 Validating MSE: 0.04223210 	 Best VMSE: 0.03902428
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 67 	 
+Training MSE: 0.05921518 	 Validating MSE: 0.04325167 	 Best VMSE: 0.03902428
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 68 	 
+Training MSE: 0.05903975 	 Validating MSE: 0.04442080 	 Best VMSE: 0.03902428
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 69 	 
+Training MSE: 0.05897035 	 Validating MSE: 0.04383008 	 Best VMSE: 0.03902428
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 70 	 
+Training MSE: 0.05793051 	 Validating MSE: 0.03822013 	 Best VMSE: 0.03902428
+[2020-10-23 13:36:45] IELM.cv8: Found new best state
+[2020-10-23 13:36:45] IELM.cv8: Best vmse: 0.0382
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 71 	 
+Training MSE: 0.05743513 	 Validating MSE: 0.04091777 	 Best VMSE: 0.03822013
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 72 	 
+Training MSE: 0.05737326 	 Validating MSE: 0.04165558 	 Best VMSE: 0.03822013
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 73 	 
+Training MSE: 0.05729714 	 Validating MSE: 0.03986402 	 Best VMSE: 0.03822013
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 74 	 
+Training MSE: 0.05718359 	 Validating MSE: 0.04019792 	 Best VMSE: 0.03822013
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 75 	 
+Training MSE: 0.05678713 	 Validating MSE: 0.03779536 	 Best VMSE: 0.03822013
+[2020-10-23 13:36:45] IELM.cv8: Found new best state
+[2020-10-23 13:36:45] IELM.cv8: Best vmse: 0.0378
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 76 	 
+Training MSE: 0.05641647 	 Validating MSE: 0.04058165 	 Best VMSE: 0.03779536
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 77 	 
+Training MSE: 0.05640486 	 Validating MSE: 0.04037982 	 Best VMSE: 0.03779536
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 78 	 
+Training MSE: 0.05640373 	 Validating MSE: 0.04065529 	 Best VMSE: 0.03779536
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 79 	 
+Training MSE: 0.05612939 	 Validating MSE: 0.03910845 	 Best VMSE: 0.03779536
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 80 	 
+Training MSE: 0.05603762 	 Validating MSE: 0.03989352 	 Best VMSE: 0.03779536
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 81 	 
+Training MSE: 0.05593457 	 Validating MSE: 0.04015969 	 Best VMSE: 0.03779536
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 82 	 
+Training MSE: 0.05593044 	 Validating MSE: 0.03986236 	 Best VMSE: 0.03779536
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 83 	 
+Training MSE: 0.05592546 	 Validating MSE: 0.03960493 	 Best VMSE: 0.03779536
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 84 	 
+Training MSE: 0.05590446 	 Validating MSE: 0.04029036 	 Best VMSE: 0.03779536
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:45] IELM.cv8: Hidden size: 85 	 
+Training MSE: 0.05578448 	 Validating MSE: 0.04160691 	 Best VMSE: 0.03779536
+[2020-10-23 13:36:45] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:46] IELM.cv8: Hidden size: 86 	 
+Training MSE: 0.05537876 	 Validating MSE: 0.03859323 	 Best VMSE: 0.03779536
+[2020-10-23 13:36:46] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:46] IELM.cv8: Hidden size: 87 	 
+Training MSE: 0.05537134 	 Validating MSE: 0.03835263 	 Best VMSE: 0.03779536
+[2020-10-23 13:36:46] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:46] IELM.cv8: Hidden size: 88 	 
+Training MSE: 0.05531825 	 Validating MSE: 0.03727787 	 Best VMSE: 0.03779536
+[2020-10-23 13:36:46] IELM.cv8: Found new best state
+[2020-10-23 13:36:46] IELM.cv8: Best vmse: 0.0373
+[2020-10-23 13:36:46] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:46] IELM.cv8: Hidden size: 89 	 
+Training MSE: 0.05525069 	 Validating MSE: 0.03773228 	 Best VMSE: 0.03727787
+[2020-10-23 13:36:46] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:46] IELM.cv8: Hidden size: 90 	 
+Training MSE: 0.05504574 	 Validating MSE: 0.03578844 	 Best VMSE: 0.03727787
+[2020-10-23 13:36:46] IELM.cv8: Found new best state
+[2020-10-23 13:36:46] IELM.cv8: Best vmse: 0.0358
+[2020-10-23 13:36:46] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:46] IELM.cv8: Hidden size: 91 	 
+Training MSE: 0.05501860 	 Validating MSE: 0.03609910 	 Best VMSE: 0.03578844
+[2020-10-23 13:36:46] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:46] IELM.cv8: Hidden size: 92 	 
+Training MSE: 0.05492662 	 Validating MSE: 0.03627450 	 Best VMSE: 0.03578844
+[2020-10-23 13:36:46] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:46] IELM.cv8: Hidden size: 93 	 
+Training MSE: 0.05460178 	 Validating MSE: 0.03551261 	 Best VMSE: 0.03578844
+[2020-10-23 13:36:46] IELM.cv8: Found new best state
+[2020-10-23 13:36:46] IELM.cv8: Best vmse: 0.0355
+[2020-10-23 13:36:46] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:46] IELM.cv8: Hidden size: 94 	 
+Training MSE: 0.05400451 	 Validating MSE: 0.03697857 	 Best VMSE: 0.03551261
+[2020-10-23 13:36:46] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:46] IELM.cv8: Hidden size: 95 	 
+Training MSE: 0.05399796 	 Validating MSE: 0.03708690 	 Best VMSE: 0.03551261
+[2020-10-23 13:36:46] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:46] IELM.cv8: Hidden size: 96 	 
+Training MSE: 0.05387032 	 Validating MSE: 0.03763702 	 Best VMSE: 0.03551261
+[2020-10-23 13:36:46] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:46] IELM.cv8: Hidden size: 97 	 
+Training MSE: 0.05380866 	 Validating MSE: 0.03694662 	 Best VMSE: 0.03551261
+[2020-10-23 13:36:46] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:46] IELM.cv8: Hidden size: 98 	 
+Training MSE: 0.05365581 	 Validating MSE: 0.03649038 	 Best VMSE: 0.03551261
+[2020-10-23 13:36:46] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:46] IELM.cv8: Hidden size: 99 	 
+Training MSE: 0.05357342 	 Validating MSE: 0.03725936 	 Best VMSE: 0.03551261
+[2020-10-23 13:36:46] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:46] IELM.cv8: Hidden size: 100 	 
+Training MSE: 0.05348121 	 Validating MSE: 0.03691057 	 Best VMSE: 0.03551261
+[2020-10-23 13:36:46] IELM.cv8: Checkpoint saved to experiments/normal/ar1/IELM_ar1_h1
+[2020-10-23 13:36:46] IELM.cv8: Restoring best parameters from experiments/normal/ar1/IELM_ar1_h1/train.cv8.pth.tar
+[2020-10-23 13:36:46] IELM.cv8: ar1	 H: 1	 Trail: 24 
+Testing RMSE: 0.4377 	 MAPE: 0.07882 	 SMAPE: 0.04164
