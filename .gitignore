@@ -186,4 +186,4 @@ data/elect
 experiments/*.tar
 experiments/*/figures
 experiments-bak/base_model/figures
-data/
+test/
