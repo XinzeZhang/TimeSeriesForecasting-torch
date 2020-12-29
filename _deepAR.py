@@ -1,7 +1,3 @@
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-
 import os
 import numpy as np
 
@@ -13,10 +9,7 @@ from data_process.dataset import get_dataset, de_scale
 from data_process.dataset import deepAR_dataset, deepAR_weight, deepAR_WeightedSampler
 from data_process.parser import get_parser
 
-# from sklearn.preprocessing import MinMaxScaler
-# from sklearn.metrics import mean_squared_error
 
-from sklearn.model_selection import TimeSeriesSplit
 # import torch
 import logging
 

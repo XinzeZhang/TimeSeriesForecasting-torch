@@ -4,14 +4,12 @@ import numpy as np
 # added for preprocessing
 from data_process.util import Params, set_logger, os_rmdirs
 from data_process.metric import rmse, mape, smape
-from data_process.dataset import de_scale, scaled_Dataset, inverse_diff, cnn_dataset, get_dataset
+from data_process.dataset import de_scale, inverse_diff, cnn_dataset, get_dataset
 from data_process.parser import get_parser
-
 
 import torch
 from torch.utils.data import DataLoader
 from models.ES_CNN import ES_CNN
-
 
 import logging
 

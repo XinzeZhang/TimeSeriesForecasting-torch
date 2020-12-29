@@ -1,16 +1,10 @@
 import os
 import numpy as np
 
-# added for preprocessing
-from sklearn.preprocessing import StandardScaler
-from sklearn.preprocessing import MinMaxScaler
-
 from data_process.util import Params, set_logger, os_rmdirs
 from data_process.metric import rmse, mape, smape
-from data_process.dataset import de_scale, scaled_Dataset, inverse_diff, cnn_dataset, get_dataset
+from data_process.dataset import de_scale, inverse_diff, cnn_dataset, get_dataset
 from data_process.parser import get_parser
-
-from sklearn.model_selection import TimeSeriesSplit
 
 import torch
 from torch.utils.data import DataLoader
@@ -18,7 +12,6 @@ from torch.utils.data.sampler import RandomSampler
 from models.CNN import CNN
 
 import logging
-
 
 def pack_dataset(args):
     json_path = os.path.join('models', 'CNN.params.json')
