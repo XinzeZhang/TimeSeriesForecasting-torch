@@ -1,34 +1,30 @@
-# TimeSeriesForecasting-torch
+# Torch-Forecasting
 
-Notice: 
+This is the repository of time series forecasting models modified by Xinze Zhang.
 
-This repository is deprecated, an updated version has been provided in [Univ-Forecasting](https://github.com/Analytics-for-Forecasting/UniV-Forecasting).
+Based on the work of other researchers, this repository is expected to make the codes easy-reading as well as providing more succinct, standard, easy-to-use API that can forecast time series.
 
+## Note
 
-## DeepAR-torch
+The selected dataset and the parameters of the selected models are defined in the `exp/**` folder. 
+E.g., the experiment on the PM2.5 dataset with ESN model can be conducted by:
+```
+python exp/eto/pm.py -model esn
+```
 
-This is a pytorch-based modification of DeepAR ([DeepAR: Probabilistic Forecasting with Autoregressive Recurrent Networks](https://arxiv.org/abs/1704.04110)).
+### Related Works
+#### DeepAR
 
-Based on the works of [TimeSeries](https://github.com/zhykoties/TimeSeries), this implementation is developed to provide more easy-reading API for training and testing single variable as well as multi-variable time sries.
+`DeepAR` ([Paper](https://arxiv.org/abs/1704.04110)) is a pytorch-based modification of the implementation in [TimeSeries](https://github.com/zhykoties/TimeSeries).
 
-### Acknowledgement
+#### CLSTM
 
-- Yunkai Zhang, Qiao Jianga, and Xueying Ma who are the original authors of [TimeSeries](https://github.com/zhykoties/TimeSeries).
+`CLSTM` ([Paper](https://arxiv.org/abs/1903.02540))is a pytorch-based modification of the implementation in [ConvRNN](https://github.com/KurochkinAlexey/ConvRNN).
 
-## ConvRNN
+#### MSVR
 
-This is a pytorch-based modification of ConvRNN([Autoregressive Convolutional Recurrent Neural Network for Univariate and Multivariate Time](https://arxiv.org/abs/1903.02540))
+`MSVR` ([Paper](https://www.sciencedirect.com/science/article/abs/pii/S092523121300917X)) is a numpy-based implementation by our work in [MSVR](https://github.com/Analytics-for-Forecasting/msvr).
 
-### Acknowledgement
+## Acknowledgement
 
-- KurochkinAlexey, Fess13 who are the original authors of [ConvRNN](https://github.com/KurochkinAlexey/ConvRNN).
-
-## MSVR
-
-This is a numpy-based Multiple-output support vector regression which implements support vector regression with multi-input and multi-output. This package is based on our group's paper [Multi-step-ahead time series prediction using multiple-output support vector regression](https://www.sciencedirect.com/science/article/abs/pii/S092523121300917X).
-The details of usage can be found in [MSVR](https://github.com/Analytics-for-Forecasting/msvr).
-
-### Acknowledgement
-
-- Xinze Zhang, Kaishuai Xu, Siyue Yang who are the original authors of [MSVR](https://github.com/Analytics-for-Forecasting/msvr)
 - This work was done under the direction of our supervisor Prof. Yukun Bao.
