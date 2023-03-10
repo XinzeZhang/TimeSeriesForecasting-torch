@@ -15,8 +15,8 @@ import numpy as np
 from task.TaskLoader import Opt
 # from models.stochastic.cnn.ice.wider.readoutTuner import ho_get
 from models.stochastic.cnn.eto.wider.preTuner import PreTuner
-from models.stochastic.cnn.eto.wider.cellTrain import CellTrainer
-from models.stochastic.cnn.eto.wider.readoutTuner import ReadoutTuner
+from models.stochastic.cnn.eto.wider.subTuner import CellTrainer
+from models.stochastic.cnn.eto.wider.regTuner import ReadoutTuner
 from models.stochastic.cnn.eto.wider.basic import cell_ho, cal_eNorm
 
 from models.stochastic.cnn.eto.wider.basic import wide_cell as cell

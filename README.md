@@ -12,6 +12,10 @@ E.g., the experiment on the PM2.5 dataset with ESN model can be conducted by:
 python exp/eto/pm.py -model esn
 ```
 
+Due to the space limitation of the Github and the huge size of the checking_points as well as the logs, we only upload the datasets and model files related to the our papers.
+
+For the experimental logs, pre-trained model checking_points, and results files, contact the code [contributor](xinze@hust.edu.cn) of this repository.
+
 ### Related Works
 #### DeepAR
 

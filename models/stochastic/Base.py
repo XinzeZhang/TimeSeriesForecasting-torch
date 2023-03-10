@@ -73,6 +73,7 @@ class ESNCell(nn.Module):
     def __init__(self, init = 'vanilla', hidden_size = 500, input_dim = 1, nonlinearity = 'relu', leaky_r = 1, weight_scale = 0.9, iw_bound = (-0.1, 0.1), hw_bound=(-1,1),  device='cpu'):
         super(ESNCell, self).__init__()
         
+        self.init_method = init
         self.Hidden_Size = hidden_size
         self.input_dim = input_dim
         self.device = device
@@ -87,26 +88,6 @@ class ESNCell(nn.Module):
         self.hh = nn.Linear(
                 self.Hidden_Size, self.Hidden_Size, bias=False).to(self.device)
         
-        
-        w_ih = torch.empty(self.Hidden_Size, input_dim).to(self.device)
-        if isinstance(self.iw_bound, tuple):
-            nn.init.uniform_(w_ih,self.iw_bound[0],self.iw_bound[1])
-        elif isinstance(self.iw_bound, float):
-            nn.init.uniform_(w_ih,-self.iw_bound,self.iw_bound)
-        else:
-            raise ValueError('Invalid iw_bound: {}'.format(self.iw_bound))
-        
-        if init == 'svd':
-            w_hh = self.svd_init()
-        elif init == 'vanilla':
-            w_hh = self.vanilla_init()
-        else:
-            raise ValueError(
-                "Unknown hidden init '{}'".format(init))
-            
-        self.ih.weight = nn.Parameter(w_ih)
-        self.hh.weight = nn.Parameter(w_hh)
-        
         if self.nonlinearity == 'tanh':
             self.act_f = torch.tanh
         elif self.nonlinearity == 'relu':
@@ -116,6 +97,30 @@ class ESNCell(nn.Module):
         else:
             raise ValueError(
                 "Unknown nonlinearity '{}'".format(nonlinearity))
+        
+        self.init_weights()
+
+        
+    def init_weights(self, ):
+        w_ih = torch.empty(self.Hidden_Size, self.input_dim).to(self.device)
+        if isinstance(self.iw_bound, tuple):
+            nn.init.uniform_(w_ih,self.iw_bound[0],self.iw_bound[1])
+        elif isinstance(self.iw_bound, float):
+            nn.init.uniform_(w_ih,-self.iw_bound,self.iw_bound)
+        else:
+            raise ValueError('Invalid iw_bound: {}'.format(self.iw_bound))
+        
+        if self.init_method == 'svd':
+            w_hh = self.svd_init()
+        elif self.init_method == 'vanilla':
+            w_hh = self.vanilla_init()
+        else:
+            raise ValueError(
+                "Unknown hidden init '{}'".format(self.init_method))
+            
+        self.ih.weight = nn.Parameter(w_ih)
+        self.hh.weight = nn.Parameter(w_hh)
+        self.freeze()
         
     def svd_init(self,):
         svd_u = torch.empty(
@@ -197,6 +202,14 @@ class esnLayer(nn.Module):
         self.Hidden_Size = hidden_size
         self.device = device
     
+    def init_weights(self,):
+        self.esnCell.init_weights()
+    
+    def get_weights(self,):
+        '''For debug'''
+        return [self.esnCell.ih.weight, self.esnCell.hh.weight]
+    
+    
     def forward(self, x, _last_state = None):
         '''
         return: layer_hidden_state, last_state\n
@@ -253,21 +266,6 @@ class cnnLayer(nn.Module):
         
         self.conv = nn.Conv1d(self.in_channels, self.out_channels,self.kernel_size,padding=self.padding, padding_mode=padding_mode).to(self.device)     #一维卷积
         
-        weight = torch.empty(self.out_channels, self.in_channels, self.kernel_size).to(self.device)
-        bias = torch.empty(self.out_channels).to(self.device)
-        
-        if isinstance(self.hw_bound, tuple):
-            nn.init.uniform_(weight,self.hw_bound[0],self.hw_bound[1])
-            nn.init.uniform_(bias, self.hw_bound[0],self.hw_bound[1])
-        elif isinstance(self.hw_bound, float):
-            nn.init.uniform_(weight,-self.hw_bound,self.hw_bound)
-            nn.init.uniform_(bias, -self.hw_bound,self.hw_bound)
-        else:
-            raise ValueError('Invalid hw_bound: {}'.format(self.hw_bound))
-        
-        self.conv.weight = nn.Parameter(weight)
-        self.conv.bias = nn.Parameter(bias)
-        
         if nonlinearity == 'tanh':
             self.act_f = torch.tanh
         elif nonlinearity == 'relu':
@@ -282,7 +280,29 @@ class cnnLayer(nn.Module):
         if self.pooling_tag:
             self.pooling_size = pooling_size
             self.pooling = nn.AvgPool1d(kernel_size=self.pooling_size, stride=1, padding=0)
+
+        self.init_weights()
+        
+    def init_weights(self,):
+        weight = torch.empty(self.out_channels, self.in_channels, self.kernel_size).to(self.device)
+        bias = torch.empty(self.out_channels).to(self.device)
+        if isinstance(self.hw_bound, tuple):
+            nn.init.uniform_(weight,self.hw_bound[0],self.hw_bound[1])
+            nn.init.uniform_(bias, self.hw_bound[0],self.hw_bound[1])
+        elif isinstance(self.hw_bound, float):
+            nn.init.uniform_(weight,-self.hw_bound,self.hw_bound)
+            nn.init.uniform_(bias, -self.hw_bound,self.hw_bound)
+        else:
+            raise ValueError('Invalid hw_bound: {}'.format(self.hw_bound))
+        
+        self.conv.weight = nn.Parameter(weight)
+        self.conv.bias = nn.Parameter(bias)
+        self.freeze()
     
+    def get_weights(self,):
+        '''For debug'''
+        return [self.conv.weight, self.conv.bias]
+        
     def freeze(self, ):
         self.conv.weight.requires_grad = False
         self.conv.bias.requires_grad = False
@@ -346,7 +366,15 @@ class cesLayer(nn.Module):
             hw_bound=esn_hw_bound,
             device=device
         )
-       
+        
+    def init_weights(self,):
+        self.cnnLayer.init_weights()
+        self.esnLayer.init_weights()
+    
+    def get_weights(self,):
+        '''For debug'''
+        return self.cnnLayer.get_weights().extend(self.esnLayer.get_weights())
+    
     def forward(self, x):
         '''
         input: \tx, shape: (N_samples, dimensions(input_dim), steps) \n      
@@ -405,6 +433,14 @@ class escLayer(nn.Module):
                 device=device,
                 nonlinearity=nonlinearity
             )
+
+    def init_weights(self,):
+        self.cnnLayer.init_weights()
+        self.esnLayer.init_weights()
+
+    def get_weights(self,):
+        '''For debug'''
+        return self.esnLayer.get_weights().extend(self.cnnLayer.get_weights())
         
     def forward(self, x):
         '''

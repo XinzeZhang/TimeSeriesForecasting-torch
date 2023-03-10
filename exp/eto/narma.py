@@ -77,3 +77,8 @@ class eto(eto_base):
         self.hyper.patience_bos= 10 
         self.hyper.esn.tuning.hidden_size = tune.qrandint(5, 50, 5)
         self.hyper.cnn.tuning.kernel_size = tune.qrandint(2, 4, 1)
+        self.hyper.cnn.tuning.pooling_size = tune.qrandint(2, 4, 1)
+        self.hyper.esc.tuning.kernel_size = tune.qrandint(2, 4, 1)
+        self.hyper.esc.tuning.pooling_size = tune.qrandint(2, 4, 1)
+        self.hyper.ces.tuning.kernel_size = tune.qrandint(2, 4, 1)
+        self.hyper.ces.tuning.pooling_size = tune.qrandint(2, 4, 1)
